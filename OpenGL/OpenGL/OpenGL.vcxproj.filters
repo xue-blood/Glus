@@ -15,22 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Canvas.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="源.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
+    <ClInclude Include="inc\glus.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\circle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Canvas.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="源.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="circle.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
+    <ClCompile Include="src\vector.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vertex.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glus.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\line.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\circle.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
