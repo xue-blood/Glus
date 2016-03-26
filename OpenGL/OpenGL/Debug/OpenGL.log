@@ -1,1 +1,5 @@
-﻿  OpenGL.vcxproj -> D:\OneDrive\Git\OpenGL\OpenGL\Debug\OpenGL.exe
+﻿  源.cpp
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(73): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(74): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+Canvas.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+  OpenGL.vcxproj -> D:\OneDrive\Projects\OpenGL\OpenGL\Debug\OpenGL.exe

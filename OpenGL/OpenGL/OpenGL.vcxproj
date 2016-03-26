@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\OneDrive\Git\OpenGL\inc\Glut;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\OneDrive\Git\OpenGL\lib\x86\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(OpenGL_IncludePath);$(IncludePath)</IncludePath>
+    <LibraryPath>$(OpenGL_Lib);$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <LibraryWPath>$(LibraryWPath)</LibraryWPath>
