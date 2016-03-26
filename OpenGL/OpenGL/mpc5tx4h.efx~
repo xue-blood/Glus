@@ -1,0 +1,67 @@
+#define FREEGLUT_STATIC
+
+#include "../../include/Glut/freeglut.h"
+#include <math.h>
+#include<time.h>
+#include <stdio.h>
+
+
+#define _Size 39
+#define _Count 7
+
+#define _Gray 0.8,0.8,0.8
+#define _Black 0,0,0
+
+void display()
+{
+	glClear(GL_COLOR_BUFFER_BIT); // clear the screen
+
+	for (GLint i = 0; i < _Count;i++)
+	{
+		for (GLint j = 0; j < _Count;j++)
+		{
+			if (((i + j) % 2)==0)
+				glColor3f(_Black);
+			else
+				glColor3f(_Gray);
+
+			glRecti(i*_Size, j*_Size, (i+1)*_Size, (j+1)*_Size);
+		}
+	}
+	glutSwapBuffers();	// swap the color buffer
+}
+
+
+void init()
+{
+	// set matrix
+	glMatrixMode(GL_PROJECTION);	// the amtrix of world
+	glLoadIdentity();
+	gluOrtho2D(0, 640, 0, 480);
+
+
+	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(0.3, 0.3, 0.3, 1);
+	glColor3f(0.9, 0.0, 0.0);
+	glPointSize(3);
+}
+
+
+void main(int argc, char **argv)
+{
+	// int glut
+	glutInit(&argc, argv);
+
+	// create window
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); //two screen buffer
+	glutInitWindowSize(640, 480);
+	glutCreateWindow("Rosette");
+
+	// my init 
+	init();
+
+	glClear(GL_COLOR_BUFFER_BIT);
+	glutDisplayFunc(display);
+
+	glutMainLoop();
+}
