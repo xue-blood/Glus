@@ -1,5 +1,27 @@
 ﻿  源.cpp
-d:\onedrive\projects\opengl\opengl\opengl\源.cpp(73): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-d:\onedrive\projects\opengl\opengl\opengl\源.cpp(74): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(32): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(38): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(51): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(55): warning C4244: 'argument': conversion from 'GLdouble' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(71): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(72): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(76): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(77): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(146): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(149): warning C4305: '/=': truncation from 'double' to 'GLfloat'
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(196): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(199): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(208): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(233): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(241): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(243): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(244): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(245): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(246): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(247): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(248): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(267): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(289): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+d:\onedrive\projects\opengl\opengl\opengl\源.cpp(290): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
 Canvas.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
   OpenGL.vcxproj -> D:\OneDrive\Projects\OpenGL\OpenGL\Debug\OpenGL.exe
