@@ -9,279 +9,359 @@
 
 #define _ScreenCenter _ScreeenWidth/2,_ScreenHeight/2
 
-#define _PI (3.14159265)
-#define _2PI (2*_PI)
-#define _Rad (_PI/180)
-
-#define _FI 1.618033989
-
+#define _Point_Num 255
 
 Canvas cvs(_ScreeenWidth, _ScreenHeight, "Canvas");
 
-#define _Point_Num 255
+#define glusCircle(_center,_radius) glusArc(_center,_radius,0,360)
 
-
-void glusNGon(GLint _n, GLfloat _cx, GLfloat _cy, GLfloat _radius, GLfloat _rot)
+void glusArc(Point2f _cen, GLfloat _radius, GLfloat _startAng, GLfloat _sweep)
 {
-	if (_n < 3)
-		return;
+	const GLbyte n = 30;
+	GLfloat angle = _startAng*_Rad;
+	GLfloat inc = _sweep*_Rad / n;
 
-	GLdouble angle = _rot*_Rad; // the original angle 
-	GLdouble inc = _2PI / _n;	// the angle to inc for each interation
+	GLfloat cx = _cen.GetX(), cy = _cen.GetY();
 
-	cvs.MoveTo(_cx + _radius*cos(angle), _cy + _radius*sin(angle));
-
-	for (GLbyte k = 0; k < _n; k++)
-	{
-		// draw line to next point
-		angle += inc;
-		cvs.LineTo(_cx + _radius*cos(angle), _cy + _radius*sin(angle));
-	}
-
+	cvs.MoveTo(cx + _radius*cos(angle), cy + _radius*sin(angle));
+	for (GLbyte i = 0; i <= n; i++, angle += inc)
+		cvs.LineTo(cx + _radius*cos(angle), cy + _radius*sin(angle));
 
 }
-void glusTurNGon(GLint _n, GLfloat _x, GLfloat _y, GLfloat _len, GLfloat _rot)
+void glusCircleCenPoint(Point2f _c, Point2f _p)
 {
-	if (_n < 3) // the bad gon
+	// get the radius of arc
+	GLfloat radius = sqrt((_c.GetY() - _p.GetY())*(_c.GetY() - _p.GetY())
+		+ (_p.GetX() - _c.GetX())*(_p.GetX() - _c.GetX()));
+
+	glusArc(_c, radius, 0, 360);
+}
+
+// draw a circle which pass three  points special
+void glusCirclePoint3(Point2f _p1, Point2f _p2, Point2f _p3)
+{
+	GLfloat ang1, ang2;
+	Point2f c1, c2;
+
+	// compute the center point of two line
+	// c1 between p1 and p2
+	c1.SetX((_p1.GetX() + _p2.GetX()) / 2);
+	c1.SetY((_p1.GetY() + _p2.GetY()) / 2);
+
+	// c2 between p2 and p3
+	c2.SetX((_p3.GetX() + _p2.GetX()) / 2);
+	c2.SetY((_p3.GetY() + _p2.GetY()) / 2);
+
+	GLfloat k1, k2, b1, b2;
+	// k1 bellow to p1 and p2
+	k1 = -(_p2.GetX() - _p1.GetX()) / (_p2.GetY() - _p1.GetY());
+	k2 = -(_p2.GetX() - _p3.GetX()) / (_p2.GetY() - _p3.GetY());
+	b1 = c1.GetY() - k1*c1.GetX();
+	b2 = c2.GetY() - k2*c2.GetX();
+
+	// now compute the center of circle 
+	Point2f center;
+	center.SetX((b2 - b1) / (k1 - k2));
+	center.SetY(k1*center.GetX() + b1);
+
+	GLfloat radius = sqrt((_p1.GetX() - center.GetX())*(_p1.GetX() - center.GetX()) +
+		(_p1.GetY() - center.GetY())*(_p1.GetY() - center.GetY()));
+
+	glusCircle(center, radius);
+
+}
+
+void blendArc(Point2f _p, GLfloat _radius1, GLfloat _sweep, GLfloat _radius2)
+{
+	// compute the center for arc
+	Point2f c1, c2;
+	c1.SetX(_p.GetX() - _radius1*cosf((90 - _sweep / 2) * _Rad));
+	c1.SetY(_p.GetY() + _radius1*sinf((90 - _sweep / 2) * _Rad));
+
+	// draw the right half arc
+	glLineWidth(6); glColor3f(1.0, .3, .5);
+	glusArc(c1, _radius1, _sweep / 2 - 90, -_sweep);
+	glLineWidth(1); glColor3f(.6, .7, .4);
+	glusCircle(c1, _radius1);
+
+
+	// draw the left part
+	c2.SetX(c1.GetX() - (_radius1 + _radius2)*cos((90 - _sweep / 2) * _Rad));
+	c2.SetY(c1.GetY() - (_radius1 + _radius2)*sin((90 - _sweep / 2)*_Rad));
+	glLineWidth(6); glColor3f(1.0, .3, .5);
+	glusArc(c2, _radius2, 90 - _sweep / 2, _sweep);
+	glLineWidth(1); glColor3f(.6, .7, .4);
+	glusCircle(c2, _radius2);
+
+	// connect the center
+	glColor3f(.3, .8, .9);
+	glLineWidth(3);
+	cvs.MoveTo(_p.GetX(), _p.GetY());
+	cvs.LineTo(c1.GetX(), c1.GetY());
+	cvs.LineTo(c2.GetX(), c2.GetY());
+}
+
+void philosophy(Point2f _center, GLfloat _radius)
+{
+	// draw the outter circle
+	glusCircle(_center, _radius);
+
+	// draw the two small circle
+	Point2f c;
+	c.SetX(_center.GetX() - _radius / 2);
+	c.SetY(_center.GetY());
+	glusCircle(c, _radius / 10);
+	c.SetX(_center.GetX() + _radius / 2);
+	glusCircle(c, _radius / 10);
+
+	// draw the blend arc
+	c.SetX(_center.GetX() + _radius);
+	blendArc(c, _radius / 2, 180, _radius / 2);
+}
+
+void sevenPennies(Point2f _center, GLfloat _radius)
+{
+	// draw the center circle
+	glusCircle(_center, _radius / 3);
+
+	Point2f c;
+	// draw the other six circles
+	for (GLbyte i = 0; i < 6; i++)
+	{
+		// compute the center
+		c.SetX(_center.GetX() + _radius * 2 / 3 * cosf(60 * i*_Rad));
+		c.SetY(_center.GetY() + _radius * 2 / 3 * sinf(60 * i*_Rad));
+
+		// draw it
+		glusCircle(c, _radius / 3);
+	}
+}
+
+
+void glusRoundRect(Point2f _leftTop,GLfloat _w,GLfloat _h,GLfloat _g)
+{
+	GLfloat radius = _g*_w;
+	Point2f p;
+
+	// draw the rect without corners
+	// top
+	cvs.MoveTo(_leftTop.GetX() + radius, _leftTop.GetY());
+	cvs.LineTo(_leftTop.GetX() + _w-radius, _leftTop.GetY());
+	cvs.GetCP(&p); p.SetY(p.GetY() - radius);
+	glusArc(p, radius, 90, -90);
+	
+	// right 
+	cvs.LineTo(_leftTop.GetX() + _w, _leftTop.GetY() -_h +radius);
+	cvs.GetCP(&p); p.SetX(p.GetX() - radius);
+	glusArc(p, radius, 0, -90);
+
+	// bottom
+	cvs.LineTo(_leftTop.GetX() + radius, _leftTop.GetY() - _h);
+	cvs.GetCP(&p); p.SetY(p.GetY()+ radius);
+	glusArc(p, radius, -90, -90);
+
+	// left 
+	cvs.LineTo(_leftTop.GetX(), _leftTop.GetY() - radius);
+	cvs.GetCP(&p); p.SetX(p.GetX() + radius);
+	glusArc(p, radius, 180, -90);
+
+	
+}
+
+void glusNGon(Point2f _center, GLfloat _radius,GLbyte _n,GLfloat _startAng,Point2f *_buff)
+{
+	GLfloat ang_inc = 360 / _n*_Rad;
+	_startAng *= _Rad;
+
+	Point2f p;
+	p.SetX(_center.GetX() + _radius*cos(_startAng));
+	p.SetY(_center.GetY() + _radius*sin(_startAng));
+	cvs.MoveTo(p.GetX(), p.GetY());
+
+	for (GLbyte i=0;i<_n;i++)
+	{
+		if(_buff)
+			_buff[i] = p;
+		_startAng += ang_inc;
+
+		p.SetX(_center.GetX() + _radius*cos(_startAng));
+		p.SetY(_center.GetY() + _radius*sin(_startAng));
+		cvs.LineTo(p.GetX(), p.GetY());
+	}
+}
+void involveArcs(Point2f _center,GLfloat _radius,GLbyte _n)
+{
+	Point2f *points = new Point2f[_n];
+	glusNGon(_center, _radius, _n, 90,points);
+
+	GLfloat radius = sqrt((points->GetX() - points[1].GetX())*(points->GetX() - points[1].GetX())+
+		(points->GetY() - points[1].GetY())*(points->GetY() - points[1].GetY()));
+
+	GLfloat ang_inc = 180 * (_n - 2) / _n;
+	GLfloat ang_sweep = -ang_inc;
+	GLfloat ang_start = -(180 - ang_inc) / 2;
+	ang_inc = 180 - ang_inc;
+
+	for (GLbyte i=0;i<_n;i++)
+	{
+		glusArc(points[i], radius, ang_start, ang_sweep);
+		ang_start += ang_inc;
+	}
+
+	delete[] points;
+}
+
+// draw a teardrop
+void tearDrop(Point2f _root, GLfloat _len, GLfloat _ang_sweep,GLfloat _ang)
+{
+	cvs.MoveTo(_root.GetX(),_root.GetY());
+	cvs.TurnTo(_ang - _ang_sweep/2);
+	cvs.Forward(_len, 1);
+
+	cvs.MoveTo(_root.GetX(),_root.GetY());
+	cvs.TurnTo(_ang + _ang_sweep/2);
+	cvs.Forward(_len, 1);
+
+	Point2f cen;
+	GLfloat radius = _len*tanf(_ang_sweep / 2 * _Rad);
+	GLfloat l = sqrt(radius*radius + _len*_len);
+	cen.SetX(_root.GetX() + l*cosf(_ang*_Rad));
+	cen.SetY(_root.GetY() + l*sinf(_ang*_Rad));
+
+	GLfloat ang_arc_start, ang_arc_sweep;
+	ang_arc_sweep = (180 - (90 - _ang_sweep / 2));
+	ang_arc_start = _ang - ang_arc_sweep;
+
+	glusArc(cen, radius,ang_arc_start,2*ang_arc_sweep);
+}
+void tearDrops(Point2f _center,
+	GLfloat _len,
+	GLfloat _poly_radius,GLfloat _polygon_n,
+	GLfloat _arc_radius,GLfloat _ang_start)
+{
+	if (_polygon_n == 0)
 		return;
 
-	GLdouble angle = _rot / _Rad;
-	GLdouble turn = 360 / _n;
+	GLfloat angle = atanf(_arc_radius / _len) / _Rad; // the angle of one teardrop
 
-	cvs.MoveTo(_x + _len*cos(angle), _y + _len*sin(angle));
+	Point2f *points = new Point2f[_polygon_n];
+
+	if (_poly_radius > 0)
+		glusNGon(_center, _poly_radius, _polygon_n, _ang_start, points);
+	else
+		memset(points, 0, _polygon_n * sizeof(Point2f));
+
+	GLfloat ang_inc = 360 / _polygon_n;
+
+	GLfloat ang = atanf(_arc_radius / _len)/_Rad;
+	_ang_start += (180-(180-360/_polygon_n)/2)-ang;
+	  
+	for (GLbyte i = 0; i < _polygon_n; i++)
+	{
+		tearDrop(points[i], _len, _arc_radius, _ang_start);
+		_ang_start += ang_inc;
+	}
+
+//	if(_poly_radius !=0)
+	delete[] points;
+}
+
+// draw a pie
+void glusPie(Point2f _root, GLfloat _radius, GLfloat _ang_start,GLfloat _ang_sweep)
+{
+	// draw arc first now
+	glusArc(_root, _radius, _ang_start, _ang_sweep);
+
+	// and then draw two side
+	// first
+	cvs.MoveTo(_root.GetX(), _root.GetY());
+	cvs.TurnTo(_ang_start);
+	cvs.Forward(_radius, 1);
+
+	//seconf
+	cvs.MoveTo(_root.GetX(), _root.GetY());
+	cvs.TurnTo(_ang_start+_ang_sweep);
+	cvs.Forward(_radius, 1);
+
+}
+
+void glusPies(Point2f _center, GLfloat _radius,GLbyte _n,GLfloat *_angles,GLfloat *offsets)
+{
+	if (_angles == 0 || _n == 0)
+		return;
+
+	GLfloat ang = 0, ang_sweep = 0;
+	Point2f p;
+
 	for (GLbyte i = 0; i < _n; i++)
 	{
-		cvs.Forward(_len, 1);
-		cvs.Turn(turn);
-	}
-}
-
-enum RosetteType
-{
-	RosetteNormal,
-	RosetteStar,
-	RosetteFull
-};
-
-void glusRosetteVertex(GLint _n, GLfloat* _buffer, GLfloat _cx, GLfloat _cy, GLfloat _radius, GLfloat _rot)
-{
-	if (_n < 3)
-		return;
-
-	GLfloat angle = _rot*_Rad;
-	GLfloat inc = _2PI / _n;
-
-	for (GLint i = 0; i < _n; i++,angle+=inc)
-	{
-		_buffer[2 * i] = _cx + _radius*cos(angle);
-		_buffer[2 * i + 1] = _cy + _radius*sin(angle);
-	}
-}
-void glusRosette(GLint _n, GLfloat* _buffer, RosetteType _type)
-{
-	if (_buffer[0] == 0)
-		return;
-
-	glBegin(GL_LINE_LOOP);
-
-	switch (_type)
-	{
-	case RosetteNormal:
-		for (GLint i = 0; i < _n; i++)
+		ang_sweep = _angles[i];
+		if (offsets)
 		{
-			glVertex2f(_buffer[2 * i], _buffer[2 * i + 1]);
+			p.SetX(_center.GetX() + offsets[i] * cosf((ang+ang_sweep/2) * _Rad));
+			p.SetY(_center.GetY() + offsets[i] * sinf((ang + ang_sweep / 2)* _Rad));
 		}
-
-		break;
-	case RosetteStar:
-	{
-		GLint i = 0;
-		do
-		{
-			glVertex2f(_buffer[2 * i], _buffer[2 * i + 1]);
-			i = (i + 2) % (_n);
-		} while (i != 0);
-
-		if (_n % 2 == 0)
-		{
-			glEnd();
-			glBegin(GL_LINE_LOOP);
-			for (i = 1; i < _n;i+=2)
-			{
-				glVertex2f(_buffer[2 * i], _buffer[2 * i + 1]);
-			}
-		}
-		break;
-	}
-	case RosetteFull:
-		for (GLint i = 0; i < _n;i++)
-		{
-			for (GLint j = 0; j < _n; j++)
-			{
-				glVertex2f(_buffer[2 * i], _buffer[2 * i + 1]);
-				glVertex2f(_buffer[2 * j], _buffer[2 * j + 1]);
-
-			}
-		}
-		break;
-	default:
-		break;
-	}
-	glEnd();
-}
-
-void pentagram(GLfloat _cx, GLfloat _cy, GLfloat _radius)
-{
-	if (_radius < .01)
-		return;
-
-	// draw the wide 
-	glusNGon(5, _cx, _cy, _radius, 0);
-	
-	GLboolean b = true;
-	GLfloat points[2 * _Point_Num];
-
-	while (_radius>.01)
-	{
-		glusRosetteVertex(5,points, _cx, _cy, _radius, b?0:36);
-		glusRosette(5, points, RosetteStar);
-
-		_radius /= _FI*_FI;
-		b = !b;
-	}
-}
-
-void congons(GLint _n, GLfloat _cx, GLfloat _cy, GLfloat _radius, GLfloat _fraction, GLfloat _rot)
-{
-	if (_fraction <= 0 || _n < 3 || _radius <= 0)
-		return;
-
-	GLfloat outer[2 * _Point_Num], inner[2 * _Point_Num];
-	// get the vertexs
-	glusRosetteVertex(_n, outer, _cx, _cy, _radius, _rot);
-	glusRosetteVertex(_n, inner, _cx, _cy, _fraction*_radius, _rot+360/_n/2);
-
-	// draw outer n-gon
-	glusRosette(_n, outer, RosetteNormal);
-	glusNGon(30, _cx, _cy, _radius, _rot);
-
-	glusRosette(_n, inner, RosetteNormal);
-	glusNGon(30, _cx, _cy, _fraction*_radius, _rot);
-
-	// draw polygon between outer and inner 
-	glBegin(GL_LINE_LOOP);
- 	for (GLint i = 0; i < _n;i++)
- 	{
- 		glVertex2f(outer[2*i], outer[2*i + 1]);
- 		glVertex2f(inner[2*i], inner[2*i + 1]);
- 
- 	}
-
-	glEnd();
-}
-
-void patternStar(GLfloat _cx,GLfloat _cy,GLfloat _radius)
-{
-	if (_radius <= 0)
-		return;
-	
-	GLfloat buffer[10];
-
-	// draw center pentagram
-	glusRosetteVertex(5, buffer, _cx, _cy, _radius, 360/5/4);
-	glusRosette(5, buffer, RosetteStar);
-
-	// draw middle pentagram arrays
-	GLfloat position[20];
-	glusRosetteVertex(10, position, _cx, _cy, 1.5*_radius, 360 / 5 / 2);// computer position
-	for (GLbyte i = 0; i < 10;i++)
-	{
-		glusRosetteVertex(5, buffer, position[2*i], position[2 * i+1], .1*_radius, 360 / 5 / 4);
-		glusRosette(5, buffer, RosetteStar);
-	}
-		
-
-	// draw outer pentagram arrays
-	glusRosetteVertex(10, position, _cx, _cy, 2*_radius, 360 / 5 /4);// computer position
-	for (GLbyte i = 0; i < 10; i++)
-	{
-		glusRosetteVertex(5, buffer, position[2 * i], position[2 * i + 1], .15*_radius, 360 / 5 / 4);
-		glusRosette(5, buffer, RosetteStar);
-	}
-
-}
-
-void turtleNgon(GLfloat _x,GLfloat _y,GLfloat _len)
-{
-	if (_len <= 0)
-		return;
-
-
-	for (GLbyte i = 3; i < 10;i++)
-	{
-		glusTurNGon(i, _x, _y, _len,0);
-	}
-}
-
-void esteemedLogo(GLfloat _cx, GLfloat _cy, GLfloat _radius)
-{
-	if (_radius <= 0)
-		return;
-
-	GLfloat center[6];
-	// compute center
-	glusRosetteVertex(3, center, _cx, _cy, _radius*.1, -30);
-
-#define _Short _radius*.5
-#define _Long _radius*.8
-
-	for (GLbyte i = 0; i <3; i++)
-	{
-		cvs.MoveTo(center[2 * i], center[2 * i + 1]);
-		cvs.TurnTo(-90 + i * 120);
-
-		cvs.Forward(_Long, 1);cvs.Turn(60);
-		cvs.Forward(_Short,1);cvs.Turn(120);
-		cvs.Forward(_Long, 1); cvs.Turn(-60);
-		cvs.Forward(_Long, 1); cvs.Turn(120);
-		cvs.Forward(_Short, 1); cvs.Turn(60);
-		cvs.Forward(_Long, 1);
+		else
+			p = _center;
+		glusPie(p, _radius, ang, ang_sweep);
+		ang += _angles[i];
 
 	}
 }
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-/*
-	glColor3f(1.0, .0, .0);
-	glusTurNGon(9, 100, 100, 100, 0);
 
-	glColor3f(.0, 1.0, .0);
-	glusNGon(6, 100, 300, 100, 0);
-
-
-	glColor3f(.3, .7, .6);
-	pentagram(350, 200, 100);
-
-*/
 	glColor3f(.7, .8, .3);
-	
-// 	for (GLint i = 3; i < 9;i++)
-// 	for (GLfloat angle = 0; angle < 360; angle += 3)
+	//Point2f p = { 300,210 };
+
+	//Point2f cen = { 300,300 };
+	//glusArc(cen, 100, 30, 69);
+
+	//glusCircleCenPoint(cen, p);
+
+	//philosophy(p, 210);
+
+	//sevenPennies(p,210);
+
+	//glusRoundRect(p, 300, 100, .1);
+
+	//involveArcs(p, 180, 5);
+
+// 	size_t i = 3;
+// 	for (; i <18; i++)
 // 	{
-//  		glClear(GL_COLOR_BUFFER_BIT); // clear the screen
-//  
-//  		congons(i, 300, 300, 150, .2, 90+angle);
-//  		glutSwapBuffers();	// swap the color buffer
-//  
-//  		Sleep(30);
-//  	}
+// 		glClear(GL_COLOR_BUFFER_BIT);
+// 		tearDrops(p, 100, 30, i, 30, 0);
+// 		Sleep(30);
+// 		glutSwapBuffers();
+// 	}
+// 	for (; i >=3; i--)
+// 	{
+// 		glClear(GL_COLOR_BUFFER_BIT);
+// 		tearDrops(p, 100, 30, i, 30, 0);
+// 		Sleep(30);
+// 		glutSwapBuffers();
+// 	}
 
-	//patternStar(300, 240, 90);
+// 	GLfloat angles[6] =
+// 	{
+// 		100,20,30,30,60,120
+// 	};
+// 	GLfloat offsets[6] =
+// 	{
+// 		10,0,30,0,0,50
+// 	};
+// 	glusPies(p, 210, 6, angles,offsets);
 
-//	turtleNgon(50,100, 100);
+	Point2f p[3] =
+	{
+		{100,100},
+		{200,200},
+		{300,100}
+	};
+	glusCirclePoint3(p[0], p[1], p[2]);
 
-	esteemedLogo(300, 300, 100);
 	glutSwapBuffers();
 }
 void main(int argc, char **argv)
@@ -291,7 +371,7 @@ void main(int argc, char **argv)
 
 	glutDisplayFunc(display);
 
-
+	
 	glutMainLoop();
 }
 

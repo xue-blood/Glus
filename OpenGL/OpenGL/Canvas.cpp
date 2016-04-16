@@ -1,5 +1,9 @@
 #include "Canvas.h"
 
+void Canvas::Draw()
+{
+	return;
+}
 Canvas::Canvas(GLint _width, GLint _height, char * _windowTitle)
 {
 	char *argv[1];
@@ -31,6 +35,18 @@ void Canvas::SetViewport(GLint _left, GLint _right, GLint _bottom, GLint _top)
 	glViewport(_left, _bottom, _right - _left, _top - _bottom);
 }
 
+void Canvas::GetCP(Point2f *_p)
+{
+	if ((VOID*)_p == NULL)
+		return;
+	_p->SetX(CP.GetX());
+	_p->SetY(CP.GetY());
+}
+
+GLfloat Canvas::GetCD()
+{
+	return this->CD;
+}
 void Canvas::LineTo(GLfloat _x, GLfloat _y)
 {
 	glBegin(GL_LINES);
@@ -89,4 +105,10 @@ void Canvas::Forward(GLfloat _dist, GLboolean _visible)
 		LineTo(x, y);
 	else
 		MoveTo(x, y);
+}
+
+void Point2f::operator=(Point2f & p)
+{
+	if (&p != NULL)
+		memcpy_s(this, sizeof(Point2f), &p, sizeof(Point2f));
 }
