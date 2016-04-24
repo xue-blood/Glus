@@ -2,11 +2,12 @@
 #include"Glut\freeglut.h"
 #include <math.h>
 
-#define _PI (3.14159265)
-#define _2PI (2*_PI)
-#define _Rad (_PI/180)
+#include "circle.h"
 
-#define _FI 1.618033989
+
+#ifndef null
+#define null {0}
+#endif
 
 class Shape
 {
@@ -106,3 +107,72 @@ private:
 	Rect4i Viewport;
 	Rect4f World;
 };
+
+//----------------Point----------------------
+typedef struct _Point2f
+{
+	GLfloat X, Y;
+}Glus_Point2f;
+
+
+
+typedef GLfloat(*Glus_Polar_Func)(GLfloat _theta);
+typedef struct _Glus_Polar_Curve
+{
+	Glus_Point2f Center;
+	GLfloat Angle_Start, Angle_Sweep;
+	Glus_Polar_Func F;
+	GLbyte Count;
+}Glus_Polar_Curve;
+void glus_Draw_Polar_Curve2f(Glus_Polar_Curve *_curve);
+
+typedef struct _Glus_Line2f
+{
+	Glus_Point2f P1, P2;
+}Glus_Line2f;
+
+typedef struct _Glus_Rect2f
+{
+	Glus_Point2f LeftTop,RightBottom;
+};
+//================Point======================
+
+//----------------Curve----------------------
+
+//--------for c----------
+typedef GLfloat(*GlusCurveFunc)(GLfloat _t);
+	
+
+// curve
+typedef struct _Glus_Curve2f
+{
+	Glus_Point2f *Points;
+	GLint Count;
+}Glus_Curve2f;
+
+// ellipse
+typedef struct _Glus_Ellipse
+{
+	Glus_Point2f Center;
+	GLfloat W, H;
+	GLfloat Angle_Start, Angle_Sweep;
+	GLint Count;
+
+}Glus_Ellipse;
+
+void glusCurve_Ellipse(Glus_Ellipse *_ellipse);
+void glus_Hyperbola(Glus_Ellipse *_hyperbolar);
+void glus_Curve(Glus_Curve2f *_curve);
+void glus_Ellipse_Super(Glus_Ellipse *_ellipse, GLfloat _n);
+//=========for c===========
+
+#ifdef __cplusplus
+class Curve:Shape
+{
+public:
+	void Draw();
+protected:
+private:
+};
+#endif
+//================Curve======================
