@@ -1,8 +1,14 @@
-﻿生成启动时间为 2016/3/1 13:41:28。
-项目“F:\OneDrive\Git\Windows\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj”在节点 2 上(Build 个目标)。
-C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v14.0\CodeAnalysis\Microsoft.CodeAnalysis.targets(214,5): error MSB4175: 未能从程序集“C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Build.Tasks.Core.dll”加载任务工厂“CodeTaskFactory”。未能找到文件“r:\Temp\j0gdzv2d.dll”。
-已完成生成项目“F:\OneDrive\Git\Windows\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj”(Build 个目标)的操作 - 失败。
+﻿Build started 6/17/2016 7:38:48 PM.
+     1>Project "E:\Projects\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt Canvas.cpp "源.cpp"
+         源.cpp
+     1>e:\projects\opengl\opengl\opengl\Canvas.h(2): fatal error C1083: Cannot open include file: 'Glut\freeglut.h': No such file or directory
+         Canvas.cpp
+     1>e:\projects\opengl\opengl\opengl\Canvas.h(2): fatal error C1083: Cannot open include file: 'Glut\freeglut.h': No such file or directory
+         Generating Code...
+     1>Done Building Project "E:\Projects\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" (Build target(s)) -- FAILED.
 
-生成失败。
+Build FAILED.
 
-已用时间 00:00:00.23
+Time Elapsed 00:00:00.59

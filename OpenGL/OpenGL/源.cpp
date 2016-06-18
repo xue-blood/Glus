@@ -272,8 +272,8 @@ void display()
 	//arcOgee(c, 90, 60,2.0/3);
 
 	// truchet
-//	truchetData();
-//	truchetDraw({ 0,0 }, 60);
+	truchetData();
+	truchetDraw({ 0,0 }, 60);
 
 	glutSwapBuffers();
 

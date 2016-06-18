@@ -1,5 +1,5 @@
 #pragma once
-#include"Glut\freeglut.h"
+#include<Glut\freeglut.h>
 #include <math.h>
 
 #include "circle.h"
