@@ -18,15 +18,21 @@
     <ClInclude Include="inc\glus.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="inc\circle.h">
+    <ClInclude Include="inc\glus_struct.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glus_pre.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glus_define.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glus_func.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\vector.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vertex.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\glus.c">
@@ -36,6 +42,33 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\circle.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\init.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\point.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plane.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\polygon.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tween.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\callback.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mouse.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\link.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ray.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

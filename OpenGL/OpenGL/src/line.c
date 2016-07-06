@@ -1,113 +1,73 @@
 #include "..\inc\glus.h"
 
-void 
-glusLinePToV2f(
-_In_	GlusLine2f	*_pl,
-_Out_	GlusLine2f	*_vl)
+void	
+glusLDraw(
+_In_	PGlusLine	_pLine)
 {
+	assertp(_pLine);
 
+	glBegin(GL_LINES);
+	{
+		glVertex3dv((pGLdouble)&_pLine->A);
+		glVertex3dv((pGLdouble)&_pLine->B);
+	}
+	glEnd();
 }
-GLenum
-glusIsLineIntersect2f(
-_In_ GlusVertex2f *_a,
-_In_ GlusVertex2f *_b,
-_In_ GlusVertex2f *_c,
-_In_ GlusVertex2f *_d,
-_Out_ GlusVertex2f *_v)
+
+void
+glusDrawCoord()
 {
-	assert(_a != NULL);
-	assert(_b != NULL);
-	assert(_c != NULL);
-	assert(_d != NULL);
-	assert(_v != NULL);
+	glBegin(GL_LINES);
+	{
+		
+		glColor3f(1.0, 0, 0); glVertex3i(-100, 0, 0); glVertex3i(100, 0, 0); // x
+		glColor3f(0, 1.0, 0); glVertex3i(0, -100, 0); glVertex3i(0, 100, 0); // y
+		glColor3f(0, 0, 1.0); glVertex3i(0, 0, -100); glVertex3i(0, 0, 100); // z
+		
+	}
+	glEnd();
+}
 
-
-	GlusVector2f	vb, vd, vc;
-	glusInitVector2f(_a, _b, &vb);
-	glusInitVector2f(_c, _d, &vd);
-	glusInitVector2f(_a, _c, &vc);
+Glus_Intersect
+glusLIntersect(
+_In_	PGlusLine	_la,
+_In_	PGlusLine	_lb,
+_Out_	PGlusVector _p)
+{
+	assertp(_la);
+	assertp(_lb);
+	assertp(_p);
+	
+	//
+	// compute the vectors 
+	//
+	GlusVector	vb = glusVector3fv((&_la->A), (&_la->B)),
+				vd = glusVector3fv((&_lb->A), (&_lb->B)),
+				vc = glusVector3fv((&_la->A), (&_lb->A));
+	
+	// compute the perpendicular vector
+	GlusVector vdn = glusVPerpende((&vd));
 
 	//
-	// test is two line parallel
+	// compute the parameter and the vector
 	//
+	GLdouble	r, t;
+	r = glusVDotPro((&vb), (&vdn));
 
-	// get the normal vector for vector
-	GlusVector2f	vdn,vbn;
-	glusVectorNormal2f(&vd, &vdn);
-	glusVectorNormal2f(&vb, &vbn);
+	// are lines be parallel
+	if (r == 0)
+		return Intersect_Parallel;
 
-	if (glusDotProduct(&vdn, &vb) == 0)
-	{
-		// line is parallel 
-		// then test is overlap
-		if (vb.X*vc.Y- vb.Y*vc.X == 0 )
-			return Glus_Line_Parallel_Overlap;
+	t = glusVDotPro((&vc), (&vdn)) / r;
 
-		// there is no intersection between them
-		return Glus_Line_Parallel;
-	}
-	else
-	{
-		//
-		// compute the paramters 
-		//
-		GLfloat t = glusDotProduct(&vdn, &vc) / 
-					glusDotProduct(&vdn, &vb);
-		GLfloat u = glusDotProduct(&vbn, &vc) /
-					glusDotProduct(&vdn, &vb);
-
-		//
-		// compute the point 
-		// use t or u
-		//
-		_v->X = _a->X + vb.X * t;
-		_v->Y = _a->Y + vb.Y * t;
-
-		// is the intersection exist
-		if (t > 1 || t<0 || u >1 || u < 0)
-			return Glus_Line_Intersect_NotExsit;
-		return Glus_Line_Intersect;
-	}
-}
-
-GLfloat
-glusLineDistance2f(
-_In_	GlusVertex2f	*_pa,
-_In_	GlusVertex2f	*_pb)
-{
-	assert(_pa != NULL);
-	assert(_pb != NULL);
 	
-	GLfloat	dis =	sqrtf((_pa->X - _pb->X)*(_pa->X - _pb->X) +
-						(_pa->Y - _pa->Y)*(_pa->Y - _pa->Y));
 
-	return dis;
+	glusVAdd((&_la->A), 1, (&vb), t, _p);
+	_p->V = 1;
+
+	// is the intersection exsit
+	if (t > 1 || t < 0)
+		return Intersect_Not_Exsit;
+	return Intersect_Exsit;
 }
 
-bool
-glusLineHit2f(
-_In_	GlusLine2f		*_l,
-_In_	GlusVertex2f	*_p,
-_In_	GlusVector2f	*_n,
-_Out_	GlusVertex2f	*_phit)
-{
-	assert(_l != NULL);
-	assert(_p != NULL);
-	assert(_n != NULL);
-	assert(_phit != NULL);
-
-	GlusVector2f	vl,vb;
-	glusInitVector2f(&_l->A, &_l->B,&vl);
-	glusInitVector2f(&_l->A, _p,&vb);
-
-	GLfloat temp, t;
-	temp = glusDotProduct(_n, &vl);
-	if (temp == 0)
-		return	false;
-
-	t = glusDotProduct(_n, &vb) / temp;
-	
-	_phit->X = _l->A.X + vl.X *t;
-	_phit->Y = _l->A.Y + vl.Y *t;
-	return true;
-}

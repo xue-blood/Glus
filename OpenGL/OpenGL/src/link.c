@@ -1,0 +1,140 @@
+#include "..\inc\glus.h"
+
+
+//------------Doubly link list---------------
+
+void 
+glusLinkInit(
+_Out_	void*	_linkHead)
+{
+	assertp(_linkHead);
+	PGlusLink	h = _linkHead;
+
+	h->FLink =	h;
+	h->BLink =	h;
+}
+
+void	
+glusLinkInsertHead(
+_Inout_ void*	_linkHead,
+_Inout_ void*	_linkNode)
+{
+	assertp(_linkHead && _linkNode);
+
+	PGlusLink	h = _linkHead;
+	PGlusLink	n = _linkNode;
+
+	n->FLink =	h;
+	n->BLink =	h->BLink;
+	
+	h->BLink =	n;
+}
+
+void
+glusLinkInsertTail(
+_Inout_ void*	_linkHead,
+_Inout_ void*	_linkNode)
+{
+	assertp(_linkHead && _linkNode);
+
+	PGlusLink	h = _linkHead;
+	PGlusLink	n = _linkNode;
+
+	n->FLink =	h->FLink;
+	n->BLink =	h;
+
+	n->FLink->BLink = n;
+	h->FLink =	n;
+}
+
+pvoid
+glusLinkRemoveHead(
+_Inout_	pvoid	_linkHead)
+{
+	assertp(_linkHead );
+
+	PGlusLink	h = _linkHead,
+				n = h->BLink;
+
+	h->BLink =	n->BLink;
+
+	n->BLink->FLink = h;
+
+	return	n;
+}
+pvoid
+glusLinkRemoveTail(
+_Inout_	pvoid	_linkHead)
+{
+	assertp(_linkHead );
+
+	PGlusLink	h = _linkHead,
+				n = h->FLink;
+
+	h->FLink =	n->FLink;
+	n->FLink->BLink = h;
+
+	return	n;
+}
+bool	
+glusLinkRemoveEntry(
+_Inout_ pvoid	_linkEntry)
+{
+	assertp(_linkEntry);
+
+	PGlusLink	n = _linkEntry;
+
+	n->BLink->FLink	=	n->FLink;
+	n->FLink->BLink =	n->BLink;
+
+	//
+	// is the link list is empty
+	//
+	if (n->FLink->FLink == n->FLink)
+		return true;
+	else
+		return false;
+}
+//============Doubly link list===============
+
+//------------Singly link list---------------
+void	
+glusSinkPush(
+_Inout_ PGlusSink	_linkHead,
+_In_	PGlusSink	_linkEntry)
+{
+	assertp(_linkHead && _linkEntry);
+
+	//  [7/6/2016 Tld]: change from tail to head
+	_linkEntry->Next = _linkHead->Next;
+	_linkHead->Next = _linkEntry;
+}
+
+PGlusSink
+glusSinkPop(
+_Inout_ PGlusSink	_linkHead)
+{
+	assertp(_linkHead );
+
+	PGlusSink	p = _linkHead->Next;
+
+	//  [7/6/2016 Tld]: change from tail to head
+	_linkHead->Next = p->Next;
+
+	return p;
+}
+
+GLint
+glusSinkLength(
+_In_	PGlusSink	_linkHead)
+{
+	GLint	l = 0;
+
+	while (_linkHead->Next)
+	{
+		_linkHead = _linkHead->Next;
+		l++;
+	}
+	return l;
+}
+//============Singly link list===============

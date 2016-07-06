@@ -7,6 +7,5 @@ void main(int argc,char **argv)
 	// call user define function
 	glusInit();
 
-
 	glutMainLoop();
 }

@@ -19,14 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\circle.h" />
+    <ClInclude Include="inc\glus_define.h" />
+    <ClInclude Include="inc\glus_func.h" />
+    <ClInclude Include="inc\glus_pre.h" />
     <ClInclude Include="inc\glus.h" />
+    <ClInclude Include="inc\glus_struct.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\callback.c" />
     <ClCompile Include="src\circle.c" />
+    <ClCompile Include="src\init.c" />
     <ClCompile Include="src\line.c" />
+    <ClCompile Include="src\link.c" />
+    <ClCompile Include="src\mouse.c" />
+    <ClCompile Include="src\plane.c" />
+    <ClCompile Include="src\polygon.c" />
+    <ClCompile Include="src\ray.c" />
+    <ClCompile Include="src\tween.c" />
     <ClCompile Include="src\vector.c" />
-    <ClCompile Include="src\vertex.c" />
+    <ClCompile Include="src\point.c" />
     <ClCompile Include="src\glus.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
