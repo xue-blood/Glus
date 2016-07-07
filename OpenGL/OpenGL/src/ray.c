@@ -4,6 +4,8 @@
 //  [8/5/2016 Tld]
 	add glusRHitPolygonS
 	add glusRHitMulPolygonS
+	add glusRTrace2D
+	add glusRTraces2D
 */
 
 
@@ -124,54 +126,109 @@ _Out_	PGlusVector	_direction)
 
 }
 
-//
-// from many point-normal objects
-// compute the correct ray after reflect 
-// the point-normal objects use singly link
-// 
-void
-glusRHitS(
-_Inout_	PGlusRay		_ray,
-_In_	PGlusSink		_head)
+GLdouble	
+glusRTrace2D(
+_In_	PGlusRay	_ray, 
+_In_	PGlusLink	_head, 
+_Out_	PGlusRay	_nRay)
 {
-	assertp(_ray && _head);
+	assertp(_ray && _head && _nRay);
 
-	PGlusPAndNS		p = (PGlusPAndNS)_head->Next;
+	PGlusPolygon	pa = (PGlusPolygon)_head->BLink, pb, pHit = NULL;
 
 	GLdouble		tHit = INFINITY;
-	PGlusPAndNS		pHit;
 
-	while (p)
+	while (!glusLinkIsEnd(pa,_head))
 	{
+		pb = (PGlusPolygon)pa->Link.BLink;
+		if (glusLinkIsEnd(pb,_head))
+			pb = (PGlusPolygon)_head->BLink;
+
 
 		//
-		// find the positive earliest hit time 
+		// we can compute the hit time
 		// 
-		GLdouble	t = glusRHit(_ray, &p->Data.Normal, &p->Data.Point);
+		//  [8/5/2016 Tld]: change the glusRHit to glusRHit2D
+		GLdouble t = glusRHit2D(_ray, &pa->Point, &pb->Point);
 		if (t > 0 && t < tHit)
 		{
-			// update hit time
-			tHit = t;
-
-			// and the pillar
-			pHit = p;
+			tHit = t;	// update the time
+			pHit = pa;	// and the part of the polygon
 		}
 
-		p = (PGlusPAndNS)p->Sink.Next;
+
+		pa = (PGlusPolygon)pa->Link.BLink;
+	}
+
+	if (!pHit)
+		return tHit;
+
+	// the new ray point
+	glusVAdd(&_ray->Point, 1, &_ray->Direction, tHit, &_nRay->Point);
+	_nRay->Point.V = 1;
+
+	pa = (PGlusPolygon)_head->BLink;
+	while (!glusLinkIsEnd(pa,_head))
+	{
+		//  [8/5/2016 Tld]
+		//
+		//	if hit vector, then set the opposite direction
+		// 
+		if (!memcmp(&pa->Point, &_nRay->Point, sizeof(GlusVector)))
+		{
+			glusVOpposite(&_nRay->Direction);
+			return tHit;
+		}
+
+		pa = (PGlusPolygon)pa->Link.BLink;
 	}
 
 	//
-	// then we can compute the new ray after reflect
-	// 
-	GlusRay		nRay;
-	glusRReflecte(_ray, &p->Data.Normal, &nRay.Direction);
+	// the new ray direction
+	//
+	GlusVector	v, vn;
+	pb = (PGlusPolygon)pHit->Link.BLink;
+	if (glusLinkIsEnd(pb,_head))
+		pb = (PGlusPolygon)_head->BLink;
 
-	// and the point
-	glusVAdd(&_ray->Point, 1, &_ray->Direction, tHit, &nRay.Point);
-	nRay.Point.V = 1;
+	glusVFromPoint(&pHit->Point, &pb->Point, &v);
+	glusVNormal(&v, &vn);
+	glusRReflecte(_ray, &vn, &_nRay->Direction);
 
-	*_ray = nRay;
+	return tHit;
 }
+
+
+void	
+glusRTraces2D(
+_Inout_	PGlusRay	_ray,
+_In_	PGlusLinks	_head)
+{
+	assertp(_ray && _head);
+
+	PGlusLinks	pl = (PGlusLinks)_head->Link.BLink;
+
+	GLdouble	tHit = INFINITY;
+	GlusRay		rHit = null;
+
+	while (!glusLinkIsEnd(pl,_head))
+	{
+
+		GLdouble	t;
+		GlusRay		rn;
+		t = glusRTrace2D(_ray, &pl->Data, &rn);
+
+		if (t > Zero && t < tHit)	//  [8/5/2016 Tld]:change 0 to Zero
+		{
+			tHit = t;
+			rHit = rn;
+		}
+
+		pl = (PGlusLinks)pl->Link.BLink;
+	}
+	*_ray = rHit;
+}
+
 
 //
 // compute the ray reflect for a polygon
@@ -280,11 +337,52 @@ _In_	PGlusMulSink	_head)
 }
 
 
-void
-glusRTraceS(
-_In_	PGlusRay		_ray,
-_In_	PGlusPolygonS	_polygon,
-_Out_	GLdouble		_tHit)
-{
 
+//
+// from many point-normal objects
+// compute the correct ray after reflect 
+// the point-normal objects use singly link
+// 
+void
+glusRHitS(
+_Inout_	PGlusRay		_ray,
+_In_	PGlusSink		_head)
+{
+	assertp(_ray && _head);
+
+	PGlusPAndNS		p = (PGlusPAndNS)_head->Next;
+
+	GLdouble		tHit = INFINITY;
+	PGlusPAndNS		pHit;
+
+	while (p)
+	{
+
+		//
+		// find the positive earliest hit time 
+		// 
+		GLdouble	t = glusRHit(_ray, &p->Data.Normal, &p->Data.Point);
+		if (t > 0 && t < tHit)
+		{
+			// update hit time
+			tHit = t;
+
+			// and the pillar
+			pHit = p;
+		}
+
+		p = (PGlusPAndNS)p->Sink.Next;
+	}
+
+	//
+	// then we can compute the new ray after reflect
+	// 
+	GlusRay		nRay;
+	glusRReflecte(_ray, &p->Data.Normal, &nRay.Direction);
+
+	// and the point
+	glusVAdd(&_ray->Point, 1, &_ray->Direction, tHit, &nRay.Point);
+	nRay.Point.V = 1;
+
+	*_ray = nRay;
 }

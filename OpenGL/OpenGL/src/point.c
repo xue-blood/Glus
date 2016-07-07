@@ -32,6 +32,47 @@ _In_ PGlusVector _pc)
 }
 
 bool
+glusPIsInPolygon(
+_In_	PGlusVector		_point,
+_In_	PGlusLink		_polygon)
+{
+	assertp(_point && _polygon);
+
+	// is it a valid polygon
+	if (glusLinkLength(_polygon) < 3)
+		return false;
+
+	// 
+	// if( Q -P) * n <0,then Q lies in P
+	// 
+	GlusVector		vn, vt, vp;
+	PGlusPolygon	pa = (PGlusPolygon)_polygon->BLink, pb;
+
+	while (!glusLinkIsEnd(pa,_polygon))
+	{
+		pb = (PGlusPolygon)pa->Link.BLink;
+
+		// line Pn -- P0
+		if (pb == (PGlusPolygon)_polygon)
+			pb = (PGlusPolygon)_polygon->BLink;
+
+
+		// compute the normal vector
+		glusVFromPoint(&pa->Point, &pb->Point, &vt);
+		glusVNormal(&vt, &vn);
+
+		// compute the vector for point
+		glusVFromPoint(&pb->Point, _point, &vp);
+
+		if (glusVDotPro(&vn, &vp) > 0)
+			return false;
+
+		pa = (PGlusPolygon)pa->Link.BLink;
+	}
+	return true;
+}
+
+bool
 glusPIsInPolygonS(
 _In_	PGlusVector		_point,
 _In_	PGlusSink		_polygon)

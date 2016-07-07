@@ -1,7 +1,7 @@
 #include "..\inc\glus.h"
 
 Glus_Intersect
-glusPIntersect(
+glusPlaneIntersect(
 _In_	PGlusPlane	_pa,
 _In_	PGlusPlane	_pb,
 _Out_	PGlusLine	_l)

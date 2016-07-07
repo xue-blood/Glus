@@ -1,5 +1,9 @@
 #include "..\inc\glus.h"
 
+/*
+//  [7/6/2016 Tld]
+	glusLinkLength	add
+*/
 
 //------------Doubly link list---------------
 
@@ -12,6 +16,21 @@ _Out_	void*	_linkHead)
 
 	h->FLink =	h;
 	h->BLink =	h;
+}
+GLint	
+glusLinkLength(
+_In_	PGlusLink	_linkHead)
+{
+	assertp(_linkHead);
+
+	GLint	l = 0;
+	PGlusLink	p = _linkHead->BLink;
+	while (p != _linkHead)
+	{
+		p = p->BLink;
+		l++;
+	}
+	return l;
 }
 
 void	
@@ -28,6 +47,8 @@ _Inout_ void*	_linkNode)
 	n->BLink =	h->BLink;
 	
 	h->BLink =	n;
+	if (h->FLink == h)
+		h->FLink = n;
 }
 
 void

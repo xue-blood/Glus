@@ -1,75 +1,69 @@
 #include "Header.h"
 
-glusSink(Head);
-glusMulSink(Ha);
-glusMulSink(Hb);
+glusLink(Head);
+glusLinks(Ha);
+glusLinks(Hb);
+glusLink(P);
 
-GlusPolygonS A[4], B[4];
+GlusPolygon A[4], B[4];
 
 int Width, Height;
 
 GlusRay ray, nRay;
+void redata()
+{
+	glusP2i(15, 0, &ray.Point);
+	glusV2i(12, 3, &ray.Direction);
+	memset(&nRay, 0, sizeof(GlusRay));
 
+}
 void initData()
 {
 
-	glusP2i(-20, 0, &A[0].Point);
+	glusP2i(-20,0, &A[0].Point);
 	glusP2i(20, 0, &A[1].Point);
 	glusP2i(20, 15, &A[2].Point);
 	glusP2i(-20, 15, &A[3].Point);
 
-	glusP2i(-10, 3, &B[0].Point);
-	glusP2i(-2, 12, &B[1].Point);
-	glusP2i(3, 5, &B[2].Point);
-	glusP2i(15, 4, &B[3].Point);
+	glusP2i(-5, -5, &B[0].Point);
+	glusP2i(5, -5, &B[1].Point);
+	glusP2i(5, 10, &B[2].Point);
+	glusP2i(-5,10, &B[3].Point);
  	
-	glusSinkPush(&Ha.Data, A);
-	glusSinkPush(&Ha.Data, A + 1);
-	glusSinkPush(&Ha.Data, A + 2);
-	glusSinkPush(&Ha.Data, A + 3);
+	glusLinkInsertTail(&Ha.Data, A);
+	glusLinkInsertTail(&Ha.Data, A + 1);
+	glusLinkInsertTail(&Ha.Data, A + 2);
+	glusLinkInsertTail(&Ha.Data, A + 3);
 
-	glusSinkPush(&Hb.Data, B);
-	glusSinkPush(&Hb.Data, B + 1);
-	glusSinkPush(&Hb.Data, B + 2);
-	glusSinkPush(&Hb.Data, B + 3);
+	glusLinkInsertTail(&Hb.Data, B);
+	glusLinkInsertTail(&Hb.Data, B + 1);
+	glusLinkInsertTail(&Hb.Data, B + 2);
+	glusLinkInsertTail(&Hb.Data, B + 3);
 
-	glusSinkPush(&Head, &Ha);
-	glusSinkPush(&Head, &Hb);
+	glusLinkInsertTail(&Head, &Ha);
+	glusLinkInsertTail(&Head, &Hb);
 
-	glusP2i(15, 0, &ray.Point);
-	glusV2i(5, 5, &ray.Direction);
-	memset(&nRay, 0, sizeof(GlusRay));
-
+	redata();
 
 }
-void redata()
-{
-	glusP2i(15, 0, &ray.Point);
-	glusV2i(5, 5, &ray.Direction);
-	memset(&nRay, 0, sizeof(GlusRay));
 
-}
 void dispaly(void)
 {
 	
 	glusDrawCoord();
 
 	glColor3f(1, 1, 1);
-	glusDrawMulPolygonS(&Head);
-	 
+	glusDrawPolygon(&Ha.Data);
 
 	glColor3f(0, 1, 1);
-	glBegin(GL_LINE_STRIP);
-	{
-		glVertex3dv((pGLdouble)&ray.Point);
-		glusRHitMul2DS(&ray, &Head);
-		glVertex3dv((pGLdouble)&ray.Point);
+	glusDrawPolygon(&Hb.Data);
 
-	}
-	glEnd();
-
+	glusPolygonUnion(&Ha.Data, &Hb.Data, &P);
 	glColor3f(1, 1, 0);
-	glusRDraw(&ray);
+	glusDrawPolygon(&P);
+
+	
+
 	glutSwapBuffers();
 	glClear(GL_COLOR_BUFFER_BIT);
 

@@ -7,19 +7,23 @@ static	bool		Enable = false;
 
 void
 glusTween(
-_In_	PGlusPolygon	_pa,
-_In_	PGlusPolygon	_pb,
-_In_	GLdouble		_t)
+_In_	PGlusLink	_pa,
+_In_	PGlusLink	_pb,
+_In_	GLdouble	_t)
 {
-	assertp(_pa && _pb && _pa->Count && _pb->Count &&_pa->Data &&_pb->Data);
-	assert(_pa->Count == _pb->Count);
+	assertp(_pa && _pb);
+
+	if (glusLinkIsEmpty(_pa) || glusLinkIsEmpty(_pb))
+		return;
+
+	PGlusPolygon	pa = (PGlusPolygon)_pa->BLink, pb = (PGlusPolygon)_pb->BLink;
 
 	glBegin(GL_LINE_LOOP);
 	{
 		GlusVector	p;
-		for (GLint i = 0; i < _pa->Count; i++)
+		while (pa != (PGlusPolygon)_pa)
 		{
-			glusVAdd(_pa->Data + i, 1 - _t, _pb->Data + i, _t, &p);
+			glusVAdd(&pa->Point, 1 - _t, &pb->Point, _t, &p);
 
 			glVertex3dv((GLdouble*)&p);
 		}
@@ -82,7 +86,7 @@ int _id)
 		
 
 		// draw the tween
-		glusTween(p->A, p->B, p->T);
+		glusTween((PGlusLink)p->A, (PGlusLink)p->B, p->T);
 
 		glutPostRedisplay();
 

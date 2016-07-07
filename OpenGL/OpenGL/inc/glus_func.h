@@ -97,6 +97,7 @@ void	gluspd(_In_ GLdouble ax, _In_ GLdouble ay, _In_ GLdouble az, _In_ GLdouble 
 // 
 bool	glusPIs3PointOnLine(_In_ PGlusVector _pa, _In_ PGlusVector _pb, _In_ PGlusVector _pc);
 bool	glusPIsInPolygonS(_In_	PGlusVector		_point, _In_	PGlusSink		_polygon);
+bool	glusPIsInPolygon(_In_	PGlusVector		_point, _In_	PGlusLink		_polygon);
 
 //
 // see vector.c
@@ -118,7 +119,7 @@ void	glusCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _v
 //
 void	glusDrawCoord();
 void	glusLDraw(_In_ PGlusLine _pLine);
-Glus_Intersect	glusLIntersect(_In_ PGlusLine _la, _In_	PGlusLine	_lb, _Out_ PGlusVector _p);
+Glus_Intersect	glusLIntersect(_In_ PGlusVector _laa, _In_	PGlusVector	_lab, _In_ PGlusVector _lba, _In_	PGlusVector	_lbb, _Out_ PGlusVector _p);
 #define	glusLMiddle(PointA,PointB,PointM) glusVAdd(PointA,0.5,PointB,0.5,PointM)
 #define glusLFormPToR()
 #define glusLFormPToN()
@@ -133,9 +134,15 @@ Glus_Intersect	glusLIntersect(_In_ PGlusLine _la, _In_	PGlusLine	_lb, _Out_ PGlu
 void	glusRDraw(_In_ PGlusRay _pRay);
 GLdouble	glusRHit(_In_ PGlusRay _r, _In_ PGlusVector _n, _In_ PGlusVector _p);
 void	glusRReflecte(_Inout_	PGlusRay	_ray, _In_	PGlusVector	_normal, _Out_	PGlusVector	_direction);
-void	glusRHitS(_Inout_ PGlusRay _ray, _In_ PGlusSink _head);
+
+GLdouble	glusRTrace2D(_In_	PGlusRay	_ray, _In_	PGlusLink	_head, _Out_	PGlusRay	_nRay);
+void	glusRTraces2D(_Inout_	PGlusRay		_ray, _In_	PGlusLinks	_head);
+
 GLdouble	glusRHit2DS(_In_	PGlusRay	_ray,_In_	PGlusSink	_head,_Out_	PGlusRay	_nRay);
 void	glusRHitMul2DS(_Inout_	PGlusRay		_ray,_In_	PGlusMulSink	_head);
+
+void	glusRHitS(_Inout_ PGlusRay _ray, _In_ PGlusSink _head);
+
 //
 // see circle.c
 //
@@ -151,16 +158,20 @@ bool	glusCGetMiddlePoints(_In_ PGlusVector _pa, _In_ PGlusVector	_pb, _In_ PGlus
 //
 // see plane.c
 //
-Glus_Intersect	glusPIntersect(_In_	PGlusPlane	_pa, _In_	PGlusPlane	_pb, _Out_	PGlusLine	_l);
+Glus_Intersect	glusPlaneIntersect(_In_	PGlusPlane	_pa, _In_	PGlusPlane	_pb, _Out_	PGlusLine	_l);
 
 //
 // see polygon.c
 //
-void	glusDrawPolygon(_In_	PGlusPolygon	_p);
+void	glusDrawPolygon(_In_	PGlusLink	_p);
 void	glusDrawPolygonS(_In_	PGlusSink	_p);
+void	glusDrawMulPolygonS(_In_	PGlusSink	_p);
+void	glusDrawPolygons(_In_	PGlusLink	_p);
+
+void	glusPolygonUnion(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _Out_	PGlusLink	_po);
 
 // see tween.c
-void	glusTween(_In_	PGlusPolygon	_pa, _In_	PGlusPolygon	_pb, _In_	GLdouble		_t);
+void	glusTween(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _In_	GLdouble		_t);
 GlusTweenHandle	glusTweenInit(_In_	PGlusPolygon _pa, _In_ PGlusPolygon _pb, _In_ GLdouble interval, _In_ bool isStart, _In_ bool	isReverse, _In_ bool isRepeat);
 void	glusTweenClear(GlusTweenHandle		h);
 void	glusTweenPause(GlusTweenHandle		h);
@@ -170,7 +181,6 @@ void	glusTweenDelete();
 void	glusTweenS(_In_ PGlusPolygonS _pa, _In_ PGlusPolygonS _pb, _In_ GLdouble _t);
 GlusTweenHandle glusTweenInitS(_In_ PGlusPolygon _pa, _In_ PGlusPolygon _pb, _In_ GLdouble _interval, _In_ bool _isStart, _In_ bool _isReverse, _In_ bool _isRepeat);
 
-void	glusDrawMulPolygonS(_In_	PGlusSink	_p);
 //
 // see mouse.c
 //
@@ -182,8 +192,12 @@ bool	glusMousePolygonS(_In_ int _x, _In_ int _y, _Out_ pvoid _po);
 //
 
 // doubly link
+#define glusLink(Name)	GlusLink Name={.FLink = &Name,.BLink = &Name}
+#define glusLinks(Name)	GlusLinks Name={.Data.FLink = &Name.Data,.Data.BLink = &Name.Data}
 void	glusLinkInit(_Inout_ void* LinkHead);
-#define glusLinkIsEmpty(LinkHead) (((PGlusLink)LinkHead)->FLink == LinkHead)
+#define glusLinkIsEmpty(LinkHead) ((LinkHead)->FLink == (LinkHead)->BLink)
+#define glusLinkIsEnd(point,head) ((PGlusLink)(point) == (PGlusLink)(head))
+GLint	glusLinkLength(_In_	PGlusLink	_linkHead);
 void	glusLinkInsertHead(_Inout_ pvoid LinkHead, _Inout_ pvoid LinkNode);
 void	glusLinkInsertTail(_Inout_ void* _linkHead, _Inout_ void* _linkNode);
 pvoid	glusLinkRemoveHead(_Inout_ pvoid _linkHead);

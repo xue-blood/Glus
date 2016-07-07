@@ -38,6 +38,11 @@ typedef struct _GlusMulSink
 	GlusSink	Data;
 }GlusMulSink, *PGlusMulSink;
 
+typedef struct _GlusLinks
+{
+	GlusLink	Link;
+	GlusLink	Data;
+}GlusLinks, *PGlusLinks;
 //
 // use unity four diemous homogeneous form
 // how to use the value is by youself
@@ -74,8 +79,8 @@ typedef struct _GlusPlane
 
 typedef struct _GlusPolygon
 {
-	GLint		Count;
-	PGlusVector	Data;
+	GlusLink	Link;
+	GlusVector	Point;
 }GlusPolygon, *PGlusPolygon;
 
 typedef struct _GlusPolygonS

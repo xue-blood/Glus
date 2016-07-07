@@ -158,24 +158,11 @@ _Out_	PGlusVector	_pt)
 	// 
 	// so we can compute the feet of the three altitudes
 	// 
-	GlusLine		la, lr, lb, ls, lc, lt;
-	memcpy(&la.A, _pa, sizeof(GlusVector));
-	memcpy(&la.B, _pb, sizeof(GlusVector));
-	memcpy(&lr.A, _pc, sizeof(GlusVector));
-	memcpy(&lr.B, &prr, sizeof(GlusVector));
-	glusLIntersect(&la, &lr, _pr);
+	glusLIntersect(_pa,_pb,_pc,&prr, _pr);
 	
-	memcpy(&lb.A, _pb, sizeof(GlusVector));
-	memcpy(&lb.B, _pc, sizeof(GlusVector));
-	memcpy(&ls.A, _pa, sizeof(GlusVector));
-	memcpy(&ls.B, &pss, sizeof(GlusVector));
-	glusLIntersect(&lb, &ls, _ps);
+	glusLIntersect(_pb,_pc,_pa,&pss, _ps);
 
-	memcpy(&lc.A, _pa, sizeof(GlusVector));
-	memcpy(&lc.B, _pc, sizeof(GlusVector));
-	memcpy(&lt.A, _pb, sizeof(GlusVector));
-	memcpy(&lt.B, &ptt, sizeof(GlusVector));
-	glusLIntersect(&lc, &lt, _pt);
+	glusLIntersect(_pa,_pc,_pb,&ptt, _pt);
 
 	return true;
 }
