@@ -6,6 +6,11 @@
 	glusDrawPolygon		change, from array to doubly link
 	glusDrawPolygons	add
 	glusPolygonUnion	add
+//  [8/13/2016 Tld]
+	glusDrawPolyLine	add
+
+//  [8/19/2016 xcv]
+	change glusTiling to object.c
 */
 void
 glusDrawPolygon(
@@ -17,16 +22,39 @@ _In_	PGlusLink	_p)
 	if (glusLinkLength(_p) < 3)
 		return;
 
-	PGlusPolygon	p = (PGlusPolygon)_p->BLink;
+	PGlusPoints	p = (PGlusPoints)_p->BLink;
 	glBegin(GL_LINE_LOOP);
 	{
-		while (p != (PGlusPolygon)_p)
+		while (p != (PGlusPoints)_p)
 		{
 			glVertex3dv((GLdouble*)&p->Point);
 
-			p = (PGlusPolygon)p->Link.BLink;
+			p = (PGlusPoints)p->Link.BLink;
 
 		}		
+	}
+	glEnd();
+}
+void
+glusDrawPolyLine(
+_In_	PGlusLink	_p)
+{
+	assertp(_p);
+
+
+	if (glusLinkLength(_p) < 3)
+		return;
+
+	PGlusPoints	p = (PGlusPoints)_p->BLink;
+	glBegin(GL_LINE_STRIP);
+	{
+		while (p != (PGlusPoints)_p)
+		{
+			glVertex3dv((GLdouble*)&p->Point);
+
+			p = (PGlusPoints)p->Link.BLink;
+
+		}
 	}
 	glEnd();
 }
@@ -53,7 +81,7 @@ _In_	PGlusSink	_p)
 {
 	assertp(_p);
 
-	PGlusPolygonS p = (PGlusPolygonS)_p->Next;
+	PGlusPointsS p = (PGlusPointsS)_p->Next;
 	if (!p)
 		return;
 
@@ -62,7 +90,7 @@ _In_	PGlusSink	_p)
 		while (p)
 		{
 			glVertex3dv((GLdouble*)&p->Point);
-			p = (PGlusPolygonS)p->Sink.Next;
+			p = (PGlusPointsS)p->Sink.Next;
 		}
 	}
 	glEnd();
@@ -80,7 +108,7 @@ _In_	PGlusSink	_p)
 	while (pl)
 	{
 		// get the polygon head
-		PGlusPolygonS	pd = (PGlusPolygonS)pl->Data.Next;
+		PGlusPointsS	pd = (PGlusPointsS)pl->Data.Next;
 
 		//
 		// draw the polygon
@@ -90,7 +118,7 @@ _In_	PGlusSink	_p)
 		{
 			glVertex3dv((pGLdouble)&pd->Point);
 			
-			pd = (PGlusPolygonS)pd->Sink.Next;
+			pd = (PGlusPointsS)pd->Sink.Next;
 		}
 		glEnd();
 
@@ -114,22 +142,22 @@ _Out_	PGlusLink	_po)
 	if (glusLinkLength((PGlusLink)_pa) < 3 || glusLinkLength((PGlusLink)_pb) < 3)
 		return;
 
-	PGlusPolygon	paa, pab,pha,phb, p;
-	paa = (PGlusPolygon)_pa->BLink;
+	PGlusPoints	paa, pab,pha,phb, p;
+	paa = (PGlusPoints)_pa->BLink;
 
 	// start from polygon a
-	pha = (PGlusPolygon)_pa;
-	phb = (PGlusPolygon)_pb;
+	pha = (PGlusPoints)_pa;
+	phb = (PGlusPoints)_pb;
 	while (!glusLinkIsEnd(paa,pha))
 	{
-		pab = (PGlusPolygon)paa->Link.BLink;
+		pab = (PGlusPoints)paa->Link.BLink;
 		if (glusLinkIsEnd(pab, pha))
-			pab = (PGlusPolygon)pha->Link.BLink;
+			pab = (PGlusPoints)pha->Link.BLink;
 
 		//
 		// add point to result
 		// 
-		p = (PGlusPolygon)malloc(sizeof(GlusPolygon));
+		p = (PGlusPoints)malloc(sizeof(GlusPoints));
 		*p = *paa;
 		glusLinkInsertTail(_po, p);
 
@@ -138,12 +166,12 @@ _Out_	PGlusLink	_po)
 		// 
 		bool	isIntsect = false;
 		GlusVector	pi;
-		PGlusPolygon	pta = (PGlusPolygon)phb->Link.BLink, ptb, pnext=NULL;
+		PGlusPoints	pta = (PGlusPoints)phb->Link.BLink, ptb, pnext=NULL;
 		while (!glusLinkIsEnd(pta, phb))
 		{
-			ptb = (PGlusPolygon)pta->Link.BLink;
+			ptb = (PGlusPoints)pta->Link.BLink;
 			if (glusLinkIsEnd(ptb, phb))
-				ptb = (PGlusPolygon)phb->Link.BLink;
+				ptb = (PGlusPoints)phb->Link.BLink;
 
 			GlusVector pt;
 			if (Intersect_Exsit == glusLIntersect(
@@ -160,7 +188,7 @@ _Out_	PGlusLink	_po)
 					glusPDistance(&paa->Point, &pt))
 					pi = pt, pnext = pta;
 			}
-			pta = (PGlusPolygon)pta->Link.BLink;
+			pta = (PGlusPoints)pta->Link.BLink;
 		}
 		
 		if (isIntsect)
@@ -168,7 +196,7 @@ _Out_	PGlusLink	_po)
 			//
 			// add the intersection
 			// 
-			p = (PGlusPolygon)malloc(sizeof(GlusPolygon));
+			p = (PGlusPoints)malloc(sizeof(GlusPoints));
 			p->Point = pi;
 			glusLinkInsertTail(_po, p);
 
@@ -176,8 +204,8 @@ _Out_	PGlusLink	_po)
 			// convert the pointer
 			// 
 			if (glusLinkIsEnd(pnext->Link.BLink,phb))
-				pnext = (PGlusPolygon)pnext->Link.BLink;
-			PGlusPolygon	pt;
+				pnext = (PGlusPoints)pnext->Link.BLink;
+			PGlusPoints	pt;
 			pt = pha, pha = phb, phb = pt;
 			paa = pnext;
 		}
@@ -185,9 +213,10 @@ _Out_	PGlusLink	_po)
 		//
 		// next point
 		// 
-		paa = (PGlusPolygon)paa->Link.BLink;
+		paa = (PGlusPoints)paa->Link.BLink;
 
 
 	}
 
 }
+

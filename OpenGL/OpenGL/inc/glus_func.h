@@ -1,5 +1,7 @@
 #include "glus_struct.h"
 
+//  [7/1/2016 Tld]
+//	add glusTiling
 
 #ifndef _glus_func_h
 #define _glus_func_h
@@ -14,7 +16,7 @@ void	glusInit();
 //
 // see init.c
 // 
-void	glusInitWin(GLint	_left, _In_ GLint	_top, _In_ GLint	_width, _In_ GLint	_height, _In_ string _name, _In_ GLenum _mode);
+void	glusInitWin(GLint	_left, _In_ GLint	_top, _In_ GLint	_width, _In_ GLint	_height, _In_ str _name, _In_ GLenum _mode);
 
 void	normalize(pGLdouble data);
 // point
@@ -115,6 +117,11 @@ GLdouble	glusPDistance(_In_ GlusVector *_pa, _In_ GlusVector *_pb);
 void	glusCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _vo);
 
 //
+// color
+//
+#define glusColor(pointer,r,g,b,a)	((pointer)->R = r),((pointer)->G = g),((pointer)->B = b),((pointer)->A = a)
+//
+//
 // see line.c
 //
 void	glusDrawCoord();
@@ -146,7 +153,6 @@ void	glusRHitS(_Inout_ PGlusRay _ray, _In_ PGlusSink _head);
 //
 // see circle.c
 //
-void	glusDrawCircle(_In_	GlusCircle	*_c);
 bool	glusCExTri(_In_	PGlusVector	_pa, _In_	PGlusVector	_pb, _In_	PGlusVector	_pc, _Out_	PGlusCircle _c);
 bool	glusCInTri(_In_	PGlusVector	_pa, _In_	PGlusVector	_pb, _In_	PGlusVector	_pc, _Out_	PGlusCircle _c);
 bool	glusCInTri(_In_	PGlusVector	_pa, _In_	PGlusVector	_pb, _In_	PGlusVector	_pc, _Out_	PGlusCircle _c);
@@ -154,6 +160,8 @@ bool	glusCNinePoint(_In_	PGlusVector	_pa, _In_	PGlusVector	_pb, _In_	PGlusVector
 bool	glusCGetTangentPoints(_In_ PGlusVector _pa, _In_ PGlusVector	_pb, _In_ PGlusVector _pc, _Out_ PGlusVector _pr, _Out_ PGlusVector _ps, _Out_ PGlusVector _pt);
 bool	glusCGetAltitudeFeet(_In_ PGlusVector _pa, _In_ PGlusVector	_pb, _In_ PGlusVector _pc, _Out_ PGlusVector _pr, _Out_ PGlusVector _ps, _Out_ PGlusVector _pt);
 bool	glusCGetMiddlePoints(_In_ PGlusVector _pa, _In_ PGlusVector	_pb, _In_ PGlusVector _pc, _Out_ PGlusVector _pr, _Out_ PGlusVector _ps, _Out_ PGlusVector _pt);
+void	glusDrawArc(_In_	PGlusCircle	_c,_In_	GLdouble	_angle_start,_In_	GLdouble	_angle_sweep,_In_	size		_n);
+#define glusDrawCircle(circle)	glusDrawArc(circle,0,360,45)
 
 //
 // see plane.c
@@ -167,19 +175,19 @@ void	glusDrawPolygon(_In_	PGlusLink	_p);
 void	glusDrawPolygonS(_In_	PGlusSink	_p);
 void	glusDrawMulPolygonS(_In_	PGlusSink	_p);
 void	glusDrawPolygons(_In_	PGlusLink	_p);
-
+void	glusDrawPolyLine(_In_	PGlusLink	_p);
 void	glusPolygonUnion(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _Out_	PGlusLink	_po);
 
 // see tween.c
 void	glusTween(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _In_	GLdouble		_t);
-GlusTweenHandle	glusTweenInit(_In_	PGlusPolygon _pa, _In_ PGlusPolygon _pb, _In_ GLdouble interval, _In_ bool isStart, _In_ bool	isReverse, _In_ bool isRepeat);
+GlusTweenHandle	glusTweenInit(_In_	PGlusPoints _pa, _In_ PGlusPoints _pb, _In_ GLdouble interval, _In_ bool isStart, _In_ bool	isReverse, _In_ bool isRepeat);
 void	glusTweenClear(GlusTweenHandle		h);
 void	glusTweenPause(GlusTweenHandle		h);
 void	glusTweenContinue(GlusTweenHandle	h);
 void	glusTweenReset(GlusTweenHandle		h);
 void	glusTweenDelete();
-void	glusTweenS(_In_ PGlusPolygonS _pa, _In_ PGlusPolygonS _pb, _In_ GLdouble _t);
-GlusTweenHandle glusTweenInitS(_In_ PGlusPolygon _pa, _In_ PGlusPolygon _pb, _In_ GLdouble _interval, _In_ bool _isStart, _In_ bool _isReverse, _In_ bool _isRepeat);
+void	glusTweenS(_In_ PGlusPointsS _pa, _In_ PGlusPointsS _pb, _In_ GLdouble _t);
+GlusTweenHandle glusTweenInitS(_In_ PGlusPoints _pa, _In_ PGlusPoints _pb, _In_ GLdouble _interval, _In_ bool _isStart, _In_ bool _isReverse, _In_ bool _isRepeat);
 
 //
 // see mouse.c
@@ -203,7 +211,8 @@ void	glusLinkInsertTail(_Inout_ void* _linkHead, _Inout_ void* _linkNode);
 pvoid	glusLinkRemoveHead(_Inout_ pvoid _linkHead);
 pvoid	glusLinkRemoveTail(_Inout_ pvoid _linkHead);
 bool	glusLinkRemoveEntry(_Inout_ pvoid _linkEntry);
-
+void	glusLinkClear(_Inout_	PGlusLink	_link_head);
+#define glusLinkData(pointer)	(char*)((char*)pointer+sizeof(GlusLink))						// get the date field pointer 
 // singly link
 #define glusSink(Name) GlusSink Name = null;
 #define glusMulSink(Name) GlusMulSink Name = null;
@@ -213,9 +222,49 @@ void	glusSinkPush(_Inout_ PGlusSink _linkHead, _In_ PGlusSink _linkEntry);
 PGlusSink	glusSinkPop(_Inout_ PGlusSink _linkHead);
 GLint	glusSinkLength(_In_ PGlusSink _linkHead);
 
+// transformations
+void	glusInitCT();
+void	glusPushCT();
+void	glusPopCT();
+void	glusScale(_In_	GLdouble	_sx,_In_		GLdouble	_sy,_In_	GLdouble	_sz);
+void	glusTranslate(_In_ GLdouble	_dx,_In_		GLdouble	_dy,_In_	GLdouble	_dz);
+void	glusRotate(_In_	GLdouble	_angle,_In_		GLdouble	_x, _In_	GLdouble	_y,_In_	GLdouble	_z);
+#define glusRotateX(angle)		glusRotate(angle,1,0,0)
+#define glusRotateY(angle)		glusRotate(angle,0,1,0)
+#define glusRotateZ(angle)		glusRotate(angle,0,0,1)
 
+#define glusScale2D(sx,sy)		glusScale(sx,sy,0.0)	
+#define glusTranslate2D(dx,dy)	glusTranslate(dx,dy,0.0)
+#define glusRotate2D(angle)		glusRotate(angle,0.0,0.0,1.0)
+
+#define glusTranslatev(p)	glusTranslate((p)->Dx,(p)->Dy,(p)->Dz)
+#define glusScalev(p)	glusScale((p)->Sx,(p)->Sy,(p)->Sz)
+#define glusRotatev(p)	glusRotate((p)->Angle,(p)->Ax,(p)->Ay,(p)->Az)
+
+void	glusTransformDefault(_In_	PGlusTransform	_trans);
+
+//
+// shape
+//
+void	glusTiling(_In_	PGlusTransform	_orgTrans,_In_	PGlusTransform	_eachTrans,_In_	GLdouble		_x,_In_	GLdouble		_y,_In_	GLdouble		_z,_In_	void(*callback)(void));
+void	glusAxis(_In_	GLdouble	_length);
+void	glusAxis3D(_In_	GLdouble	_length);
+void	glusSphere(pvoid _pointer);
+void	glusCube(pvoid _pointer);
+void	glusShapeDefault(PGlusShape _shape);
+
+// scene
+PGlusScene	glusSceneLoad(_In_	str	_fileName);
+void	glusSceneUnload(_In_	PGlusScene	_scene);
+PGlusScene	glusSceneDefault();
+void	glusSceneDraw(_In_	PGlusScene	_scene);
+void	glusSceneLight(_In_	PGlusScene	_scene);
+
+//
+// io 
+//
+size	glusFileRead(_In_	FILE *	_file,_Inout_	str	_str,_In_	size	_max_size);
 #endif // !_GLUS_FUNC_H
-
 #endif // !_glus_func_h
 
 

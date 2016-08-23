@@ -6,7 +6,7 @@ _In_	GLint	_left,
 _In_	GLint	_top, 
 _In_	GLint	_width, 
 _In_	GLint	_height, 
-_In_	string	_name, 
+_In_	str	_name, 
 _In_	GLenum	_mode)
 {
 	assertp(_name);

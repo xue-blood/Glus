@@ -16,12 +16,12 @@ _In_	GLdouble	_t)
 	if (glusLinkIsEmpty(_pa) || glusLinkIsEmpty(_pb))
 		return;
 
-	PGlusPolygon	pa = (PGlusPolygon)_pa->BLink, pb = (PGlusPolygon)_pb->BLink;
+	PGlusPoints	pa = (PGlusPoints)_pa->BLink, pb = (PGlusPoints)_pb->BLink;
 
 	glBegin(GL_LINE_LOOP);
 	{
 		GlusVector	p;
-		while (pa != (PGlusPolygon)_pa)
+		while (pa != (PGlusPoints)_pa)
 		{
 			glusVAdd(&pa->Point, 1 - _t, &pb->Point, _t, &p);
 
@@ -32,8 +32,8 @@ _In_	GLdouble	_t)
 }
 void
 glusTweenS(
-_In_	PGlusPolygonS	_pa,
-_In_	PGlusPolygonS	_pb,
+_In_	PGlusPointsS	_pa,
+_In_	PGlusPointsS	_pb,
 _In_	GLdouble		_t)
 {
 	assertp(_pa && _pb);
@@ -43,9 +43,9 @@ _In_	GLdouble		_t)
 
 	glBegin(GL_LINE_LOOP);
 	{
-		PGlusPolygonS a, b;
-		a = (PGlusPolygonS)((PGlusSink)_pa)->Next;
-		b = (PGlusPolygonS)((PGlusSink)_pb)->Next;
+		PGlusPointsS a, b;
+		a = (PGlusPointsS)((PGlusSink)_pa)->Next;
+		b = (PGlusPointsS)((PGlusSink)_pb)->Next;
 		GlusVector	p;
 
 		while(a)
@@ -54,8 +54,8 @@ _In_	GLdouble		_t)
 
 			glVertex3dv((GLdouble*)&p);
 			 
-			a = (PGlusPolygonS)a->Sink.Next;
-			b = (PGlusPolygonS)b->Sink.Next;
+			a = (PGlusPointsS)a->Sink.Next;
+			b = (PGlusPointsS)b->Sink.Next;
 		}
 	}
 	glEnd();
@@ -138,7 +138,7 @@ int _id)
 			continue;
 
 		// draw the tween
-		glusTweenS((PGlusPolygonS)p->A, (PGlusPolygonS)p->B, p->T);
+		glusTweenS((PGlusPointsS)p->A, (PGlusPointsS)p->B, p->T);
 
 		glutPostRedisplay();
 
@@ -172,8 +172,8 @@ int _id)
 
 GlusTweenHandle
 glusTweenInit(
-_In_	PGlusPolygon	_pa,
-_In_	PGlusPolygon	_pb,
+_In_	PGlusPoints	_pa,
+_In_	PGlusPoints	_pb,
 _In_	GLdouble		_interval,
 _In_	bool			_isStart,
 _In_	bool			_isReverse,
@@ -238,8 +238,8 @@ _Store_:
 
 GlusTweenHandle
 glusTweenInitS(
-_In_	PGlusPolygon	_pa,
-_In_	PGlusPolygon	_pb,
+_In_	PGlusPoints	_pa,
+_In_	PGlusPoints	_pb,
 _In_	GLdouble		_interval,
 _In_	bool			_isStart,
 _In_	bool			_isReverse,
@@ -346,7 +346,7 @@ glusTweenDelete()
 	if (Tweens)
 	{
 
-		free(Tweens);
+		glusFree(Tweens);
 		Tweens = 0, Count = 0;
 	}
 

@@ -116,6 +116,24 @@ _Inout_ pvoid	_linkEntry)
 	else
 		return false;
 }
+
+//
+// clear the memory for the link list
+//
+// add [8/22/2016 tld]
+void
+glusLinkClear(
+_Inout_	PGlusLink	_link_head)
+{
+	assertp(_link_head);
+
+	while (!glusLinkIsEmpty(_link_head))
+	{
+		PGlusLink p = glusLinkRemoveHead(_link_head);
+		glusFree(p);
+	}
+	//glusFree(_link_head);  // we needn't free head
+}
 //============Doubly link list===============
 
 //------------Singly link list---------------

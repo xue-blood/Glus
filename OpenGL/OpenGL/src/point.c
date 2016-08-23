@@ -46,15 +46,15 @@ _In_	PGlusLink		_polygon)
 	// if( Q -P) * n <0,then Q lies in P
 	// 
 	GlusVector		vn, vt, vp;
-	PGlusPolygon	pa = (PGlusPolygon)_polygon->BLink, pb;
+	PGlusPoints	pa = (PGlusPoints)_polygon->BLink, pb;
 
 	while (!glusLinkIsEnd(pa,_polygon))
 	{
-		pb = (PGlusPolygon)pa->Link.BLink;
+		pb = (PGlusPoints)pa->Link.BLink;
 
 		// line Pn -- P0
-		if (pb == (PGlusPolygon)_polygon)
-			pb = (PGlusPolygon)_polygon->BLink;
+		if (pb == (PGlusPoints)_polygon)
+			pb = (PGlusPoints)_polygon->BLink;
 
 
 		// compute the normal vector
@@ -67,7 +67,7 @@ _In_	PGlusLink		_polygon)
 		if (glusVDotPro(&vn, &vp) > 0)
 			return false;
 
-		pa = (PGlusPolygon)pa->Link.BLink;
+		pa = (PGlusPoints)pa->Link.BLink;
 	}
 	return true;
 }
@@ -87,15 +87,15 @@ _In_	PGlusSink		_polygon)
 	// if( Q -P) * n <0,then Q lies in P
 	// 
 	GlusVector		vn,vt,vp;
-	PGlusPolygonS	pa = (PGlusPolygonS)_polygon->Next, pb;
+	PGlusPointsS	pa = (PGlusPointsS)_polygon->Next, pb;
 
 	while (pa)
 	{
-		pb = (PGlusPolygonS)pa->Sink.Next;
+		pb = (PGlusPointsS)pa->Sink.Next;
 
 		// line Pn -- P0
 		if (!pb)
-			pb = (PGlusPolygonS)_polygon->Next;
+			pb = (PGlusPointsS)_polygon->Next;
 
 
 		// compute the normal vector
@@ -108,7 +108,7 @@ _In_	PGlusSink		_polygon)
 		if (glusVDotPro(&vn, &vp) > 0)
 			return false;
 
-		pa = (PGlusPolygonS)pa->Sink.Next;
+		pa = (PGlusPointsS)pa->Sink.Next;
 	}
 	return true;
 }

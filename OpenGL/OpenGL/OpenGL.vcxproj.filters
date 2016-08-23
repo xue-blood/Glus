@@ -71,5 +71,17 @@
     <ClCompile Include="src\ray.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\transfrom.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shape.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

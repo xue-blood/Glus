@@ -16,16 +16,25 @@
 #define _FI			1.618033989
 
 #define secf(r)		(1/cosf(r))
-	
+
 #define sinaf(a)	sinf(a*_Rad)
+#define sina(a)		sin(a*_Rad)
 #define cosaf(a)	cosf(a*_Rad)
+#define cosa(a)		cos(a*_Rad)
 #define secaf(a)	secf(a*_Rad)
 #define tanaf(a)	tanf(a*_Rad)
+#define tana(a)		tan(a*_Rad)
 
 #define absf(f) ((f)>0?(f):-(f))
 
+#define strlower(str) for(int i=0;str[i];i++) str[i]=tolower(str[i])
+
+typedef	char *		str;
+typedef wchar_t *	wstring;
 
 
+typedef double *	pdouble;
+typedef void *		pvoid;
 
 #define assertp(p)	assert(p != NULL)
 
@@ -37,16 +46,17 @@
 
 #define null		{ 0 }	
 
+typedef void 		*pvoid;
 
-/*
-#define normalize(data)												\
-	if( (data) > 0)													\
-	{ if((data +Zero)-(GLint)(data +Zero) <Zero)					\
-			(data) = (GLint)(data + Zero); }						\
-	else															\
-	{ if((GLint)(data -Zero)-(data -Zero) <Zero)					\
-		(data) = (GLint)(data - Zero);}
-*/
+typedef GLdouble 	*pGLdouble;
+typedef	size_t		size;
+
+
+#define glusEntry(link_pointer,type,member) ((type*)((char*)pointer)-&((type*)0)->member))	// get the struct pointer from a member
+
+#define glusAlloc(type)		(type*)malloc(sizeof(type))
+#define glusFree(pointer)	free(pointer),pointer = NULL;
+
 
 #endif // !_glus_define_h
 #endif // !_GLUS_DEFINE_H

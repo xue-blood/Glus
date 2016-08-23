@@ -176,7 +176,7 @@ _Out_	PGlusVector	_pr,
 _Out_	PGlusVector	_ps,
 _Out_	PGlusVector	_pt)
 {
-	assert(_pa && _pb&&_pc&&_pr&&_ps&&_pt);
+	assertp(_pa && _pb&&_pc&&_pr&&_ps&&_pt);
 
 	if (glusPIs3PointOnLine(_pa, _pb, _pc))
 		return false;
@@ -195,7 +195,7 @@ _In_	PGlusVector	_pb,
 _In_	PGlusVector	_pc,
 _Out_	PGlusCircle _c)
 {
-	assert(_pa && _pb && _pc && _c);
+	assertp(_pa && _pb && _pc && _c);
 
 	// 
 	// first
@@ -212,23 +212,39 @@ _Out_	PGlusCircle _c)
 	// 
 	return	glusCExTri(&pr, &ps, &pt, _c);
 }
-void
-glusDrawCircle(
-_In_	GlusCircle	*_c)
-{
-	glBegin(GL_LINE_LOOP);
-	{
-		GLdouble x, y;
-		for (GLdouble f = 0; f < _2PI; f += 0.1)
-		{
-			//
-			// compute x and y
-			//
-			x = _c->Center.X + _c->Radius*cos(f);
-			y = _c->Center.Y + _c->Radius*sin(f);
 
-			glVertex2d(x, y);
+void
+glusDrawArc(
+_In_	PGlusCircle	_c,
+_In_	GLdouble	_angle_start,
+_In_	GLdouble	_angle_sweep,
+_In_	size		_n)
+{
+	assertp(_c);
+	assert(_n > 0);
+
+	GLdouble	ang_step = _angle_sweep / _n;
+	
+	GLdouble	T = tana(ang_step / 2);	// tan of half angle
+	GLdouble	S = 2 * T / (1 + T*T);	// sin of half angle
+
+	GLdouble	x = _c->Radius * sina(_angle_start);
+	GLdouble	y = _c->Radius * cosa(_angle_start);
+
+	glBegin(GL_LINE_STRIP);
+	{
+		for (size i = 0; i <= _n;i++)
+		{
+			glVertex2d(_c->Center.X + x, _c->Center.Y + y);
+
+			//
+			// use shear to respent cos and sin function
+			//
+			x += T*y;
+			y -= S*x;
+			x += T*y;
 		}
 	}
 	glEnd();
+
 }

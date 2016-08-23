@@ -134,15 +134,15 @@ _Out_	PGlusRay	_nRay)
 {
 	assertp(_ray && _head && _nRay);
 
-	PGlusPolygon	pa = (PGlusPolygon)_head->BLink, pb, pHit = NULL;
+	PGlusPoints	pa = (PGlusPoints)_head->BLink, pb, pHit = NULL;
 
 	GLdouble		tHit = INFINITY;
 
 	while (!glusLinkIsEnd(pa,_head))
 	{
-		pb = (PGlusPolygon)pa->Link.BLink;
+		pb = (PGlusPoints)pa->Link.BLink;
 		if (glusLinkIsEnd(pb,_head))
-			pb = (PGlusPolygon)_head->BLink;
+			pb = (PGlusPoints)_head->BLink;
 
 
 		//
@@ -157,7 +157,7 @@ _Out_	PGlusRay	_nRay)
 		}
 
 
-		pa = (PGlusPolygon)pa->Link.BLink;
+		pa = (PGlusPoints)pa->Link.BLink;
 	}
 
 	if (!pHit)
@@ -167,7 +167,7 @@ _Out_	PGlusRay	_nRay)
 	glusVAdd(&_ray->Point, 1, &_ray->Direction, tHit, &_nRay->Point);
 	_nRay->Point.V = 1;
 
-	pa = (PGlusPolygon)_head->BLink;
+	pa = (PGlusPoints)_head->BLink;
 	while (!glusLinkIsEnd(pa,_head))
 	{
 		//  [8/5/2016 Tld]
@@ -180,16 +180,16 @@ _Out_	PGlusRay	_nRay)
 			return tHit;
 		}
 
-		pa = (PGlusPolygon)pa->Link.BLink;
+		pa = (PGlusPoints)pa->Link.BLink;
 	}
 
 	//
 	// the new ray direction
 	//
 	GlusVector	v, vn;
-	pb = (PGlusPolygon)pHit->Link.BLink;
+	pb = (PGlusPoints)pHit->Link.BLink;
 	if (glusLinkIsEnd(pb,_head))
-		pb = (PGlusPolygon)_head->BLink;
+		pb = (PGlusPoints)_head->BLink;
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
 	glusVNormal(&v, &vn);
@@ -242,15 +242,15 @@ _Out_	PGlusRay	_nRay)
 {
 	assertp(_ray && _head && _nRay);
 
-	PGlusPolygonS	pa = (PGlusPolygonS)_head->Next, pb, pHit=NULL;
+	PGlusPointsS	pa = (PGlusPointsS)_head->Next, pb, pHit=NULL;
 	
 	GLdouble		tHit = INFINITY;
 
 	while (pa)
 	{
-		pb = (PGlusPolygonS)pa->Sink.Next;
+		pb = (PGlusPointsS)pa->Sink.Next;
 		if (!pb)
-			pb = (PGlusPolygonS)_head->Next;
+			pb = (PGlusPointsS)_head->Next;
 
 		
 		//
@@ -265,7 +265,7 @@ _Out_	PGlusRay	_nRay)
 		}
 
 
-		pa = (PGlusPolygonS)pa->Sink.Next;
+		pa = (PGlusPointsS)pa->Sink.Next;
 	}
 
 	if (!pHit)
@@ -275,7 +275,7 @@ _Out_	PGlusRay	_nRay)
 	glusVAdd(&_ray->Point, 1, &_ray->Direction, tHit, &_nRay->Point);
 	_nRay->Point.V = 1;
 	
-	pa = (PGlusPolygonS)_head->Next;
+	pa = (PGlusPointsS)_head->Next;
 	while (pa)
 	{
 		//  [8/5/2016 Tld]
@@ -288,16 +288,16 @@ _Out_	PGlusRay	_nRay)
 			return tHit;
 		}
 
-		pa = (PGlusPolygonS)pa->Sink.Next;
+		pa = (PGlusPointsS)pa->Sink.Next;
 	}
 
 	//
 	// the new ray direction
 	//
 	GlusVector	v, vn;
- 	pb = (PGlusPolygonS)pHit->Sink.Next;
+ 	pb = (PGlusPointsS)pHit->Sink.Next;
 	if (!pb)
-		pb = (PGlusPolygonS)_head->Next;
+		pb = (PGlusPointsS)_head->Next;
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
 	glusVNormal(&v, &vn);

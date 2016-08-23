@@ -9,7 +9,7 @@ _Out_	pvoid	_po)
 {
 	assertp(_po);
 
-	PGlusPolygonS	p = (PGlusPolygonS)malloc(sizeof(GlusPolygonS));
+	PGlusPointsS	p = (PGlusPointsS)malloc(sizeof(GlusPointsS));
 	if (!p)	return	-1;
 
 	glusP2i(_x, _y, &p->Point);
