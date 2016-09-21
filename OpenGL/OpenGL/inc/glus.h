@@ -9,6 +9,11 @@
 #define _glus_h
 
 
+//
+// extern from glus.c
+//
+// extern bool IsDebug;
+extern	FILE*	_Glus_Std_Debug;
 
 #endif
 #endif

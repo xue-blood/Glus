@@ -53,9 +53,6 @@
     <ClCompile Include="src\plane.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\polygon.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\tween.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -80,7 +77,16 @@
     <ClCompile Include="src\shape.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\io.c">
+    <ClCompile Include="src\mesh.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\file.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\points.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\surface.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

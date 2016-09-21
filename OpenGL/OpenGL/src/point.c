@@ -48,7 +48,7 @@ _In_	PGlusLink		_polygon)
 	GlusVector		vn, vt, vp;
 	PGlusPoints	pa = (PGlusPoints)_polygon->BLink, pb;
 
-	while (!glusLinkIsEnd(pa,_polygon))
+	while (!glusLinkIsHead(pa,_polygon))
 	{
 		pb = (PGlusPoints)pa->Link.BLink;
 

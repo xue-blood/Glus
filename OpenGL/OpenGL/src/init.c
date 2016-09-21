@@ -109,14 +109,14 @@ pGLdouble	data)
 	GLdouble temp;
 	if (*data > 0)
 	{
-		temp = *data + Zero;
-		if ((temp - (GLint)temp) <= Zero+Zero)
+		temp = *data + Glus_Zero;
+		if ((temp - (GLint)temp) <= Glus_Zero+Glus_Zero)
 			*data = (GLint)temp;
 	}
 	else
 	{
-		temp = *data - Zero;
-		if (((GLint)temp - temp) <= Zero + Zero)
+		temp = *data - Glus_Zero;
+		if (((GLint)temp - temp) <= Glus_Zero + Glus_Zero)
 			*data = (GLint)temp;
 	}
 }

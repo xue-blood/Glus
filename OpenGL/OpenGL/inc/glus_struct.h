@@ -21,7 +21,11 @@
 #ifndef _GLUS_STRUCT_H
 #define _GLUS_STRUCT_H
 
-
+typedef enum _Glus_Status
+{
+	Glus_Status_Memory_Allocate_Fail	= -1,
+	Glus_Status_Success = 0
+}Glus_Status;
 
 // doubly link list
 typedef struct _GlusLink
@@ -152,10 +156,11 @@ typedef	struct _GlusShape
 {
 	//void(*Draw)(); // change to no paramete. [7/9/2016 tld]
 	void(*Draw)(pvoid);
+	void(*Clear)(pvoid);	// add [8/31/2016 blue]
 	pvoid Extern;	// a pointer to a struct
 
-	GlusColor	Diffuse;
-	GlusTransform Transform;
+	GlusColor		Diffuse;
+	GlusTransform	Transform;
 }GlusShape, *PGlusShape;
 
 typedef struct _GlusShapes
@@ -210,5 +215,48 @@ typedef	struct _GlusScene
 	GLdouble	AxisLength;
 }GlusScene, *PGlusScene;
 
+//
+// structure for mesh
+//
+
+// add [8/24/2016 tld]
+typedef struct _GlusFaceIndex
+{
+	Glusindex	PointID;
+	Glusindex	NormalID;
+}GlusFaceIndex, *PGlusFaceIndex;
+
+// Face work for Mesh
+// add [8/24/2016 tld]
+typedef struct _GlusFace
+{
+	PGlusFaceIndex	FaceIDs;
+	Glusnum			FaceIDNum;
+}GlusFace, *PGlusFace;
+
+// Mesh
+// add [8/24/2016 tld] : point and normal use array
+// change [8/25/2016 tld] : face use array too 
+typedef struct _GlusMesh
+{	
+	PGlusVector	Points,		Normals;
+	PGlusFace	Faces;
+	Glusnum		PointNum, NormalNum, FaceNum;
+}GlusMesh, *PGlusMesh;
+typedef struct _GlusMeshs
+{
+	GlusLink	Link;
+	PGlusMesh	Mesh;
+}GlusMeshs, *PGlusMeshs;
+
+/*
+ *	for mouse input
+ */
+typedef	struct _GlusMouse
+{
+	GlusLink	Link;
+	pvoid	Custom;			// pointer for custom
+	void(*glusMouse)(int _button, int _state, GLint x, GLint y, pvoid custom);	// function 
+}GlusMouse, *PGlusMouse;
 #endif // !_GLUS_STRUCT_H
 #endif // !_glus_struct_h

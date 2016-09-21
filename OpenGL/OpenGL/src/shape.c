@@ -41,15 +41,15 @@ _In_	void(*callback)(void))
 	glusRotate(_orgTrans->Angle, _orgTrans->Ax, _orgTrans->Ay, _orgTrans->Az);
 
 
-	for (size z = 0; z < _z; z++)
+	for (Glussize z = 0; z < _z; z++)
 	{
 		glusPushCT();
 
-		for (size y = 0; y < _y; y++)
+		for (Glussize y = 0; y < _y; y++)
 		{
 			glusPushCT();
 
-			for (size x = 0; x < _x; x++)	// draw at x axis
+			for (Glussize x = 0; x < _x; x++)	// draw at x axis
 			{
 				// draw the motif
 				callback();
@@ -170,3 +170,4 @@ glusShapeDefault(PGlusShape _shape)
 	// transform : default
 	glusTransformDefault(&_shape->Transform);
 }
+

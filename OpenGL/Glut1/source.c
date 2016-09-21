@@ -2,13 +2,21 @@
 
 PGlusScene Scene =NULL;
 
+
 void dispaly(void)
 {
 	glusSceneDraw(Scene);
-	
+
 	glutSwapBuffers();
+
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
+void 
+mouse(int button,int state,int x,int y)
+{
+	glusMouseLoop(button, state, x, y);
+}
 void 
 keyboard(
 unsigned char _key, 
@@ -32,10 +40,16 @@ void clear(void)
 
 void tm(int id)
 {
-	glClear(GL_COLOR_BUFFER_BIT);
 	glutPostRedisplay();
 
 	glutTimerFunc(1000, tm, 0);
+}
+
+void data()
+{
+	
+	PGlusMesh mesh = glusMeshSurface(20, 0, Glus_PI  , 20, -Glus_PI / 4, Glus_PI/2, glusSurfaceSphere);
+	glusMeshAddToScene(mesh, Scene);
 }
 void glusInit()
 {
@@ -46,9 +60,15 @@ void glusInit()
 	Scene = glusSceneLoad("scene.sdl");
 	glusSceneLight(Scene);
 
+	glusDebugEnable(true);
+
+	data();
+	
 	glutDisplayFunc(dispaly);
 	glutKeyboardFunc(keyboard);
+	glutMouseFunc(mouse);
 	glutCloseFunc(clear);
 
 	glutTimerFunc(1000, tm, 0);
+
 }   

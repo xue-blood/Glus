@@ -28,16 +28,18 @@
   <ItemGroup>
     <ClCompile Include="src\callback.c" />
     <ClCompile Include="src\circle.c" />
+    <ClCompile Include="src\file.c" />
     <ClCompile Include="src\init.c" />
-    <ClCompile Include="src\io.c" />
     <ClCompile Include="src\line.c" />
     <ClCompile Include="src\link.c" />
+    <ClCompile Include="src\mesh.c" />
     <ClCompile Include="src\mouse.c" />
     <ClCompile Include="src\shape.c" />
     <ClCompile Include="src\plane.c" />
-    <ClCompile Include="src\polygon.c" />
+    <ClCompile Include="src\points.c" />
     <ClCompile Include="src\ray.c" />
     <ClCompile Include="src\scene.c" />
+    <ClCompile Include="src\surface.c" />
     <ClCompile Include="src\transfrom.c" />
     <ClCompile Include="src\tween.c" />
     <ClCompile Include="src\vector.c" />

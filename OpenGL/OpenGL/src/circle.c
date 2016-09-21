@@ -218,7 +218,7 @@ glusDrawArc(
 _In_	PGlusCircle	_c,
 _In_	GLdouble	_angle_start,
 _In_	GLdouble	_angle_sweep,
-_In_	size		_n)
+_In_	Glussize		_n)
 {
 	assertp(_c);
 	assert(_n > 0);
@@ -233,7 +233,7 @@ _In_	size		_n)
 
 	glBegin(GL_LINE_STRIP);
 	{
-		for (size i = 0; i <= _n;i++)
+		for (Glussize i = 0; i <= _n;i++)
 		{
 			glVertex2d(_c->Center.X + x, _c->Center.Y + y);
 

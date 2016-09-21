@@ -1,8 +1,7 @@
 background	0.3 0.3 0.3 0
 axis		3
-projection	-6 6 -4 4 0 100
-camera		10 10 10 1 0 0 0 1 0
-sphere		diffuse 0 0.4 0.8 1			translate	3 0 0		scale 0.5 0.5 1	rotate 90 1 0 0
-polyline	4 (0,0,0) (0,0,1) (0,1,0) (0,3,9)	
-	diffuse		1 1 1 0
-cube		diffuse 0.2 0.5 0.6	1		translate	0 2 0
+projection	-3 3	-2 2	0 100
+camera		2 3 1	0 0 0	0 1 0
+
+// cube		diffuse 0 1 1 1  translate 0.5 0.5 0.5 
+// sphere	diffuse	1 0 0 0

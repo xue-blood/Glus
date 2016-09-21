@@ -138,10 +138,10 @@ _Out_	PGlusRay	_nRay)
 
 	GLdouble		tHit = INFINITY;
 
-	while (!glusLinkIsEnd(pa,_head))
+	while (!glusLinkIsHead(pa,_head))
 	{
 		pb = (PGlusPoints)pa->Link.BLink;
-		if (glusLinkIsEnd(pb,_head))
+		if (glusLinkIsHead(pb,_head))
 			pb = (PGlusPoints)_head->BLink;
 
 
@@ -168,7 +168,7 @@ _Out_	PGlusRay	_nRay)
 	_nRay->Point.V = 1;
 
 	pa = (PGlusPoints)_head->BLink;
-	while (!glusLinkIsEnd(pa,_head))
+	while (!glusLinkIsHead(pa,_head))
 	{
 		//  [8/5/2016 Tld]
 		//
@@ -188,7 +188,7 @@ _Out_	PGlusRay	_nRay)
 	//
 	GlusVector	v, vn;
 	pb = (PGlusPoints)pHit->Link.BLink;
-	if (glusLinkIsEnd(pb,_head))
+	if (glusLinkIsHead(pb,_head))
 		pb = (PGlusPoints)_head->BLink;
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
@@ -211,14 +211,14 @@ _In_	PGlusLinks	_head)
 	GLdouble	tHit = INFINITY;
 	GlusRay		rHit = null;
 
-	while (!glusLinkIsEnd(pl,_head))
+	while (!glusLinkIsHead(pl,_head))
 	{
 
 		GLdouble	t;
 		GlusRay		rn;
 		t = glusRTrace2D(_ray, &pl->Data, &rn);
 
-		if (t > Zero && t < tHit)	//  [8/5/2016 Tld]:change 0 to Zero
+		if (t > Glus_Zero && t < tHit)	//  [8/5/2016 Tld]:change 0 to Zero
 		{
 			tHit = t;
 			rHit = rn;
@@ -325,7 +325,7 @@ _In_	PGlusMulSink	_head)
 		GlusRay		rn;
 		t = glusRHit2DS(_ray, &pl->Data, &rn);
 
-		if (t > Zero && t < tHit)	//  [8/5/2016 Tld]:change 0 to Zero
+		if (t > Glus_Zero && t < tHit)	//  [8/5/2016 Tld]:change 0 to Zero
 		{
 			tHit = t;
 			rHit = rn;

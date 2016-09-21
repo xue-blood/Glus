@@ -8,11 +8,15 @@
 #ifndef _GLUS_FUNC_H
 #define _GLUS_FUNC_H
 
+//
+// glus.c
+//
 // user should define the function by themself
 void	glusInit();
 // 
-
-
+void	glusDebugEnable(_In_	bool	_is_debug);
+// #define glusDebug(msg,...)	do { if (IsDebug) printf(msg,__VA_ARGS__); } while(0)
+#define glusDebug(msg,...)		fprintf_s(_Glus_Std_Debug,msg,__VA_ARGS__)
 //
 // see init.c
 // 
@@ -105,7 +109,8 @@ bool	glusPIsInPolygon(_In_	PGlusVector		_point, _In_	PGlusLink		_polygon);
 // see vector.c
 //
 void	glusVAdd(_In_	GlusVector *_va, _In_	GLdouble	_pa, _In_	GlusVector *_vb, _In_	GLdouble	_pb, _Out_	GlusVector *_vo);
-#define glusVFromPoint(PointA,PointB,Vector) glusVAdd(PointA,-1,PointB,1,Vector)
+#define glusVFromPoint(PointA,PointB,Vector) glusVAdd((PointA),-1,(PointB),1,(Vector))
+#define glusPAddV(p_point,p_vector,p_point_out) glusVAdd( (p_point) ,1, (p_vector),1, (p_point_out))
 void	glusVUnit(_Inout_ PGlusVector _v);
 void	glusVNormal(_In_ GlusVector *_in, _Out_ GlusVector *_out);
 void	glusVNormalize(_Inout_ PGlusVector _v);
@@ -160,7 +165,7 @@ bool	glusCNinePoint(_In_	PGlusVector	_pa, _In_	PGlusVector	_pb, _In_	PGlusVector
 bool	glusCGetTangentPoints(_In_ PGlusVector _pa, _In_ PGlusVector	_pb, _In_ PGlusVector _pc, _Out_ PGlusVector _pr, _Out_ PGlusVector _ps, _Out_ PGlusVector _pt);
 bool	glusCGetAltitudeFeet(_In_ PGlusVector _pa, _In_ PGlusVector	_pb, _In_ PGlusVector _pc, _Out_ PGlusVector _pr, _Out_ PGlusVector _ps, _Out_ PGlusVector _pt);
 bool	glusCGetMiddlePoints(_In_ PGlusVector _pa, _In_ PGlusVector	_pb, _In_ PGlusVector _pc, _Out_ PGlusVector _pr, _Out_ PGlusVector _ps, _Out_ PGlusVector _pt);
-void	glusDrawArc(_In_	PGlusCircle	_c,_In_	GLdouble	_angle_start,_In_	GLdouble	_angle_sweep,_In_	size		_n);
+void	glusDrawArc(_In_	PGlusCircle	_c,_In_	GLdouble	_angle_start,_In_	GLdouble	_angle_sweep,_In_	Glussize		_n);
 #define glusDrawCircle(circle)	glusDrawArc(circle,0,360,45)
 
 //
@@ -169,7 +174,7 @@ void	glusDrawArc(_In_	PGlusCircle	_c,_In_	GLdouble	_angle_start,_In_	GLdouble	_a
 Glus_Intersect	glusPlaneIntersect(_In_	PGlusPlane	_pa, _In_	PGlusPlane	_pb, _Out_	PGlusLine	_l);
 
 //
-// see polygon.c
+// see points.c
 //
 void	glusDrawPolygon(_In_	PGlusLink	_p);
 void	glusDrawPolygonS(_In_	PGlusSink	_p);
@@ -177,6 +182,13 @@ void	glusDrawMulPolygonS(_In_	PGlusSink	_p);
 void	glusDrawPolygons(_In_	PGlusLink	_p);
 void	glusDrawPolyLine(_In_	PGlusLink	_p);
 void	glusPolygonUnion(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _Out_	PGlusLink	_po);
+void	glusPointsClear_A(_In_	PGlusVector	_pointer);
+void	glusPointsClear_L(_In_	PGlusLink	_head);
+void	glusPointsNormal_A(_In_	PGlusVector	_p_points,_In_	Glusnum		_n_points,_Inout_	PGlusVector	_normal);
+void	glusPointsNormal_L(_In_	PGlusLink	_head,_Inout_	PGlusVector	_normal);
+void	glusPointsConvert_L_A(_In_	PGlusLink	_h_points,_Out_	PGlusVector	_a_points,_In_	Glusnum		_n);
+void	glusPointsConvert_A_L(_In_	PGlusVector	_a_points,_In_	Glusnum		_n,_Inout_	PGlusLink	_h_points);
+void	glusPointsExtrude(_In_	PGlusVector		_source,_Inout_	PGlusVector		_target,_In_	Glusnum			_n,_In_	PGlusVector		_vector);
 
 // see tween.c
 void	glusTween(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _In_	GLdouble		_t);
@@ -192,8 +204,11 @@ GlusTweenHandle glusTweenInitS(_In_ PGlusPoints _pa, _In_ PGlusPoints _pb, _In_ 
 //
 // see mouse.c
 //
-bool	glusMousePolygonS(_In_ int _x, _In_ int _y, _Out_ pvoid _po);
-
+void	glusWinToWorld(_In_ int _x, _In_ int _y,_Inout_	PGlusVector _world);
+void	glusMouseLoop(_In_	int _button, _In_ int _state, _In_	int	_x, _In_	int	_y);
+void	glusMouseInsert(_In_	pvoid	_p_function,_In_	pvoid	_p_data);
+void	glusMouseRemove(_In_	pvoid	_p_function);
+void glusMouseSelect(int button, int state, int x, int y, pvoid p);
 
 //
 // see link.c
@@ -203,8 +218,9 @@ bool	glusMousePolygonS(_In_ int _x, _In_ int _y, _Out_ pvoid _po);
 #define glusLink(Name)	GlusLink Name={.FLink = &Name,.BLink = &Name}
 #define glusLinks(Name)	GlusLinks Name={.Data.FLink = &Name.Data,.Data.BLink = &Name.Data}
 void	glusLinkInit(_Inout_ void* LinkHead);
-#define glusLinkIsEmpty(LinkHead) ((LinkHead)->FLink == (LinkHead)->BLink)
-#define glusLinkIsEnd(point,head) ((PGlusLink)(point) == (PGlusLink)(head))
+#define glusLinkIsEmpty(LinkHead) ((LinkHead)->FLink == (LinkHead))	// update [9/13/2016 blue] : fix bug for leave one
+#define glusLinkIsHead(point,head) ((PGlusLink)(point) == (PGlusLink)(head))
+#define glusLinkNext(head,current,next)	((pvoid)next)=((PGlusLink)current)->BLink;if(glusLinkIsHead((next),(head))) ((pvoid)next)=((PGlusLink)head)->BLink
 GLint	glusLinkLength(_In_	PGlusLink	_linkHead);
 void	glusLinkInsertHead(_Inout_ pvoid LinkHead, _Inout_ pvoid LinkNode);
 void	glusLinkInsertTail(_Inout_ void* _linkHead, _Inout_ void* _linkNode);
@@ -213,6 +229,8 @@ pvoid	glusLinkRemoveTail(_Inout_ pvoid _linkHead);
 bool	glusLinkRemoveEntry(_Inout_ pvoid _linkEntry);
 void	glusLinkClear(_Inout_	PGlusLink	_link_head);
 #define glusLinkData(pointer)	(char*)((char*)pointer+sizeof(GlusLink))						// get the date field pointer 
+#define glusEntry(link_pointer,type,member) ((type*)((char*)pointer)-&((type*)0)->member))	// get the struct pointer from a member
+
 // singly link
 #define glusSink(Name) GlusSink Name = null;
 #define glusMulSink(Name) GlusMulSink Name = null;
@@ -251,7 +269,9 @@ void	glusAxis(_In_	GLdouble	_length);
 void	glusAxis3D(_In_	GLdouble	_length);
 void	glusSphere(pvoid _pointer);
 void	glusCube(pvoid _pointer);
-void	glusShapeDefault(PGlusShape _shape);
+void	glusShapeDefault(_Inout_ PGlusShape _shape);
+
+
 
 // scene
 PGlusScene	glusSceneLoad(_In_	str	_fileName);
@@ -260,10 +280,75 @@ PGlusScene	glusSceneDefault();
 void	glusSceneDraw(_In_	PGlusScene	_scene);
 void	glusSceneLight(_In_	PGlusScene	_scene);
 
+#define glusSceneGetLastShape(p_scene)	(PGlusShape)glusLinkData((p_scene)->Shapes.FLink)
+PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
+
 //
-// io 
+// file
 //
-size	glusFileRead(_In_	FILE *	_file,_Inout_	str	_str,_In_	size	_max_size);
+#define		glusFileSkipSpace(file)		fscanf_s(file,"%*[ \r\t\n]")
+#define		glusFileScanf(file,sz_format,...)	do{\
+				glusFileSkipSpace(file);		\
+				fscanf_s(file,sz_format, __VA_ARGS__ );}while(0)	// skip all kind of space
+
+void		glusFileLoadPoint(_In_	FILE * _file, _In_	str _format, _Outptr_ PGlusVector	_p_point);
+void		glusFileLoadVector(_In_	FILE * _file, _In_	str _format, _Outptr_ PGlusVector	_p_vector);
+
+Glussize	glusFileLoadPoints_L(_In_	FILE *		_file,_In_	PGlusLink	_head,_In_	Glussize	_max_size);
+Glussize	glusFileLoadPoints_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, _In_	Glussize	_max_size);
+
+Glussize	glusFileLoadVectors_L(_In_	FILE *		_file, _In_	PGlusLink	_head, _In_	Glussize	_max_size);
+Glussize	glusFileLoadVectors_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, _In_	Glussize	_max_size);
+
+
+//
+// mesh
+//
+void	glusMeshDraw(_In_	PGlusMesh	_mesh);
+Glus_Status	glusMeshLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	*_mesh);
+void	glusMeshClear(_In_	PGlusMesh	_mesh);
+Glus_Status	glusMeshAddToScene(_In_	PGlusMesh	_mesh, _Inout_	PGlusScene	_scene);
+
+void	glusMeshFaceNormal(_Inout_		PGlusMesh	_mesh);
+PGlusMesh	glusMeshMakePrism(_In_	PGlusLink	_point, _In_	PGlusVector	_vector);
+void	glusMeshsDraw(_In_	PGlusLink	_head);
+void	glusMeshsClear(_In_	PGlusLink	_head);
+PGlusLink	glusMakePrismArray(_In_	PGlusLink	_polygons,_In_	PGlusVector	_vector);
+PGlusMesh	glusMeshExtrudeQuadStrip(_In_	PGlusLink	_quad_strip,_In_	PGlusVector	_vector);
+PGlusMesh	glusMeshRevolution(_In_	PGlusLink	_points,_In_	Glusnum		_n,_In_	GLdouble	_ang_start,_In_	GLdouble	_ang_sweep);
+
+PGlusMesh	glusMeshSurface(_In_	Glusnum		_n_piece,_In_	GLdouble	_u_start,_In_	GLdouble	_u_sweep,_In_	Glusnum		_n_stack,	_In_	GLdouble	_v_start,_In_	GLdouble	_v_sweep,_In_    void(*_f_point)(GLdouble u, GLdouble v, PGlusVector o));
+PGlusMesh	glusMeshSurfaceBilinear(_In_	Glusnum		_n_piece,_In_	GLdouble	_u_start,_In_	GLdouble	_u_sweep,_In_	Glusnum		_n_stack,_In_	GLdouble	_v_start,_In_	GLdouble	_v_sweep,_In_	void(*_f_a)(GLdouble u, PGlusVector o),_In_	void(*_f_b)(GLdouble u, PGlusVector o));
+/*
+ *	memory
+ */
+#define glusCheckex(pointer,do_when_fail) do{if(!pointer) {glusDebug(__FILE__ ## "-" ## __FUNCTION__ ## "Allocate memory failed");do_when_fail;}}while(0)
+
+// allocate memory ,zero the memory and  check it
+#define glusAllocex(pointer,type,num,do_when_fail)		(pointer) = (type*)malloc((num)*sizeof(type));ZeroMemory((pointer),(num)*sizeof(type));glusCheckex(pointer,do_when_fail)
+#define glusFree(pointer)		if(pointer) free(pointer),pointer = NULL
+
+#define glusCheck(pointer)		glusCheckex(pointer,return Glus_Status_Memory_Allocate_Fail)
+#define glusAlloc(pointer,type)			(pointer) = (type*)malloc(sizeof(type));	ZeroMemory((pointer),sizeof(type));glusCheck(pointer)
+#define glusAllocN(pointer,type,num)	(pointer) = (type*)malloc((num)*sizeof(type));ZeroMemory((pointer),(num)*sizeof(type));glusCheck(pointer)
+
+/*
+ *	status
+ */
+#define glusSuccess(status)	(status == Glus_Status_Success)
+#define glusFail(status)	(status != Glus_Status_Success)
+
+
+/*
+ *	see surface.c
+ */
+void	glusSurfaceSphere(_In_	GLdouble	_u,_In_	GLdouble	_v,_Out_	PGlusVector	_o);
+Glus_Status	glusSurfaceBuildFace(_In_	PGlusMesh	_mesh,_In_	Glusnum		_n_piece,_In_	Glusnum		_n_stack);
+void	glusSurfaceBilinear(_In_	GLdouble	_u,_In_	GLdouble	_v,_In_	void(*_f_a)(GLdouble u, PGlusVector o),_In_	void(*_f_b)(GLdouble u, PGlusVector o),_Out_	PGlusVector	_o);
+
+
+
+
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

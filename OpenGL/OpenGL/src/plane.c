@@ -20,7 +20,7 @@ _Out_	PGlusLine	_l)
 
 	// are the two plane parallel
 	GLdouble	r = glusVDotPro(&vn, &vba);
-	if (r < Zero)
+	if (r < Glus_Zero)
 		return Intersect_Parallel;
 	else
 	{

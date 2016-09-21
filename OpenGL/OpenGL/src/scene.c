@@ -7,10 +7,11 @@
 	add glusSceneDefault
 */
 #define	_Key_Unknown -1
-#define Keys_n 12
+#define Keys_n 14
 str Keys[Keys_n] =
 {
 	"//",
+	"/*",
 	"background",
 	"axis",
 	"projection",
@@ -21,22 +22,25 @@ str Keys[Keys_n] =
 	"rotate",
 	"sphere",
 	"polyline",
-	"cube"
+	"cube",
+	"mesh"
 };
 GLsizei Keys_func_param[Keys_n] = 
 {
-	0,
-	3,
-	1,
-	6,
-	9,
-	4,
-	3,
-	3,
-	4,
-	0,
-	1,
-	0
+	0,	// comment
+	0,	// comments
+	3,	// background
+	1,	// axis
+	6,	// projection
+	9,	// camera
+	4,	// diffuse
+	3,	// translate
+	3,	// scale
+	4,	// rotate
+	0,	// sphere
+	0,	// polyline
+	0,	// cube
+	0	// mesh
 };
 
 //
@@ -44,14 +48,11 @@ GLsizei Keys_func_param[Keys_n] =
 //
 void comment(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
-	char c = 0;
-
-	while (c != '\n')
-	{
-		c = fgetc(file);
-		if (c==EOF)
-			break;
-	}
+	fscanf_s(file, "%*[^\n]\n");	// just skip all char at current line
+}
+void comments(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	fscanf_s(file, "%*[^*/]*/");	// just skip all char until find "*/"
 }
 void background(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
@@ -96,7 +97,7 @@ void diffuse(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = (PGlusShape)glusLinkData(_scene->Shapes.FLink);
+	PGlusShape s = glusSceneGetLastShape(_scene);
 	
 	//
 	// then set diffuse
@@ -111,7 +112,7 @@ void translate(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = (PGlusShape)glusLinkData(_scene->Shapes.FLink);
+	PGlusShape s = glusSceneGetLastShape(_scene);
 	
 	//
 	// set translation
@@ -125,7 +126,7 @@ void scale( PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = (PGlusShape)glusLinkData(_scene->Shapes.FLink);
+	PGlusShape s = glusSceneGetLastShape(_scene);
 
 	//
 	// set scale
@@ -139,7 +140,7 @@ void rotate(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = (PGlusShape)glusLinkData(_scene->Shapes.FLink);
+	PGlusShape s = glusSceneGetLastShape(_scene);
 
 
 	//
@@ -152,77 +153,79 @@ void rotate(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 }
 void sphere(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
-	PGlusShapes p = (PGlusShapes)malloc(sizeof(GlusShapes));
-	glusShapeDefault(&p->Shape);
+	PGlusShape p = glusSceneCreateNewShape(_scene);
 
-	p->Shape.Draw = glusSphere;
-
-	glusLinkInsertTail(&_scene->Shapes, (PGlusLink)p);	// insert to tail
+	p->Draw = glusSphere;
 }
-void polyline(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+void polyline(PGlusScene _scene, pGLdouble p_param, GLsizei n_param, FILE *file)
 {
 	//
 	// create a shape
 	//
-	PGlusShapes p = (PGlusShapes)malloc(sizeof(GlusShapes));
-	glusShapeDefault(&p->Shape);
-
-	p->Shape.Draw = glusDrawPolyLine;
-
-	glusLinkInsertTail(&_scene->Shapes, (PGlusLink)p);	// insert to tail
-
-	//
-	// param[0] is the count of points
-	//
-	size n = (size)param[0];
+	PGlusShape p = glusSceneCreateNewShape(_scene);
+	
+	// the draw function
+	p->Draw = glusDrawPolyLine;
+	
+	// and the clear function for we use link list
+	p->Clear = glusPointsClear_L;
 
 	//
-	// malloc memory for points
+	// malloc memory for points head
 	//
 	PGlusLink h = (PGlusLink)malloc(sizeof(GlusLink));
 	if (!h)
 		goto _polyline_failed_;
 	else
-		p->Shape.Extern = h;
+		p->Extern = h;
 	glusLinkInit(h);
 
-	char org[30];
+	//
+	// get the point number
+	//
+	Glusnum	n;
+	glusFileScanf(file, "%d", &n);
 
-	for (size i = 0; i < n;i++)
-	{
-		PGlusPoints ps = (PGlusPoints)malloc(sizeof(GlusPoints));
-		if (!ps)
-			goto _polyline_failed_;
+	// get points' data
+	glusFileLoadPoints_L(file, h, n);
 
-		//
-		// read the point
-		//
-		glusFileRead(file, org, _countof(org));
-		sscanf_s(org, "(%lf,%lf,%lf)", &ps->Point.X, &ps->Point.Y, &ps->Point.Z);
-		ps->Point.V = 1;
-
-		glusLinkInsertTail(h, ps);
-	}
-	
 	return;
 
 
 _polyline_failed_:
-	if (h)	glusLinkClear(h), glusFree(h);
+	if (h)	glusLinkClear(h); glusFree(h);
 	if (p)	glusFree(p);
 }
 void cube(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
-	PGlusShapes p = (PGlusShapes)malloc(sizeof(GlusShapes));
-	glusShapeDefault(&p->Shape);
+	// create a new shape and add to scene
+	PGlusShape p = glusSceneCreateNewShape(_scene);
 
-	p->Shape.Draw = glusCube;
+	// set the draw function
+	p->Draw = glusCube;
+}
 
-	glusLinkInsertTail(&_scene->Shapes, (PGlusLink)p);	// insert to tail
+/*
+*	add support for mesh
+*/
+// add [8/31/2016 blue]
+void mesh(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	/*
+	 *	load a mesh from file
+	 */
+	PGlusMesh	p_mesh;
+	if (!glusSuccess(glusMeshLoad(file, &p_mesh)))
+		return;
+
+	// add to scene
+	if(!glusSuccess(glusMeshAddToScene(p_mesh, _scene)))
+		return;
 }
 void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 {
 	comment,
+	comments,
 	background,
 	axis,
 	projection,
@@ -233,7 +236,8 @@ void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 	rotate,
 	sphere,
 	polyline,
-	cube
+	cube,
+	mesh
 };
 
 int Keys_Get_id(FILE * file)
@@ -243,8 +247,10 @@ int Keys_Get_id(FILE * file)
 	//
 	// get function name
 	//
-	glusFileRead(file, func_name, _countof(func_name));
-	//sscanf_s("%s", func_name, _countof(func_name));
+	glusFileScanf(file, "%s", func_name, _countof(func_name));
+	if (feof(file))	// add [9/4/2016 blue],fix for file end
+		return -1;
+
 	strlower(func_name);
 
 	//
@@ -264,13 +270,11 @@ GLsizei Keys_Get_param(FILE *file, int id,pGLdouble param)
 {
 	GLsizei i=0;
 	GLsizei n = Keys_func_param[id];
-	char org[30];
 	
-	for (; i < n;i++)
+	for (; i < n && !feof(file); i++)
 	{
-		glusFileRead(file, org, _countof(org));
-
-		if(sscanf_s(org, "%lf", param + i)== 0)
+		glusFileScanf(file, "%lf", param + i);
+		if (feof(file)) // add [9/4/2016 blue],fix for file end
 			break;
 	}
 
@@ -283,12 +287,6 @@ _In_	str	_fileName)
 {
 	assert(_fileName);
 	
-// 	
-// 	// allocate memory for GlusScene
-// 	//
-// 	PGlusScene	scene = (PGlusScene)malloc(sizeof(GlusScene));
-// 	if (!scene)
-// 		return NULL;
 
 	//
 	// load default data
@@ -332,11 +330,9 @@ _In_	PGlusScene	_scene)
 	{
 		PGlusShapes p = (PGlusShapes)glusLinkRemoveHead(&_scene->Shapes); // get the shape 
 		
-		if (p->Shape.Extern)	// is an extern data
-		{
-			glusLinkClear(p->Shape.Extern);
-			glusFree(p->Shape.Extern);
-		}
+		if (p->Shape.Extern && p->Shape.Clear)	// is an extern data and a function for clear
+			p->Shape.Clear(p->Shape.Extern);	// clear by himself
+
 		glusFree(p);		// clear shape
 	}
 
@@ -376,9 +372,9 @@ glusSceneDefault()
 	//
 	// set the camera
 	//
-	scene->Camera.EyeX = scene->Camera.EyeY = scene->Camera.EyeZ = 2;
+	scene->Camera.EyeX = 2,scene->Camera.EyeY = 3,scene->Camera.EyeZ = 1;
 	// center is already zero now
-	scene->Camera.UpY = 1; // up is (0,1,0)
+	scene->Camera.UpY = 1; // up is (0,0,1)
 
 	//
 	// init the shapes
@@ -396,6 +392,7 @@ glusSceneDefault()
 	scene->EnableAxis = true;
 	scene->AxisLength = 1;
 
+	
 	//
 	// the return the default scene
 	//
@@ -444,6 +441,8 @@ _In_	PGlusScene	_scene)
 	//
 	glClearColor((GLclampf)_scene->Background.R, (GLclampf)_scene->Background.G, (GLclampf)_scene->Background.B, (GLclampf)_scene->Background.A);
 
+
+	
 	//
 	// draw axis
 	//
@@ -452,11 +451,12 @@ _In_	PGlusScene	_scene)
 		glusAxis3D(_scene->AxisLength);
 	}
 
+
 	//
 	// draw the shapes
 	//
 	PGlusShapes p = (PGlusShapes)_scene->Shapes.BLink;
-	while (!glusLinkIsEnd(p,&_scene->Shapes))
+	while (!glusLinkIsHead(p,&_scene->Shapes))
 	{
 		//
 		// we just call the function already setting 
@@ -467,6 +467,10 @@ _In_	PGlusScene	_scene)
 		
 		glusPushCT();
 
+		
+		//
+		// transform
+		//
 		glColor4dv((GLdouble*)&s->Diffuse);	// diffuse color
 		glusTranslatev(&s->Transform);		// translate
 		glusScalev(&s->Transform);			// scale
@@ -511,4 +515,32 @@ _In_	PGlusScene	_scene)
 
 		p = p->BLink;
 	}
+}
+
+/*
+ *	add a new shape to scene
+ *	the shape has the default setting
+ *	return the pointer to shape so you can custom it
+ */
+// create [9/1/2016 blue]
+PGlusShape	
+glusSceneCreateNewShape(
+_In_	PGlusScene	_scene)
+{
+	assert(_scene);
+
+	/*
+	 *	allocate memory for a new shape
+	 */
+	PGlusShapes	shape; 
+	glusAllocex(shape, GlusShapes,1,return NULL);
+
+	// set to default
+	glusShapeDefault(&shape->Shape);
+	
+	// and insert to scene
+	glusLinkInsertTail(&_scene->Shapes, shape);
+
+	// return the pointer
+	return &shape->Shape;
 }
