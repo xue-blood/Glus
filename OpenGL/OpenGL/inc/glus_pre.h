@@ -5,4 +5,4 @@
 #include <math.h>
 #include <stdio.h>
 
-
+#pragma warning(disable:4756) // disable overflow warning

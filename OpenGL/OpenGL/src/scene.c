@@ -68,28 +68,34 @@ void axis(		PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 		_scene->EnableAxis = false;
 	_scene->AxisLength = param[0];
 }
+// add support of perspective [9/24/2016 blue]
 void projection(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
-	_scene->Projection.Left = param[0];
-	_scene->Projection.Right = param[1];
-	_scene->Projection.Bottom = param[2];
-	_scene->Projection.Top = param[3];
-	_scene->Projection.Near = param[4];
-	_scene->Projection.Far = param[5];
+	if (param_n == 6) // use ortho
+	{
+		_scene->Projection.IsPerspective = false;
+		_scene->Projection.Ortho.Left		= param[0];
+		_scene->Projection.Ortho.Right = param[1];
+		_scene->Projection.Ortho.Bottom = param[2];
+		_scene->Projection.Ortho.Top = param[3];
+		_scene->Projection.Near		= param[4];
+		_scene->Projection.Far		= param[5];
+	}
+	else
+	{
+		_scene->Projection.IsPerspective	= true;
+		_scene->Projection.Persp.AngleView		= param[0];
+		_scene->Projection.Persp.AspectRation = param[1];
+		_scene->Projection.Near		= param[2];
+		_scene->Projection.Far		= param[3];
+	}
 }
 void camera(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
-	_scene->Camera.EyeX = param[0];
-	_scene->Camera.EyeY = param[1];
-	_scene->Camera.EyeZ = param[2];
-
-	_scene->Camera.CenterX = param[3];
-	_scene->Camera.CenterY = param[4];
-	_scene->Camera.CenterZ = param[5];
-
-	_scene->Camera.UpX = param[6];
-	_scene->Camera.UpY = param[7];
-	_scene->Camera.UpZ = param[8];
+	glusCameraSet(param[0], param[1], param[2],
+		param[3], param[4], param[5],
+		param[6], param[7], param[8],
+		&_scene->Camera);
 
 }
 void diffuse(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
@@ -273,7 +279,11 @@ GLsizei Keys_Get_param(FILE *file, int id,pGLdouble param)
 	
 	for (; i < n && !feof(file); i++)
 	{
-		glusFileScanf(file, "%lf", param + i);
+		ubyte	u;
+		glusFileScanfex(file,u, "%lf", param + i);
+		if (u==0)
+			break;
+
 		if (feof(file)) // add [9/4/2016 blue],fix for file end
 			break;
 	}
@@ -309,7 +319,7 @@ _In_	str	_fileName)
 			continue;
 
 		int n = Keys_Get_param(file, id,func_param);
- 		Keys_func[id](scene,func_param,n,file);
+		Keys_func[id](scene,func_param,n,file);
 	}
 
 	fclose(file);
@@ -363,18 +373,16 @@ glusSceneDefault()
 	//
 	// set the projection
 	//
-	//scene->Projection.Bottom = scene->Projection.Left = scene->Projection.Near = -10;
-	//scene->Projection.Top = scene->Projection.Right= scene->Projection.Far= 10;
-	scene->Projection.Left = -3, scene->Projection.Right = 3;
-	scene->Projection.Bottom = -2, scene->Projection.Top = 2;
+	scene->Projection.IsPerspective = false;	// use ortho
+	scene->Projection.Ortho.Left = -3, scene->Projection.Ortho.Right = 3;
+	scene->Projection.Ortho.Bottom = -2, scene->Projection.Ortho.Top = 2;
 	scene->Projection.Near = 0.1, scene->Projection.Far = 100;
 
 	//
 	// set the camera
 	//
-	scene->Camera.EyeX = 2,scene->Camera.EyeY = 3,scene->Camera.EyeZ = 1;
-	// center is already zero now
-	scene->Camera.UpY = 1; // up is (0,0,1)
+	glusCameraSet(2, 3, 1,  0, 0, 0,  0, 0, 1,  &scene->Camera);
+
 
 	//
 	// init the shapes
@@ -412,29 +420,12 @@ _In_	PGlusScene	_scene)
 	//
 	// set the projection
 	//
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(_scene->Projection.Left, 
-		_scene->Projection.Right, 
-		_scene->Projection.Bottom, 
-		_scene->Projection.Top, 
-		_scene->Projection.Near, 
-		_scene->Projection.Far);
+	glusProjection(&_scene->Projection);
 
 	//
 	// set the camera
 	//	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(_scene->Camera.EyeX,
-		_scene->Camera.EyeY,
-		_scene->Camera.EyeZ,
-		_scene->Camera.CenterX,
-		_scene->Camera.CenterY,
-		_scene->Camera.CenterZ,
-		_scene->Camera.UpX,
-		_scene->Camera.UpY,
-		_scene->Camera.UpZ);
+	glusCamera(&_scene->Camera);
 
 	//
 	// the background
@@ -451,6 +442,7 @@ _In_	PGlusScene	_scene)
 		glusAxis3D(_scene->AxisLength);
 	}
 
+	
 
 	//
 	// draw the shapes
@@ -468,6 +460,7 @@ _In_	PGlusScene	_scene)
 		glusPushCT();
 
 		
+
 		//
 		// transform
 		//
@@ -480,6 +473,10 @@ _In_	PGlusScene	_scene)
 
 		glusPopCT();
 		p = (PGlusShapes)p->Link.BLink;
+
+
+		// use gray as default color
+		glColor3d(0.45, 0.45, 0.45);
 	}
 }
 

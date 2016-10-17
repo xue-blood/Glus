@@ -171,3 +171,42 @@ glusShapeDefault(PGlusShape _shape)
 	glusTransformDefault(&_shape->Transform);
 }
 
+/*
+ *	draw grid
+ */
+// create [9/27/2016 blue]
+void 
+glusGrid(pvoid _ptr)
+{
+	glMatrixMode(GL_MODELVIEW);
+	
+	glPushMatrix();
+
+	GLint max_x = 30;
+	GLint max_z = 30;
+
+	glBegin(GL_LINES);
+	
+	/*
+	 *	draw align x-axis
+	 */
+	for (GLint z = -max_z; z < max_z; z++)
+	{
+		glVertex3i(-max_x, 0, z);
+		glVertex3i(max_x, 0, z);
+	}
+
+	/*
+	 *	draw align z-axis
+	 */
+	for (GLint x = -max_x; x < max_x; x += 1)
+	{
+		glVertex3i(x, 0, - max_z);
+		glVertex3i(x, 0, max_z);
+	}
+
+	
+	glEnd();
+
+	glPopMatrix();
+}

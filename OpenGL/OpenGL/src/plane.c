@@ -12,7 +12,7 @@ _Out_	PGlusLine	_l)
 	GlusVector	vaa = glusVector3fv((&_pa->A), (&_pa->B)),
 				vab = glusVector3fv((&_pa->A), (&_pa->C));
 	GlusVector	vn;
-	glusCroPro(&vaa, &vab, &vn);
+	glusVCroPro(&vaa, &vab, &vn);
 
 	// change point form to parameter form for the second plane
 	GlusVector	vba = glusVector3fv((&_pb->A), (&_pb->B)),

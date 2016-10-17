@@ -35,6 +35,7 @@ typedef wchar_t *	wstring;
 
 typedef double *	pdouble;
 typedef void *		pvoid;
+typedef	unsigned char	ubyte, *pubyte;
 
 #define assertp(p)	assert(p != NULL)
 

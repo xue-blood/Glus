@@ -89,5 +89,8 @@
     <ClCompile Include="src\surface.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\camera.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

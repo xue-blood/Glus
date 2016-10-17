@@ -188,9 +188,19 @@ typedef struct _GlusLights
 //
 typedef struct _GlusProjection
 {
-	GLdouble	Left,	Right,
-				Bottom, Top,
-				Near,	Far;
+	bool		IsPerspective;
+	union {
+		struct 
+		{
+			GLdouble	Left, Right, Bottom, Top;
+		}Ortho; 
+		struct 
+		{
+			GLdouble	AngleView, AspectRation;
+		}Persp; 
+	};
+	GLdouble	Near, Far;
+	
 }GlusProjection, *PGlusProjection;
 
 //  [7/9/2016 tld] add
@@ -199,9 +209,7 @@ typedef struct _GlusProjection
 //
 typedef struct _GlusCamera
 {
-	GLdouble	EyeX,		EyeY,		EyeZ,
-				CenterX,	CenterY,	CenterZ,
-				UpX,		UpY,		UpZ;
+	GlusVector	Eye, U, V, N;
 }GlusCamera, *PGlusCamera;
 typedef	struct _GlusScene
 {

@@ -1,12 +1,13 @@
 #include "Header.h"
 
 PGlusScene Scene =NULL;
-
+#define TIME 30
 
 void dispaly(void)
 {
 	glusSceneDraw(Scene);
 
+	glusGrid(0);
 	glutSwapBuffers();
 
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -24,8 +25,18 @@ int _x, int _y)
 {
 	switch (_key)
 	{
-	case 'q': glutExit(); break;
-	
+	case '0': glutExit(); break;
+	case 'w': glusCameraSlide(0, 0, -.1, &Scene->Camera); break;
+	case 's': glusCameraSlide(0, 0, .1, &Scene->Camera); break;
+	case 'd': glusCameraSlide(.1, 0, 0, &Scene->Camera); break;
+	case 'a': glusCameraSlide(-.1, 0, 0, &Scene->Camera); break;
+	case 'q': glusCameraRoll(1, &Scene->Camera); break;
+	case 'e': glusCameraRoll(-1, &Scene->Camera); break;
+	case 'j': glusCameraYaw(-1, &Scene->Camera); break;
+	case 'l' : glusCameraYaw(1, &Scene->Camera); break;
+	case 'i': glusCameraPitch(-1, &Scene->Camera); break;
+	case 'k': glusCameraPitch(1, &Scene->Camera); break;
+
 	default:
 		break;
 	}
@@ -42,14 +53,12 @@ void tm(int id)
 {
 	glutPostRedisplay();
 
-	glutTimerFunc(1000, tm, 0);
+	glutTimerFunc(TIME, tm, 0);
 }
 
 void data()
 {
 	
-	PGlusMesh mesh = glusMeshSurface(20, 0, Glus_PI  , 20, -Glus_PI / 4, Glus_PI/2, glusSurfaceSphere);
-	glusMeshAddToScene(mesh, Scene);
 }
 void glusInit()
 {
@@ -60,7 +69,7 @@ void glusInit()
 	Scene = glusSceneLoad("scene.sdl");
 	glusSceneLight(Scene);
 
-	glusDebugEnable(true);
+	//glusDebugEnable(true);
 
 	data();
 	
@@ -69,6 +78,7 @@ void glusInit()
 	glutMouseFunc(mouse);
 	glutCloseFunc(clear);
 
-	glutTimerFunc(1000, tm, 0);
+	glutTimerFunc(TIME, tm, 0);
 
+	
 }   

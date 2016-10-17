@@ -17,7 +17,7 @@ _Outptr_ PGlusVector	_p_point)
 {
 	assertp(_file && _format && _p_point);
 
-	glusFileScanf(_file, _format, &_p_point->X, &_p_point->Y, &_p_point->Z);
+	glusFileScanf(_file,_format, &_p_point->X, &_p_point->Y, &_p_point->Z);
 	_p_point->V = 1;
 }
 
@@ -35,7 +35,7 @@ _Outptr_ PGlusVector	_vector)
 	assertp(_file && _format && _vector);
 
 
-	glusFileScanf(_file, _format, &_vector->X, &_vector->Y, &_vector->Z);
+	glusFileScanf(_file,_format, &_vector->X, &_vector->Y, &_vector->Z);
 	_vector->V = 0;
 }
 

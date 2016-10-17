@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\callback.c" />
+    <ClCompile Include="src\camera.c" />
     <ClCompile Include="src\circle.c" />
     <ClCompile Include="src\file.c" />
     <ClCompile Include="src\init.c" />

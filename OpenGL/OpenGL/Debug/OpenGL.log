@@ -1,57 +1,5 @@
-﻿Build started 2016/9/21 17:19:50.
-Project "\\win\e\Projects\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Rebuild target(s)).
-ClCompile:
-  C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\callback.c src\circle.c src\file.c src\init.c src\line.c src\link.c src\mesh.c src\mouse.c src\shape.c src\plane.c src\points.c src\ray.c src\scene.c src\surface.c src\transfrom.c src\tween.c src\vector.c src\point.c src\glus.c
-  glus.c
-  point.c
-  vector.c
-  tween.c
-  transfrom.c
-  surface.c
-  scene.c
-  ray.c
-  points.c
-  plane.c
-  shape.c
-  mouse.c
-  mesh.c
-  link.c
-  line.c
-  init.c
-  file.c
-  circle.c
-  callback.c
-  Generating Code...
-\\win\e\projects\opengl\opengl\opengl\src\ray.c(139): warning C4756: overflow in constant arithmetic
-\\win\e\projects\opengl\opengl\opengl\src\ray.c(247): warning C4756: overflow in constant arithmetic
-\\win\e\projects\opengl\opengl\opengl\src\ray.c(318): warning C4756: overflow in constant arithmetic
-\\win\e\projects\opengl\opengl\opengl\src\ray.c(355): warning C4756: overflow in constant arithmetic
-\\win\e\projects\opengl\opengl\opengl\src\ray.c(49): warning C4756: overflow in constant arithmetic
-\\win\e\projects\opengl\opengl\opengl\src\ray.c(91): warning C4756: overflow in constant arithmetic
-\\win\e\projects\opengl\opengl\opengl\src\ray.c(211): warning C4756: overflow in constant arithmetic
-Lib:
-  C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"\\win\e\Projects\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\callback.obj
-  Debug\circle.obj
-  Debug\file.obj
-  Debug\init.obj
-  Debug\line.obj
-  Debug\link.obj
-  Debug\mesh.obj
-  Debug\mouse.obj
-  Debug\shape.obj
-  Debug\plane.obj
-  Debug\points.obj
-  Debug\ray.obj
-  Debug\scene.obj
-  Debug\surface.obj
-  Debug\transfrom.obj
-  Debug\tween.obj
-  Debug\vector.obj
-  Debug\point.obj
-  Debug\glus.obj
-  OpenGL.vcxproj -> \\win\e\Projects\OpenGL\OpenGL\Debug\OpenGL.lib
-Done Building Project "\\win\e\Projects\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" (Rebuild target(s)).
+﻿Build started 2016/10/17 10:40:46.
 
 Build succeeded.
 
-Time Elapsed 00:00:06.53
+Time Elapsed 00:00:00.44

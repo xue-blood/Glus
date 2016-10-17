@@ -46,7 +46,7 @@ _Out_	GlusVector *_out)
 }
 
 //
-// convert vector to unit 
+// convert vector to unit and normalize
 // 
 void
 glusVUnit(
@@ -77,7 +77,7 @@ _Out_	GlusVector *_vo)
 	_vo->X = _pa * _va->X + _pb * _vb->X;
 	_vo->Y = _pa * _va->Y + _pb * _vb->Y;
 	_vo->Z = _pa * _va->Z + _pb * _vb->Z;
-	_vo->V = _pa *_vb->V + _pb * _va->V;
+	_vo->V = _pa * _va->V + _pb * _vb->V;
 
 	glusVNormalize(_vo);
 }
@@ -109,7 +109,7 @@ _In_	GlusVector *_vb)
 }
 
 void
-glusCroPro(
+glusVCroPro(
 _In_	PGlusVector _va,
 _In_	PGlusVector _vb,
 _Out_	PGlusVector _vo)

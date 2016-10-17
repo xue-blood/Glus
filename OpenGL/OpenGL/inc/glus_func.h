@@ -119,7 +119,7 @@ void	glusVNormalize(_Inout_ PGlusVector _v);
 GLdouble	glusVDotPro(_In_ GlusVector *_va, _In_ GlusVector *_vb);
 GLdouble	glusVLength(_In_ GlusVector *_v);
 GLdouble	glusPDistance(_In_ GlusVector *_pa, _In_ GlusVector *_pb);
-void	glusCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _vo);
+void	glusVCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _vo);
 
 //
 // color
@@ -269,6 +269,7 @@ void	glusAxis(_In_	GLdouble	_length);
 void	glusAxis3D(_In_	GLdouble	_length);
 void	glusSphere(pvoid _pointer);
 void	glusCube(pvoid _pointer);
+void	glusGrid(pvoid _ptr);
 void	glusShapeDefault(_Inout_ PGlusShape _shape);
 
 
@@ -287,9 +288,12 @@ PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
 // file
 //
 #define		glusFileSkipSpace(file)		fscanf_s(file,"%*[ \r\t\n]")
-#define		glusFileScanf(file,sz_format,...)	do{\
-				glusFileSkipSpace(file);		\
+#define		glusFileScanf(file,sz_format,...)	do{					\
+				glusFileSkipSpace(file);										\
 				fscanf_s(file,sz_format, __VA_ARGS__ );}while(0)	// skip all kind of space
+#define		glusFileScanfex(file,n_converted,sz_format,...)	do{					\
+				glusFileSkipSpace(file);										\
+				(n_converted) = fscanf_s(file,sz_format, __VA_ARGS__ );}while(0)	// skip all kind of space
 
 void		glusFileLoadPoint(_In_	FILE * _file, _In_	str _format, _Outptr_ PGlusVector	_p_point);
 void		glusFileLoadVector(_In_	FILE * _file, _In_	str _format, _Outptr_ PGlusVector	_p_vector);
@@ -344,10 +348,23 @@ PGlusMesh	glusMeshSurfaceBilinear(_In_	Glusnum		_n_piece,_In_	GLdouble	_u_start,
  */
 void	glusSurfaceSphere(_In_	GLdouble	_u,_In_	GLdouble	_v,_Out_	PGlusVector	_o);
 Glus_Status	glusSurfaceBuildFace(_In_	PGlusMesh	_mesh,_In_	Glusnum		_n_piece,_In_	Glusnum		_n_stack);
-void	glusSurfaceBilinear(_In_	GLdouble	_u,_In_	GLdouble	_v,_In_	void(*_f_a)(GLdouble u, PGlusVector o),_In_	void(*_f_b)(GLdouble u, PGlusVector o),_Out_	PGlusVector	_o);
+void	glusSurfaceBilinear(_In_	GLdouble	_u, _In_	GLdouble	_v, _In_	void(*_f_a)(GLdouble u, PGlusVector o), _In_	void(*_f_b)(GLdouble u, PGlusVector o), _Out_	PGlusVector	_o);
 
+/*
+ *	see camera.c
+ */
+void	glusCamera(_In_	PGlusCamera		_camera);
+void	glusCameraSet(_In_	GLdouble	_eyex, GLdouble	_eyey, GLdouble		_eyez,_In_	GLdouble	_lookx, GLdouble	_looky, GLdouble		_lookz,_In_	GLdouble	_upx, GLdouble	_upy, GLdouble		_upz,_Inout_	PGlusCamera	_camera);
 
+void	glusCameraSlide(_In_	GLdouble	_u_del,_In_	GLdouble	_v_del,_In_	GLdouble	_n_del,_Inout_	PGlusCamera	_camera);
+void	glusCameraRoll(_In_	GLdouble	_ang,_Inout_	PGlusCamera	_camera);
+void	glusCameraYaw(_In_	GLdouble	_ang, _Inout_	PGlusCamera	_camera);
+void	glusCameraPitch(_In_	GLdouble	_ang, _Inout_	PGlusCamera	_camera);
 
+#define glusPersp(ang_view,aspect_ratio,near_plane,far_plane)			\
+			glMatrixMode(GL_PROJECTION);glLoadIdentity();				\
+			gluPerspective(ang_view,aspect_ratio,near_plane,far_plane)
+void	glusProjection(_In_	PGlusProjection		_proj);
 
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
