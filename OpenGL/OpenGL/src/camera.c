@@ -174,11 +174,119 @@ _In_	PGlusProjection		_proj)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	
+	switch (_proj->Type)
+	{
+	case ProjectPers:
+		gluPerspective(_proj->Persp.AngleView, _proj->Persp.AspectRation, _proj->Near, _proj->Far);
+		break;
 
-	if (_proj->IsPerspective)	// use perspective
-		gluPerspective(_proj->Persp.AngleView, _proj->Persp.AspectRation,_proj->Near, _proj->Far);
-	else // use ortho
-		glOrtho(_proj->Ortho.Left,_proj->Ortho.Right,
-				_proj->Ortho.Bottom,_proj->Ortho.Top,
-				_proj->Near,_proj->Far);
+	case ProjectOrtho:
+		glOrtho(_proj->Ortho.Left, _proj->Ortho.Right,
+			_proj->Ortho.Bottom, _proj->Ortho.Top,
+			_proj->Near, _proj->Far);
+		break;
+	case ProjectOblique:
+		glOrtho(_proj->Ortho.Left, _proj->Ortho.Right,
+			_proj->Ortho.Bottom, _proj->Ortho.Top,
+			_proj->Near, _proj->Far);
+		glusObli(_proj->Ortho.Dx,_proj->Ortho.Dy,_proj->Ortho.Dz);
+		break;
+	default:
+		break;
+	}
+}
+
+/*
+ *	set perspective projection
+ */
+// create [10/17/2016 blue]
+void 
+glusPerspective(
+_In_	GLdouble	_angle,
+_In_	GLdouble	_ration,
+_In_	GLdouble	_near,
+_In_	GLdouble	_far,
+_Inout_	PGlusProjection	_projection)
+{
+	assert(_projection);
+
+	_projection->Type = ProjectPers;	// set type
+
+	_projection->Near = _near;
+	_projection->Far = _far;
+	_projection->Persp.AngleView = _angle;
+	_projection->Persp.AspectRation = _ration;
+}
+
+/*
+ *	set orthographic projection
+ */
+// create [10/17/2016 blue]
+void 
+glusOrtho(
+_In_	GLdouble	_left,
+_In_	GLdouble	_right,
+_In_	GLdouble	_bottom,
+_In_	GLdouble	_top,
+_In_	GLdouble	_near,
+_In_	GLdouble	_far,
+_Inout_	PGlusProjection	_projection)
+{
+
+	assert(_projection);
+
+	_projection->Type = ProjectOrtho;
+
+	_projection->Near = _near;
+	_projection->Far = _far;
+	_projection->Ortho.Left = _left;
+	_projection->Ortho.Right = _right;
+	_projection->Ortho.Top = _top;
+	_projection->Ortho.Bottom = _bottom;
+
+}
+
+/*
+ *	create oblique projection on parallel projection
+ */
+// create [10/18/2016 blue]
+void 
+glusOblique(
+_In_	GLdouble	_dx,
+_In_	GLdouble	_dy,
+_In_	GLdouble	_dz,
+_Inout_	PGlusProjection	_projection)
+{
+	assert(_projection);
+
+	_projection->Type = ProjectOblique;
+
+	_projection->Ortho.Dx = _dx;
+	_projection->Ortho.Dy = _dy;
+	_projection->Ortho.Dz = _dz;
+}
+
+/*
+ *	set oblique projection
+ */
+// create [10/18/2016 blue]
+void
+glusObli(
+_In_	GLdouble	_dx,
+_In_	GLdouble	_dy,
+_In_	GLdouble	_dz)
+{
+	if (_dz == 0)
+		return;
+
+	glMatrixMode(GL_PROJECTION);
+
+	float  m[16] = { 0 };
+
+	m[0] = m[5] = m[10] = m[15] = 1;
+	m[8] = -_dx/_dz;
+	m[9] = -_dy/_dz;
+
+	glMultMatrixf(m);
 }

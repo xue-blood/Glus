@@ -1,11 +1,11 @@
 background	0 0 0 0
 axis		3
 
-// camera		2 3 1	0 0 0	0 1 0
-// projection	-3 3	-2 2	0 100
+camera		2 0 0		0 0.3 0	0 1 0
+projection	-3 3	-2 2	-10 100		1 1 2
 
-camera		2 1 1		0 1 0	0 1 0
-projection	120 1.5	0 10
+// camera		2 3 1		0 1 0	0 1 0
+// projection	120 1.5	0 10
 
 cube		diffuse 0 1 1 1
 // sphere	diffuse	1 0 0 0

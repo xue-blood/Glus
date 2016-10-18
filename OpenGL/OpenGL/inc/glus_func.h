@@ -361,11 +361,12 @@ void	glusCameraRoll(_In_	GLdouble	_ang,_Inout_	PGlusCamera	_camera);
 void	glusCameraYaw(_In_	GLdouble	_ang, _Inout_	PGlusCamera	_camera);
 void	glusCameraPitch(_In_	GLdouble	_ang, _Inout_	PGlusCamera	_camera);
 
-#define glusPersp(ang_view,aspect_ratio,near_plane,far_plane)			\
-			glMatrixMode(GL_PROJECTION);glLoadIdentity();				\
-			gluPerspective(ang_view,aspect_ratio,near_plane,far_plane)
-void	glusProjection(_In_	PGlusProjection		_proj);
 
+void	glusProjection(_In_	PGlusProjection		_proj);
+void	glusObli(_In_	GLdouble	_dx,_In_	GLdouble	_dy,_In_	GLdouble	_dz);
+void	glusPerspective(_In_	GLdouble	_angle,_In_	GLdouble	_ration,_In_	GLdouble	_near,_In_	GLdouble	_far,_Inout_	PGlusProjection	_projection);
+void	glusOrtho(_In_	GLdouble	_left,_In_	GLdouble	_right,_In_	GLdouble	_top,_In_	GLdouble	_bottom,_In_	GLdouble	_near,_In_	GLdouble	_far,_Inout_	PGlusProjection	_projection);
+void	glusOblique(_In_	GLdouble	_dx,_In_	GLdouble	_dy,_In_	GLdouble	_dz,_Inout_	PGlusProjection	_projection);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

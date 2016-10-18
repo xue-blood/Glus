@@ -31,7 +31,7 @@ GLsizei Keys_func_param[Keys_n] =
 	0,	// comments
 	3,	// background
 	1,	// axis
-	6,	// projection
+	9,	// projection
 	9,	// camera
 	4,	// diffuse
 	3,	// translate
@@ -68,27 +68,31 @@ void axis(		PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 		_scene->EnableAxis = false;
 	_scene->AxisLength = param[0];
 }
+
+
+
 // add support of perspective [9/24/2016 blue]
 void projection(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
-	if (param_n == 6) // use ortho
+
+	switch (param_n)
 	{
-		_scene->Projection.IsPerspective = false;
-		_scene->Projection.Ortho.Left		= param[0];
-		_scene->Projection.Ortho.Right = param[1];
-		_scene->Projection.Ortho.Bottom = param[2];
-		_scene->Projection.Ortho.Top = param[3];
-		_scene->Projection.Near		= param[4];
-		_scene->Projection.Far		= param[5];
+	case 4:
+		glusPerspective(param[0],param[1], param[2], param[3], &_scene->Projection);
+		break;
+
+	case 6:
+		glusOrtho(param[0], param[1], param[2], param[3], param[4], param[5], &_scene->Projection);
+		break;
+
+	case 9:
+		glusOrtho(param[0], param[1], param[2], param[3], param[4], param[5], &_scene->Projection);
+		glusOblique(param[6], param[7], param[8], &_scene->Projection);
+		break;
+	default:
+		break;
 	}
-	else
-	{
-		_scene->Projection.IsPerspective	= true;
-		_scene->Projection.Persp.AngleView		= param[0];
-		_scene->Projection.Persp.AspectRation = param[1];
-		_scene->Projection.Near		= param[2];
-		_scene->Projection.Far		= param[3];
-	}
+	
 }
 void camera(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
@@ -373,10 +377,7 @@ glusSceneDefault()
 	//
 	// set the projection
 	//
-	scene->Projection.IsPerspective = false;	// use ortho
-	scene->Projection.Ortho.Left = -3, scene->Projection.Ortho.Right = 3;
-	scene->Projection.Ortho.Bottom = -2, scene->Projection.Ortho.Top = 2;
-	scene->Projection.Near = 0.1, scene->Projection.Far = 100;
+	glusOrtho(-3, 3, -2, 2, .1, 100, &scene->Projection);
 
 	//
 	// set the camera

@@ -182,17 +182,29 @@ typedef struct _GlusLights
 	GlusLight	Light;
 }GlusLights, *PGlusLights;
 
+/*
+ *	projection type 
+ */
+// create [10/17/2016 blue]
+typedef enum _GlusProjectionType
+{
+	ProjectPers,
+	ProjectOrtho,
+	ProjectOblique
+}GlusProjectionType;
+
 //  [7/9/2016 tld] add
 //
 //	for projection matrix
 //
 typedef struct _GlusProjection
 {
-	bool		IsPerspective;
+	GLenum	Type;
 	union {
 		struct 
 		{
 			GLdouble	Left, Right, Bottom, Top;
+			GLdouble	Dx, Dy, Dz;			// for oblique projection
 		}Ortho; 
 		struct 
 		{
