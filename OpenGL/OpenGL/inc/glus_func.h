@@ -323,6 +323,7 @@ PGlusMesh	glusMeshRevolution(_In_	PGlusLink	_points,_In_	Glusnum		_n,_In_	GLdoub
 
 PGlusMesh	glusMeshSurface(_In_	Glusnum		_n_piece,_In_	GLdouble	_u_start,_In_	GLdouble	_u_sweep,_In_	Glusnum		_n_stack,	_In_	GLdouble	_v_start,_In_	GLdouble	_v_sweep,_In_    void(*_f_point)(GLdouble u, GLdouble v, PGlusVector o));
 PGlusMesh	glusMeshSurfaceBilinear(_In_	Glusnum		_n_piece,_In_	GLdouble	_u_start,_In_	GLdouble	_u_sweep,_In_	Glusnum		_n_stack,_In_	GLdouble	_v_start,_In_	GLdouble	_v_sweep,_In_	void(*_f_a)(GLdouble u, PGlusVector o),_In_	void(*_f_b)(GLdouble u, PGlusVector o));
+bool	glusIsFaceBack(_In_	PGlusVector	_eye,_In_	PGlusVector	_p,_In_	PGlusVector	_v);
 /*
  *	memory
  */
@@ -356,6 +357,10 @@ void	glusSurfaceBilinear(_In_	GLdouble	_u, _In_	GLdouble	_v, _In_	void(*_f_a)(GL
 void	glusCamera(_In_	PGlusCamera		_camera);
 void	glusCameraSet(_In_	GLdouble	_eyex, GLdouble	_eyey, GLdouble		_eyez,_In_	GLdouble	_lookx, GLdouble	_looky, GLdouble		_lookz,_In_	GLdouble	_upx, GLdouble	_upy, GLdouble		_upz,_Inout_	PGlusCamera	_camera);
 
+void	glusCameraStereo(_In_	GLdouble	_d,_Inout_	PGlusCamera	_camera);
+void	glusCameraPop(_In_	PGlusCamera	_camera);
+void	glusCameraPush(_In_	PGlusCamera	_camera);
+
 void	glusCameraSlide(_In_	GLdouble	_u_del,_In_	GLdouble	_v_del,_In_	GLdouble	_n_del,_Inout_	PGlusCamera	_camera);
 void	glusCameraRoll(_In_	GLdouble	_ang,_Inout_	PGlusCamera	_camera);
 void	glusCameraYaw(_In_	GLdouble	_ang, _Inout_	PGlusCamera	_camera);
@@ -367,6 +372,9 @@ void	glusObli(_In_	GLdouble	_dx,_In_	GLdouble	_dy,_In_	GLdouble	_dz);
 void	glusPerspective(_In_	GLdouble	_angle,_In_	GLdouble	_ration,_In_	GLdouble	_near,_In_	GLdouble	_far,_Inout_	PGlusProjection	_projection);
 void	glusOrtho(_In_	GLdouble	_left,_In_	GLdouble	_right,_In_	GLdouble	_top,_In_	GLdouble	_bottom,_In_	GLdouble	_near,_In_	GLdouble	_far,_Inout_	PGlusProjection	_projection);
 void	glusOblique(_In_	GLdouble	_dx,_In_	GLdouble	_dy,_In_	GLdouble	_dz,_Inout_	PGlusProjection	_projection);
+
+
+PGlusVector	glusGetEye();
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

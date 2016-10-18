@@ -1,5 +1,9 @@
 #include"../inc/glus.h"
 
+GlusVector	Eye;
+
+
+
 /*
  *	set camera data to model-view matrix
  */
@@ -36,6 +40,8 @@ _In_	PGlusCamera		_camera)
 		_camera->N.X, _camera->N.Y, _camera->N.Z,
 		_camera->U.X, _camera->U.Y, _camera->U.Z,
 		_camera->V.X, _camera->V.Y, _camera->V.Z);
+
+	Eye = _camera->Eye;
 }
 /*
  *	set camera
@@ -162,6 +168,52 @@ _Inout_	PGlusCamera	_camera)
 
 	glusCamera(_camera);
 }
+
+static GlusCamera	CameraOld;
+
+/*
+ *	push current camera
+ */
+// create [10/18/2016 blue]
+void 
+glusCameraPush(
+_In_	PGlusCamera	_camera)
+{
+	assert(_camera);
+	CameraOld = *_camera;
+}
+
+/*
+*	pop current camera
+*/
+// create [10/18/2016 blue]
+void
+glusCameraPop(
+_In_	PGlusCamera	_camera)
+{
+	assert(_camera);
+	*_camera = CameraOld;
+}
+
+/*
+ *	set stereo view
+ */
+// create [10/18/2016 blue]
+void
+glusCameraStereo(
+_In_	GLdouble	_d,
+_Inout_	PGlusCamera	_camera)
+{
+	assert(_camera);
+
+	if (_d == 0)		return;
+
+	/*
+	 *	compute the new camera
+	 */
+	glusVAdd(&_camera->Eye, 1, &_camera->U, _d, &_camera->Eye);
+	glusCamera(_camera);
+}
 /*
  *	set projection matrix
  */
@@ -285,8 +337,18 @@ _In_	GLdouble	_dz)
 	float  m[16] = { 0 };
 
 	m[0] = m[5] = m[10] = m[15] = 1;
-	m[8] = -_dx/_dz;
-	m[9] = -_dy/_dz;
+	m[8] = (float)(-_dx/_dz);
+	m[9] = (float)(-_dy / _dz);
 
 	glMultMatrixf(m);
+}
+
+/*
+ *	get eye position
+ */
+// create [10/18/2016 blue]
+PGlusVector
+glusGetEye()
+{
+	return &Eye;
 }

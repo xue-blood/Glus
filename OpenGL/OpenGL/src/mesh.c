@@ -14,10 +14,17 @@ _In_	PGlusMesh	_mesh)
 
 		glBegin(GL_LINE_LOOP);
 
+
 		for (Glusnum j = 0; j < _mesh->Faces[i].FaceIDNum;j++) // draw each one
 		{
 			Glusindex	id_normal = _mesh->Faces[i].FaceIDs[j].NormalID;
 			Glusindex	id_point =  _mesh->Faces[i].FaceIDs[j].PointID;
+
+			/*
+			 *	is back face
+			 */
+			if (glusIsFaceBack(glusGetEye(), _mesh->Points + id_point, _mesh->Normals + id_normal))
+				goto _mesh_end;
 
 			glNormal3dv((pdouble)(_mesh->Normals+id_normal));	// normal
 			glVertex3dv((pdouble)(_mesh->Points+id_point));		// point	// change [9/1/2016 blue] : add a (), and now work fine
@@ -26,7 +33,10 @@ _In_	PGlusMesh	_mesh)
 			glusDebug("point:\t%d\t", id_point);
 			glusDebug("normal:\t%d\n", id_normal);
 		}
+
+_mesh_end:
 		glEnd();
+
 	}
 }
 
@@ -789,4 +799,24 @@ _make_mesh_failed:
 	glusMeshClear(p_mesh);
 
 	return NULL;
+}
+
+/*
+ *	test is the face back of eye
+ */
+// create [10/18/2016 blue]
+bool
+glusIsFaceBack(
+_In_	PGlusVector	_eye,
+_In_	PGlusVector	_p,
+_In_	PGlusVector	_v)
+{
+	assert(_eye && _p && _v);
+
+	GlusVector	v_eye; glusVFromPoint(_eye, _p, &v_eye);
+
+	if (glusVDotPro(&v_eye, _v) > 0)
+		return true;
+	else
+		return false;
 }

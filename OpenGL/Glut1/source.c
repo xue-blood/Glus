@@ -5,9 +5,35 @@ PGlusScene Scene =NULL;
 
 void dispaly(void)
 {
+
+	PGlusMesh mesh = glusMeshSurface(20, 0, 2 * 3.14, 18, -Glus_PI / 2, Glus_PI, glusSurfaceSphere);
+
+	glViewport(0,0, 600, 400);
+	glusCameraPush(&Scene->Camera);
+	glusCameraStereo(-0.05, &Scene->Camera);
+
+
+	glColor3f(.3, .3, .3); glusGrid(0);
+	glColor3f(1, 0, 0);
+	//glusMeshDraw(mesh);
 	glusSceneDraw(Scene);
 
-	glusGrid(0);
+	glusCameraPop(&Scene->Camera);
+// 	
+// 
+	glViewport(600, 0, 600, 400);
+	glusCameraPush(&Scene->Camera);
+	glusCameraStereo(0.05, &Scene->Camera);
+
+	glColor3f(.3, .3, .3); glusGrid(0);
+	glColor3f(1, 0, 0);
+	//glusMeshDraw(mesh);
+	glusSceneDraw(Scene);
+
+glusCameraPop(&Scene->Camera);
+
+
+
 	glutSwapBuffers();
 
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -64,7 +90,7 @@ void glusInit()
 {
 	printf("init\n");
 
-	glusInitWin(300, 100, 600, 400, "glut1", GLUT_DOUBLE | GLUT_RGB);
+	glusInitWin(300, 100, 1200, 400, "glut1", GLUT_DOUBLE | GLUT_RGB);
 
 	Scene = glusSceneLoad("scene.sdl");
 	glusSceneLight(Scene);
