@@ -269,6 +269,7 @@ void	glusAxis(_In_	GLdouble	_length);
 void	glusAxis3D(_In_	GLdouble	_length);
 void	glusSphere(pvoid _pointer);
 void	glusCube(pvoid _pointer);
+void	glusTeapot(pvoid _pointer);
 void	glusGrid(pvoid _ptr);
 void	glusShapeDefault(_Inout_ PGlusShape _shape);
 
@@ -373,6 +374,12 @@ void	glusPerspective(_In_	GLdouble	_angle,_In_	GLdouble	_ration,_In_	GLdouble	_n
 void	glusOrtho(_In_	GLdouble	_left,_In_	GLdouble	_right,_In_	GLdouble	_top,_In_	GLdouble	_bottom,_In_	GLdouble	_near,_In_	GLdouble	_far,_Inout_	PGlusProjection	_projection);
 void	glusOblique(_In_	GLdouble	_dx,_In_	GLdouble	_dy,_In_	GLdouble	_dz,_Inout_	PGlusProjection	_projection);
 
+
+/*
+ *	status
+ */
+void	glusSetShadeLevel(_In_	Glusenum	_param);
+Glusenum	glusGetShadeLevel();
 
 PGlusVector	glusGetEye();
 #endif // !_GLUS_FUNC_H

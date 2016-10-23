@@ -1,5 +1,58 @@
-﻿Build started 2016/10/18 16:54:05.
+﻿Build started 2016/10/23 15:49:02.
+Project "\\win\E\Projects\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Rebuild target(s)).
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\callback.c src\camera.c src\circle.c src\file.c src\init.c src\line.c src\link.c src\mesh.c src\mouse.c src\rgbpixmap.c src\shape.c src\plane.c src\points.c src\ray.c src\scene.c src\status.c src\surface.c src\transfrom.c src\tween.c src\vector.c src\point.c src\glus.c
+  glus.c
+  point.c
+  vector.c
+  tween.c
+  transfrom.c
+  surface.c
+  status.c
+  scene.c
+  ray.c
+  points.c
+  plane.c
+  shape.c
+  rgbpixmap.c
+  mouse.c
+  mesh.c
+  link.c
+  line.c
+  init.c
+  file.c
+  circle.c
+  Generating Code...
+  Compiling...
+  camera.c
+  callback.c
+  Generating Code...
+Lib:
+  C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"\\win\E\Projects\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\callback.obj
+  Debug\camera.obj
+  Debug\circle.obj
+  Debug\file.obj
+  Debug\init.obj
+  Debug\line.obj
+  Debug\link.obj
+  Debug\mesh.obj
+  Debug\mouse.obj
+  Debug\rgbpixmap.obj
+  Debug\shape.obj
+  Debug\plane.obj
+  Debug\points.obj
+  Debug\ray.obj
+  Debug\scene.obj
+  Debug\status.obj
+  Debug\surface.obj
+  Debug\transfrom.obj
+  Debug\tween.obj
+  Debug\vector.obj
+  Debug\point.obj
+  Debug\glus.obj
+  OpenGL.vcxproj -> \\win\E\Projects\OpenGL\OpenGL\Debug\OpenGL.lib
+Done Building Project "\\win\E\Projects\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.10
+Time Elapsed 00:00:07.57

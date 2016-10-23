@@ -5,38 +5,16 @@ PGlusScene Scene =NULL;
 
 void dispaly(void)
 {
-
-	PGlusMesh mesh = glusMeshSurface(20, 0, 2 * 3.14, 18, -Glus_PI / 2, Glus_PI, glusSurfaceSphere);
-
-	glViewport(0,0, 600, 400);
-	glusCameraPush(&Scene->Camera);
-	glusCameraStereo(-0.05, &Scene->Camera);
+	glShadeModel(GL_FLAT);
+	
+	glusSceneLight(Scene);
 
 
-	glColor3f(.3, .3, .3); glusGrid(0);
-	glColor3f(1, 0, 0);
-	//glusMeshDraw(mesh);
 	glusSceneDraw(Scene);
-
-	glusCameraPop(&Scene->Camera);
-// 	
-// 
-	glViewport(600, 0, 600, 400);
-	glusCameraPush(&Scene->Camera);
-	glusCameraStereo(0.05, &Scene->Camera);
-
-	glColor3f(.3, .3, .3); glusGrid(0);
-	glColor3f(1, 0, 0);
-	//glusMeshDraw(mesh);
-	glusSceneDraw(Scene);
-
-glusCameraPop(&Scene->Camera);
-
-
 
 	glutSwapBuffers();
 
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void 
@@ -52,8 +30,11 @@ int _x, int _y)
 	switch (_key)
 	{
 	case '0': glutExit(); break;
+
 	case 'w': glusCameraSlide(0, 0, -.1, &Scene->Camera); break;
 	case 's': glusCameraSlide(0, 0, .1, &Scene->Camera); break;
+	case ' ': glusCameraSlide(0, .1, 0, &Scene->Camera); break;
+	case 'x': glusCameraSlide(0, -.1, 0, &Scene->Camera); break;
 	case 'd': glusCameraSlide(.1, 0, 0, &Scene->Camera); break;
 	case 'a': glusCameraSlide(-.1, 0, 0, &Scene->Camera); break;
 	case 'q': glusCameraRoll(1, &Scene->Camera); break;
@@ -62,7 +43,9 @@ int _x, int _y)
 	case 'l' : glusCameraYaw(1, &Scene->Camera); break;
 	case 'i': glusCameraPitch(-1, &Scene->Camera); break;
 	case 'k': glusCameraPitch(1, &Scene->Camera); break;
-
+	
+	case '=': glusSetShadeLevel(Glus_Shade_Wire); break;
+	case '+': glusSetShadeLevel(Glus_Shade_Solid); break;
 	default:
 		break;
 	}
@@ -84,21 +67,24 @@ void tm(int id)
 
 void data()
 {
-	
-}
-void glusInit()
-{
-	printf("init\n");
-
-	glusInitWin(300, 100, 1200, 400, "glut1", GLUT_DOUBLE | GLUT_RGB);
 
 	Scene = glusSceneLoad("scene.sdl");
-	glusSceneLight(Scene);
 
+	
+}
+
+void set()
+{
 	//glusDebugEnable(true);
 
-	data();
-	
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+
+}
+
+void func()
+{
+
 	glutDisplayFunc(dispaly);
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
@@ -106,5 +92,14 @@ void glusInit()
 
 	glutTimerFunc(TIME, tm, 0);
 
-	
+}
+void glusInit()
+{
+	printf("init\n");
+
+	glusInitWin(300, 100, 600, 400, "glut1", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+
+	set();
+	data();
+	func();
 }   

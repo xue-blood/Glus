@@ -142,7 +142,19 @@ glusSphere(pvoid _pointer)
 {
 	glusPushCT();
 
-	glutWireSphere(0.5, 12, 8);
+	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireSphere(0.5, 24, 16);
+	else											glutSolidSphere(0.5, 24, 16);
+
+	glusPopCT();
+}
+
+void
+glusTeapot(pvoid _pointer)
+{
+	glusPushCT();
+
+	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireTeapot(0.5);
+	else											glutSolidTeapot(0.5);
 
 	glusPopCT();
 }
@@ -152,6 +164,8 @@ glusCube(pvoid _pointer)
 {
 	glusPushCT();
 
+	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireCube(1);
+	else											glutSolidCube(1);
 	glutWireCube(1);
 
 	glusPopCT();

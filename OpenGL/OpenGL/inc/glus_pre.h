@@ -6,3 +6,5 @@
 #include <stdio.h>
 
 #pragma warning(disable:4756) // disable overflow warning
+#pragma warning(disable:4244) // disable overflow warning
+#pragma warning(disable:4305) // disable overflow warning

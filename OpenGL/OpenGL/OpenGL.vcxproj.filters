@@ -30,6 +30,9 @@
     <ClInclude Include="inc\glus_func.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rgbpixmap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\vector.c">
@@ -90,6 +93,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\camera.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\status.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rgbpixmap.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

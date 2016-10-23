@@ -24,6 +24,7 @@
     <ClInclude Include="inc\glus_pre.h" />
     <ClInclude Include="inc\glus.h" />
     <ClInclude Include="inc\glus_struct.h" />
+    <ClInclude Include="inc\rgbpixmap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\callback.c" />
@@ -35,11 +36,13 @@
     <ClCompile Include="src\link.c" />
     <ClCompile Include="src\mesh.c" />
     <ClCompile Include="src\mouse.c" />
+    <ClCompile Include="src\rgbpixmap.c" />
     <ClCompile Include="src\shape.c" />
     <ClCompile Include="src\plane.c" />
     <ClCompile Include="src\points.c" />
     <ClCompile Include="src\ray.c" />
     <ClCompile Include="src\scene.c" />
+    <ClCompile Include="src\status.c" />
     <ClCompile Include="src\surface.c" />
     <ClCompile Include="src\transfrom.c" />
     <ClCompile Include="src\tween.c" />

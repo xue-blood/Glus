@@ -12,8 +12,8 @@ _In_	PGlusMesh	_mesh)
 		glusDebug("\nface:\t%d\n", i);
 		
 
-		glBegin(GL_LINE_LOOP);
-
+		if (glusGetShadeLevel()== Glus_Shade_Wire)	glBegin(GL_LINE_LOOP);
+		else										glBegin(GL_POLYGON);
 
 		for (Glusnum j = 0; j < _mesh->Faces[i].FaceIDNum;j++) // draw each one
 		{

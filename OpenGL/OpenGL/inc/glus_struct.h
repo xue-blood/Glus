@@ -146,7 +146,7 @@ typedef struct _GlusTransform
 
 typedef struct _GlusColor
 {
-	GLclampd	R, G, B, A;
+	GLfloat	R, G, B, A;
 }GlusColor, *PGlusColor;
 
 
@@ -159,7 +159,8 @@ typedef	struct _GlusShape
 	void(*Clear)(pvoid);	// add [8/31/2016 blue]
 	pvoid Extern;	// a pointer to a struct
 
-	GlusColor		Diffuse;
+	GlusColor		Diffuse, Specular, Ambient;
+
 	GlusTransform	Transform;
 }GlusShape, *PGlusShape;
 
@@ -226,6 +227,7 @@ typedef struct _GlusCamera
 typedef	struct _GlusScene
 {
 	GlusColor	Background;
+	GlusColor	GlobalAmbient;
 	GlusCamera	Camera;		//  [7/9/2016 tld] add
 	GlusProjection	Projection;	// add [7/9/2016 tld]
 	GlusLink	Shapes;

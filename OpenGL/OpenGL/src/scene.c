@@ -7,7 +7,7 @@
 	add glusSceneDefault
 */
 #define	_Key_Unknown -1
-#define Keys_n 14
+#define Keys_n 20
 str Keys[Keys_n] =
 {
 	"//",
@@ -23,7 +23,13 @@ str Keys[Keys_n] =
 	"sphere",
 	"polyline",
 	"cube",
-	"mesh"
+	"mesh",
+	"shadelevel",
+	"globalambient",
+	"ambient",
+	"specular",
+	"light",
+	"teapot"
 };
 GLsizei Keys_func_param[Keys_n] = 
 {
@@ -40,7 +46,13 @@ GLsizei Keys_func_param[Keys_n] =
 	0,	// sphere
 	0,	// polyline
 	0,	// cube
-	0	// mesh
+	0,	// mesh
+	1,	// shade level
+	4,	// global ambient
+	4,	// ambient
+	4,	// specular
+	9,	// light
+	0,	// teapot
 };
 
 //
@@ -102,6 +114,9 @@ void camera(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 		&_scene->Camera);
 
 }
+/*
+ *	diffuse
+ */
 void diffuse(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
 	//
@@ -116,6 +131,43 @@ void diffuse(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	s->Diffuse.G = param[1];
 	s->Diffuse.B = param[2];
 	s->Diffuse.A = (param_n == 3)? 1.0:		param[3];
+}
+/*
+ *	ambient
+ */
+void ambient(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	//
+	// get the current shape
+	//
+	PGlusShape s = glusSceneGetLastShape(_scene);
+
+	//
+	// then set diffuse
+	//
+	s->Ambient.R = param[0];
+	s->Ambient.G = param[1];
+	s->Ambient.B = param[2];
+	s->Ambient.A = (param_n == 3) ? 1.0 : param[3];
+}
+
+/*
+ *	specular for material
+ */
+void specular(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	//
+	// get the current shape
+	//
+	PGlusShape s = glusSceneGetLastShape(_scene);
+
+	//
+	// then set diffuse
+	//
+	s->Specular.R = param[0];
+	s->Specular.G = param[1];
+	s->Specular.B = param[2];
+	s->Specular.A = (param_n == 3) ? 1.0 : param[3];
 }
 void translate(	PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
@@ -166,6 +218,16 @@ void sphere(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	PGlusShape p = glusSceneCreateNewShape(_scene);
 
 	p->Draw = glusSphere;
+}
+
+/*
+ *	teapot
+ */
+void teapot(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	PGlusShape p = glusSceneCreateNewShape(_scene);
+
+	p->Draw = glusTeapot;
 }
 void polyline(PGlusScene _scene, pGLdouble p_param, GLsizei n_param, FILE *file)
 {
@@ -232,6 +294,46 @@ void mesh(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	if(!glusSuccess(glusMeshAddToScene(p_mesh, _scene)))
 		return;
 }
+
+/*
+ *	shade level
+ */
+void shadelevel(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	glusSetShadeLevel((Glusenum)param[0]);
+}
+/*
+ *	global ambient
+ */
+void globalambient(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	_scene->GlobalAmbient.R = param[0];
+	_scene->GlobalAmbient.G = param[1];
+	_scene->GlobalAmbient.B = param[2];
+	_scene->GlobalAmbient.A = (param_n==3)?1:param[3];
+}
+
+/*
+ *	light
+ */
+void light(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	PGlusLights p_light; glusAllocex(p_light, GlusLights,1,return);
+	glusLinkInsertTail(&_scene->Lights, p_light);
+
+	p_light->Light.Type =GL_LIGHT0+ (int)param[0];
+	
+	p_light->Light.Position.X = param[1];
+	p_light->Light.Position.Y = param[2];
+	p_light->Light.Position.Z = param[3];
+	p_light->Light.Position.V = param[4];
+
+	p_light->Light.Diffuse.R = param[5];
+	p_light->Light.Diffuse.G = param[6];
+	p_light->Light.Diffuse.B = param[7];
+	p_light->Light.Diffuse.A = param[8];
+
+}
 void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 {
 	comment,
@@ -247,7 +349,13 @@ void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 	sphere,
 	polyline,
 	cube,
-	mesh
+	mesh,
+	shadelevel,
+	globalambient,
+	ambient,
+	specular,
+	light,
+	teapot
 };
 
 int Keys_Get_id(FILE * file)
@@ -461,14 +569,26 @@ _In_	PGlusScene	_scene)
 		glusPushCT();
 
 		
+		if (glusGetShadeLevel()== Glus_Shade_Wire)
+			glColor4fv((GLfloat*)&s->Diffuse);	// no material
+		else
+		{
+			/*
+			*	set material
+			*/
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, (GLfloat*)&s->Diffuse);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (GLfloat*)&s->Specular);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, (GLfloat*)&s->Ambient);
+		}
 
 		//
 		// transform
 		//
-		glColor4dv((GLdouble*)&s->Diffuse);	// diffuse color
 		glusTranslatev(&s->Transform);		// translate
 		glusScalev(&s->Transform);			// scale
 		glusRotatev(&s->Transform);			// rotate
+
+		
 
 		s->Draw(s->Extern);					// draw it
 
@@ -491,27 +611,34 @@ _In_	PGlusScene	_scene)
 {
 	assert(_scene);
 
-	PGlusLink	p = _scene->Lights.BLink;
-	
+	/*
+	 *	global ambient
+	 */
+	if (_scene->GlobalAmbient.A <= 0)
+		return;
+	glEnable(GL_LIGHTING);	// enable light
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
+
 	//
 	// is require use light
 	//
-	if (glusLinkIsEmpty(p))
+	if (glusLinkIsEmpty(&_scene->Lights))
 		return;
 
-	glEnable(GL_LIGHTING);	// enable light
-	glShadeModel(GL_SMOOTH);// shade model
+	/*
+	 *	other light
+	 */
 	glEnable(GL_DEPTH_TEST);// enabLe depth test
 	glEnable(GL_NORMALIZE); // enable normalize vector
-
-	while (!glusLinkIsEmpty(p))
+	
+	PGlusLights l = (PGlusLights)_scene->Lights.BLink;
+	while (!glusLinkIsHead(l,&_scene->Lights))
 	{
-		PGlusLights l = (PGlusLights)p->BLink;
 		glEnable(l->Light.Type);
 		glLightfv(l->Light.Type, GL_POSITION, (GLfloat*)&l->Light.Position);
 		glLightfv(l->Light.Type, GL_DIFFUSE, (GLfloat*)&l->Light.Diffuse);
 
-		p = p->BLink;
+		l = (PGlusLights)l->Link.BLink;
 	}
 }
 

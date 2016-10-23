@@ -53,10 +53,16 @@ typedef GLdouble 	*pGLdouble;
 typedef	size_t		Glussize;	// change from size [8/24/2016 tld] : the size of object
 typedef	long long	Glusindex;	// add [8/24/2016 tld] : the index of object
 typedef size_t		Glusnum;	// add [8/24/2016 tld] : the num of object
+typedef	GLenum		Glusenum;
 
 
 
-
+/*
+ *	status
+ */
+// shade level
+#define Glus_Shade_Wire		0
+#define Glus_Shade_Solid	1
 
 
 
