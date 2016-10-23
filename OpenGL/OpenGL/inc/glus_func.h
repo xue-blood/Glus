@@ -266,7 +266,7 @@ void	glusTransformDefault(_In_	PGlusTransform	_trans);
 //
 void	glusTiling(_In_	PGlusTransform	_orgTrans,_In_	PGlusTransform	_eachTrans,_In_	GLdouble		_x,_In_	GLdouble		_y,_In_	GLdouble		_z,_In_	void(*callback)(void));
 void	glusAxis(_In_	GLdouble	_length);
-void	glusAxis3D(_In_	GLdouble	_length);
+void	glusAxis3D(_In_	pvoid		_ptr);
 void	glusSphere(pvoid _pointer);
 void	glusCube(pvoid _pointer);
 void	glusTeapot(pvoid _pointer);

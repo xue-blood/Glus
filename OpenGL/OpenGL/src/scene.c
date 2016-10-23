@@ -7,7 +7,7 @@
 	add glusSceneDefault
 */
 #define	_Key_Unknown -1
-#define Keys_n 22
+#define Keys_n 23
 str Keys[Keys_n] =
 {
 	"//",
@@ -31,7 +31,8 @@ str Keys[Keys_n] =
 	"light",
 	"teapot",
 	"texture",
-	"textureid"
+	"textureid",
+	"grid"
 };
 GLsizei Keys_func_param[Keys_n] = 
 {
@@ -56,7 +57,8 @@ GLsizei Keys_func_param[Keys_n] =
 	9,	// light
 	0,	// teapot
 	0,	// texture
-	0	// texture id
+	0,	// texture id
+	0,	// grid
 };
 
 //
@@ -80,9 +82,11 @@ void background(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 }
 void axis(		PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
-	if (param[0]==0)
-		_scene->EnableAxis = false;
-	_scene->AxisLength = param[0];
+	// create a new shape and add to scene
+	PGlusShape p = glusSceneCreateNewShape(_scene);
+
+	// set the draw function
+	p->Draw = glusAxis3D;
 }
 
 
@@ -360,6 +364,18 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	glusTextureIDLoad(file, s->Extern);
 
 }
+
+/*
+ *	grid
+ */
+void grid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	// create a new shape and add to scene
+	PGlusShape p = glusSceneCreateNewShape(_scene);
+
+	// set the draw function
+	p->Draw = glusGrid;
+}
 void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 {
 	comment,
@@ -383,7 +399,8 @@ void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 	light,
 	teapot,
 	texture,
-	textureid
+	textureid,
+	grid
 };
 
 int Keys_Get_id(FILE * file)
@@ -584,18 +601,7 @@ _In_	PGlusScene	_scene)
 	//
 	glClearColor((GLclampf)_scene->Background.R, (GLclampf)_scene->Background.G, (GLclampf)_scene->Background.B, (GLclampf)_scene->Background.A);
 
-
 	
-	//
-	// draw axis
-	//
-	if (_scene->EnableAxis)
-	{
-		glusAxis3D(_scene->AxisLength);
-	}
-
-	
-
 	//
 	// draw the shapes
 	//
@@ -611,10 +617,9 @@ _In_	PGlusScene	_scene)
 		
 		glusPushCT();
 
+		glColor4fv((GLfloat*)&s->Diffuse);	// no material
 		
-		if (glusGetShadeLevel()== Glus_Shade_Wire)
-			glColor4fv((GLfloat*)&s->Diffuse);	// no material
-		else
+		if (glusGetShadeLevel()!= Glus_Shade_Wire)
 		{
 			/*
 			*	set material
@@ -638,11 +643,11 @@ _In_	PGlusScene	_scene)
 		s->Draw(s->Extern);					// draw it
 
 		glusPopCT();
+
+
+
 		p = (PGlusShapes)p->Link.BLink;
 
-
-		// use gray as default color
-		glColor3d(0.45, 0.45, 0.45);
 	}
 }
 

@@ -6,16 +6,11 @@ PGlusScene Scene =NULL;
 
 void dispaly(void)
 {
-	glShadeModel(GL_SMOOTH);
-
-	
 
 	glusSceneLight(Scene);
 
 	glusSceneDraw(Scene);
 
-	glColor3f(.3, .3, .3);
-	glusGrid(0);
 	glutSwapBuffers();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -81,7 +76,7 @@ void set()
 {
 	//glusDebugEnable(true);
 
-	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	
 	

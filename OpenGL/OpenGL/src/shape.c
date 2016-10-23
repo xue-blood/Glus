@@ -108,8 +108,11 @@ _In_	GLdouble	_length)
 //
 void
 glusAxis3D(
-_In_	GLdouble	_length)
+_In_	pvoid		_ptr)
 {
+	int _length = (int)_ptr;
+
+	if (_length == 0) _length = 1;
 
 	//
 	// z-axis
