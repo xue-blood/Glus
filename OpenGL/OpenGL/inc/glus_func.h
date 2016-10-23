@@ -382,6 +382,13 @@ void	glusSetShadeLevel(_In_	Glusenum	_param);
 Glusenum	glusGetShadeLevel();
 
 PGlusVector	glusGetEye();
+
+
+/*
+ *	texture
+ */
+Glus_Status	glusTextureLoad(_In_	FILE*		file,_Inout_	PGlusScene	_scene);
+Glus_Status	glusTextureIDLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	_mesh);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

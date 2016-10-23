@@ -224,6 +224,14 @@ typedef struct _GlusCamera
 {
 	GlusVector	Eye, U, V, N;
 }GlusCamera, *PGlusCamera;
+
+typedef	struct _GlusTexture
+{
+	GlusLink	Link;
+	PRgbMap		Pixmap;
+	Glusindex	ID;
+}GlusTexture, *PGlusTexture;
+
 typedef	struct _GlusScene
 {
 	GlusColor	Background;
@@ -232,6 +240,7 @@ typedef	struct _GlusScene
 	GlusProjection	Projection;	// add [7/9/2016 tld]
 	GlusLink	Shapes;
 	GlusLink	Lights;
+	GlusLink	Textures;
 	// add [7/9/2016 tld]
 	bool		EnableAxis;	
 	GLdouble	AxisLength;
@@ -264,6 +273,8 @@ typedef struct _GlusMesh
 	PGlusVector	Points,		Normals;
 	PGlusFace	Faces;
 	Glusnum		PointNum, NormalNum, FaceNum;
+	Glusindex	TextureID;
+	PGlusVector	Textures;
 }GlusMesh, *PGlusMesh;
 typedef struct _GlusMeshs
 {

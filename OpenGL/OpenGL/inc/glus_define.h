@@ -29,6 +29,8 @@
 
 #define strlower(str) for(int i=0;str[i];i++) str[i]=tolower(str[i])
 
+#define strequ(a,b)	(strcmp(a,b)==0)
+
 typedef	char *		str;
 typedef wchar_t *	wstring;
 

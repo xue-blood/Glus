@@ -1,6 +1,7 @@
 
 
-
+#ifndef _RGB_PIXMAP_H
+#define _RGB_PIXMAP_H
 typedef	struct _RGB
 {
 	unsigned char	R, G, B;
@@ -15,3 +16,4 @@ typedef	struct _RgbMap
 
 PRgbMap	rgbCheckboard();
 void	rgbSetTexture(_In_	PRgbMap		rgbmap,_In_	int			_id_texture);
+#endif

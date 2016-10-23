@@ -7,7 +7,7 @@
 	add glusSceneDefault
 */
 #define	_Key_Unknown -1
-#define Keys_n 20
+#define Keys_n 22
 str Keys[Keys_n] =
 {
 	"//",
@@ -29,7 +29,9 @@ str Keys[Keys_n] =
 	"ambient",
 	"specular",
 	"light",
-	"teapot"
+	"teapot",
+	"texture",
+	"textureid"
 };
 GLsizei Keys_func_param[Keys_n] = 
 {
@@ -53,6 +55,8 @@ GLsizei Keys_func_param[Keys_n] =
 	4,	// specular
 	9,	// light
 	0,	// teapot
+	0,	// texture
+	0	// texture id
 };
 
 //
@@ -334,6 +338,28 @@ void light(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	p_light->Light.Diffuse.A = param[8];
 
 }
+
+/*
+ *	load texture
+ */
+void texture(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	glusTextureLoad(file, _scene);
+}
+
+/*
+ *	set texture for mesh
+ */
+void textureid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	//
+	// get the current shape
+	//
+	PGlusShape s = glusSceneGetLastShape(_scene);
+
+	glusTextureIDLoad(file, s->Extern);
+
+}
 void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 {
 	comment,
@@ -355,7 +381,9 @@ void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 	ambient,
 	specular,
 	light,
-	teapot
+	teapot,
+	texture,
+	textureid
 };
 
 int Keys_Get_id(FILE * file)
@@ -463,6 +491,16 @@ _In_	PGlusScene	_scene)
 	//
 	glusLinkClear(&_scene->Lights);
 
+	/*
+	 *	clear texture
+	 */
+	while (!glusLinkIsEmpty(&_scene->Textures))
+	{
+		PGlusTexture p = (PGlusTexture)glusLinkRemoveHead(&_scene->Textures);
+
+		glusFree(p->Pixmap->Pixels);
+		glusFree(p->Pixmap);
+	}
 	glusFree(_scene); // clear scene
 }
 
@@ -502,6 +540,11 @@ glusSceneDefault()
 	// init the lights
 	//
 	glusLinkInit(&scene->Lights);
+
+	/*
+	 *	init the textures
+	 */
+	glusLinkInit(&scene->Textures);
 
 	//
 	// enable axis
@@ -579,6 +622,8 @@ _In_	PGlusScene	_scene)
 			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, (GLfloat*)&s->Diffuse);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (GLfloat*)&s->Specular);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, (GLfloat*)&s->Ambient);
+
+			glEnable(GL_LIGHTING);
 		}
 
 		//

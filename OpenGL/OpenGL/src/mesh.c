@@ -10,11 +10,26 @@ _In_	PGlusMesh	_mesh)
 	for (Glusnum i = 0; i < _mesh->FaceNum;i++)	// draw each face
 	{
 		glusDebug("\nface:\t%d\n", i);
-		
+
+		glEnable(GL_LIGHTING);
+
+		/*
+		*	is require texture
+		*/
+		if (_mesh->Textures)
+		{
+			glEnable(GL_TEXTURE_2D);
+			glEnable(GL_DEPTH_TEST);
+			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+			glBindTexture(GL_TEXTURE_2D, _mesh->TextureID);
+		}
+		else	glBindTexture(GL_TEXTURE_2D, -1); // use unvalid texture
 
 		if (glusGetShadeLevel()== Glus_Shade_Wire)	glBegin(GL_LINE_LOOP);
 		else										glBegin(GL_POLYGON);
-
+		/*
+		 *	send coordinate to pipeline
+		 */
 		for (Glusnum j = 0; j < _mesh->Faces[i].FaceIDNum;j++) // draw each one
 		{
 			Glusindex	id_normal = _mesh->Faces[i].FaceIDs[j].NormalID;
@@ -23,10 +38,13 @@ _In_	PGlusMesh	_mesh)
 			/*
 			 *	is back face
 			 */
-			if (glusIsFaceBack(glusGetEye(), _mesh->Points + id_point, _mesh->Normals + id_normal))
+			if ((_mesh->NormalNum > 0) && glusIsFaceBack(glusGetEye(), _mesh->Points + id_point, _mesh->Normals + id_normal))
 				goto _mesh_end;
 
-			glNormal3dv((pdouble)(_mesh->Normals+id_normal));	// normal
+			if (_mesh->Textures)
+				glTexCoord2d(_mesh->Textures[id_point].X, _mesh->Textures[id_point].Y);
+			if (_mesh->NormalNum > 0)
+				glNormal3dv((pdouble)(_mesh->Normals+id_normal));	// normal
 			glVertex3dv((pdouble)(_mesh->Points+id_point));		// point	// change [9/1/2016 blue] : add a (), and now work fine
 			
 			//glusDebug("point,normal:\t%d,%d\n", id_point, id_normal);
@@ -37,6 +55,7 @@ _In_	PGlusMesh	_mesh)
 _mesh_end:
 		glEnd();
 
+		glDisable(GL_TEXTURE_2D);
 	}
 }
 
@@ -72,8 +91,11 @@ _Inout_	PGlusMesh	*_mesh)
 	/*
 	 *	read the normals
 	 */
-	glusAllocN(p_mesh->Normals, GlusVector, p_mesh->NormalNum);
-	glusFileLoadVectors_A(_file, p_mesh->Normals, p_mesh->NormalNum);
+	if (p_mesh->NormalNum > 0)
+	{
+		glusAllocN(p_mesh->Normals, GlusVector, p_mesh->NormalNum);
+		glusFileLoadVectors_A(_file, p_mesh->Normals, p_mesh->NormalNum);
+	}
 
 	/*
 	 *	read the faces
@@ -94,9 +116,11 @@ _Inout_	PGlusMesh	*_mesh)
 			glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].PointID);
 
 		// for normal
-		for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
-			glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].NormalID);
-
+		if (p_mesh->NormalNum > 0)
+		{
+			for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
+				glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].NormalID);
+		}
 	}
 	glusCheck(p_mesh);
 	return Glus_Status_Success;
@@ -113,6 +137,9 @@ _In_	PGlusMesh	_mesh)
 	assertp(_mesh);
 
 	glusDebug(__FUNCTION__"\n");
+
+	// free texture-id
+	glusFree(_mesh->Textures);
 
 	// free point
 	glusFree(_mesh->Points);	_mesh->PointNum = 0;

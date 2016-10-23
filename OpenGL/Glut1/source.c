@@ -3,25 +3,10 @@
 
 PGlusScene Scene =NULL;
 #define TIME 30
-void tex()
-{
-	PRgbMap tex = rgbCheckboard();
-	rgbSetTexture(tex, 200);
 
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-	
-
-	glBindTexture(GL_TEXTURE_2D, 200);
-	glBegin(GL_QUADS);
-	glTexCoord2f(0, 0); glVertex2f(0, 0);
-	glTexCoord2f(0, 1); glVertex2f(0, 1);
-	glTexCoord2f(1,1); glVertex2f(1, 1);
-	glTexCoord2f(1,0); glVertex2f(1, 0);
-	glEnd();
-}
 void dispaly(void)
 {
-	glShadeModel(GL_FLAT);
+	glShadeModel(GL_SMOOTH);
 
 	
 
@@ -30,7 +15,6 @@ void dispaly(void)
 	glusSceneDraw(Scene);
 
 	glColor3f(.3, .3, .3);
-	tex();
 	glusGrid(0);
 	glutSwapBuffers();
 
@@ -100,10 +84,7 @@ void set()
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	
-	//glEnable(GL_LIGHTING);
-	glEnable(GL_TEXTURE_2D);
-
-	glEnable(GL_DEPTH_TEST);
+	
 }
 
 void func()

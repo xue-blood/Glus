@@ -84,6 +84,7 @@ _In_	GLdouble	_length)
 {
 	glusPushCT();
 
+	glDisable(GL_LIGHTING);
 	//
 	// draw z-axis
 	//
@@ -195,6 +196,8 @@ glusGrid(pvoid _ptr)
 	glMatrixMode(GL_MODELVIEW);
 	
 	glPushMatrix();
+
+	glDisable(GL_LIGHTING);
 
 	GLint max_x = 30;
 	GLint max_z = 30;
