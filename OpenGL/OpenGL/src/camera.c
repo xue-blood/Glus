@@ -64,9 +64,8 @@ _Inout_	PGlusCamera	_camera)
 	glusVUnit(&_camera->N);
 
 	// make u
-	GlusVector up;	glusV3d(_upx, _upy, _upz, &up);
-	glusVCroPro(&up, &_camera->N,&_camera->U);
-	glusVUnit(&_camera->U);
+	GlusVector up;	glusV3d(_upx, _upy, _upz, &up); glusVUnit(&up);
+	glusVCroPro(&up, &_camera->N,&_camera->U);		glusVUnit(&_camera->U);
 
 	// make v
 	glusVCroPro(&_camera->N, &_camera->U, &_camera->V);
@@ -115,8 +114,8 @@ _Inout_	PGlusCamera	_camera)
 	GlusVector  t = _camera->U;
 #undef v
 #define v _camera->V
-	glusVAdd(&t, c, &_camera->V, s, &_camera->U);
-	glusVAdd(&t, -s, &_camera->V, c, &_camera->V);
+	glusVAdd(&t, c,		&_camera->V, s,		&_camera->U); glusVUnit(&_camera->U);
+	glusVAdd(&t, -s,	&_camera->V, c,		&_camera->V); glusVUnit(&_camera->V);
 
 #undef v
 	glusCamera(_camera);
@@ -140,8 +139,8 @@ _Inout_	PGlusCamera	_camera)
 	 */
 	GlusVector n = _camera->N, u = _camera->U;
 
-	glusVAdd(&n, c, &u, -s, &_camera->N);
-	glusVAdd(&n, s, &u, c, &_camera->U);
+	glusVAdd(&n, c, &u, -s, &_camera->N);	glusVUnit(&_camera->N);
+	glusVAdd(&n, s, &u, c,  &_camera->U);	glusVUnit(&_camera->U);
 
 	glusCamera(_camera);
 }
@@ -163,8 +162,8 @@ _Inout_	PGlusCamera	_camera)
 	*	compute the new vector
 	*/
 	GlusVector n = _camera->N, v = _camera->V;
-	glusVAdd(&n, c, &v, s, &_camera->N);
-	glusVAdd(&n, -s, &v, c, &_camera->V);
+	glusVAdd(&n, c,		&v, s, &_camera->N);	glusVUnit(&_camera->N);
+	glusVAdd(&n, -s,	&v, c, &_camera->V);	glusVUnit(&_camera->V);
 
 	glusCamera(_camera);
 }
@@ -231,6 +230,7 @@ _In_	PGlusProjection		_proj)
 	{
 	case ProjectPers:
 		gluPerspective(_proj->Persp.AngleView, _proj->Persp.AspectRation, _proj->Near, _proj->Far);
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		break;
 
 	case ProjectOrtho:

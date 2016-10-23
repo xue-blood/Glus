@@ -25,7 +25,7 @@ rgbCheckboard()
 		for (int j = 0; j < map->nCol;j++)
 		{
 			int c = ((i & 8) ^ (j & 8)) * 255;
-			map->Pixels[count].R = c;
+			map->Pixels[count].R = 0;
 			map->Pixels[count].G = c;
 			map->Pixels[count++].B = c;
 		}
