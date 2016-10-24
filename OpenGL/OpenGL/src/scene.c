@@ -7,11 +7,9 @@
 	add glusSceneDefault
 */
 #define	_Key_Unknown -1
-#define Keys_n 23
+#define Keys_n 21
 str Keys[Keys_n] =
 {
-	"//",
-	"/*",
 	"background",
 	"axis",
 	"projection",
@@ -36,8 +34,6 @@ str Keys[Keys_n] =
 };
 GLsizei Keys_func_param[Keys_n] = 
 {
-	0,	// comment
-	0,	// comments
 	3,	// background
 	1,	// axis
 	9,	// projection
@@ -64,14 +60,6 @@ GLsizei Keys_func_param[Keys_n] =
 //
 // key function
 //
-void comment(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
-{
-	fscanf_s(file, "%*[^\n]\n");	// just skip all char at current line
-}
-void comments(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
-{
-	fscanf_s(file, "%*[^*/]*/");	// just skip all char until find "*/"
-}
 void background(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
 	if (param_n == 3)
@@ -377,8 +365,6 @@ void grid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 }
 void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 {
-	comment,
-	comments,
 	background,
 	axis,
 	projection,
@@ -464,8 +450,13 @@ _In_	str	_fileName)
 	//
 	FILE * file;
 	fopen_s(&file, _fileName, "r");
-	if (!file)
-		return scene;
+	if (!file)		return scene;
+
+	/*
+	 *	 skip comment
+	 */
+	fskipcomment(&file, "//","/*","*/");		
+
 
 	GLdouble	func_param[30];
 	while (!feof(file))

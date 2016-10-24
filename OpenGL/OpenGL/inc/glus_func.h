@@ -304,8 +304,10 @@ Glussize	glusFileLoadPoints_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, _
 
 Glussize	glusFileLoadVectors_L(_In_	FILE *		_file, _In_	PGlusLink	_head, _In_	Glussize	_max_size);
 Glussize	glusFileLoadVectors_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, _In_	Glussize	_max_size);
-
-
+#if WIN32
+FILE*	fmemopen(_In_	char *	buffer,_In_	size_t	size,_In_	char *	mode);
+#endif
+void	fskipcomment(_In_	FILE **	_file,_In_	char *	line_comment,_In_	char *	mul_start_comment,_In_	char *	mul_end_comment);
 //
 // mesh
 //

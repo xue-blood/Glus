@@ -1,4 +1,4 @@
-﻿Build started 2016/10/24 8:19:03.
+﻿Build started 2016/10/24 13:19:39.
 Project "\\win\E\Projects\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Rebuild target(s)).
 ClCompile:
   C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\callback.c src\camera.c src\circle.c src\file.c src\init.c src\line.c src\link.c src\mesh.c src\mouse.c src\rgbpixmap.c src\shape.c src\plane.c src\points.c src\ray.c src\scene.c src\status.c src\surface.c src\texture.c src\transfrom.c src\tween.c src\vector.c src\point.c src\glus.c
@@ -57,4 +57,4 @@ Done Building Project "\\win\E\Projects\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" (Re
 
 Build succeeded.
 
-Time Elapsed 00:00:07.81
+Time Elapsed 00:00:09.25
