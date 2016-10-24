@@ -61,9 +61,6 @@ _Inout_	PGlusMesh	_mesh)
 {
 	assert(_file && _mesh);
 
-	// get the texture id
-	glusFileScanf(_file, "%d", &_mesh->TextureID);
-	
 	/*
 	 *	get the texture coordinates,
 	 *	we just use the point-num

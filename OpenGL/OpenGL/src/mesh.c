@@ -11,7 +11,12 @@ _In_	PGlusMesh	_mesh)
 	{
 		glusDebug("\nface:\t%d\n", i);
 
-		glEnable(GL_LIGHTING);
+		/*
+		 *	is require light source
+		 */
+		if (_mesh->Normals)
+			glEnable(GL_LIGHTING);
+		glDisable(GL_LIGHTING);
 
 		/*
 		*	is require texture
@@ -23,7 +28,7 @@ _In_	PGlusMesh	_mesh)
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 			glBindTexture(GL_TEXTURE_2D, _mesh->TextureID);
 		}
-		else	glBindTexture(GL_TEXTURE_2D, -1); // use unvalid texture
+		
 
 		if (glusGetShadeLevel()== Glus_Shade_Wire)	glBegin(GL_LINE_LOOP);
 		else										glBegin(GL_POLYGON);
@@ -76,10 +81,11 @@ _Inout_	PGlusMesh	*_mesh)
 	*_mesh = p_mesh;
 
 	/*
-	 *	first: get the point,normal and face number
+	 *	first: get the point,normal,texture and face number
 	 */
 	glusFileScanf(_file, "%d", &p_mesh->PointNum);
 	glusFileScanf(_file, "%d", &p_mesh->NormalNum);
+	glusFileScanf(_file, "%d", &p_mesh->TextureNum);
 	glusFileScanf(_file, "%d", &p_mesh->FaceNum);
 
 	/*
@@ -91,10 +97,19 @@ _Inout_	PGlusMesh	*_mesh)
 	/*
 	 *	read the normals
 	 */
-	if (p_mesh->NormalNum > 0)
+	if (p_mesh->NormalNum > 0) // is require normal
 	{
 		glusAllocN(p_mesh->Normals, GlusVector, p_mesh->NormalNum);
 		glusFileLoadVectors_A(_file, p_mesh->Normals, p_mesh->NormalNum);
+	}
+
+	/*
+	 *	read the texture
+	 */
+	if (p_mesh->TextureNum > 0)
+	{
+		glusAllocN(p_mesh->Textures, GlusVector, p_mesh->TextureNum);
+		glusTextureIDLoad(_file, p_mesh);
 	}
 
 	/*
@@ -120,6 +135,15 @@ _Inout_	PGlusMesh	*_mesh)
 		{
 			for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
 				glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].NormalID);
+		}
+
+		/*
+		 *	for texture
+		 */
+		if (p_mesh->TextureNum > 0)
+		{
+			for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
+				glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].TextureID);
 		}
 	}
 	glusCheck(p_mesh);

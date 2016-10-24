@@ -57,7 +57,7 @@ GLsizei Keys_func_param[Keys_n] =
 	9,	// light
 	0,	// teapot
 	0,	// texture
-	0,	// texture id
+	1,	// texture id
 	0,	// grid
 };
 
@@ -360,9 +360,8 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	// get the current shape
 	//
 	PGlusShape s = glusSceneGetLastShape(_scene);
-
-	glusTextureIDLoad(file, s->Extern);
-
+	PGlusMesh  mesh = s->Extern;
+	mesh->TextureID = param[0];
 }
 
 /*

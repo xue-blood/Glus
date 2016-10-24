@@ -255,6 +255,7 @@ typedef struct _GlusFaceIndex
 {
 	Glusindex	PointID;
 	Glusindex	NormalID;
+	Glusindex	TextureID;
 }GlusFaceIndex, *PGlusFaceIndex;
 
 // Face work for Mesh
@@ -270,11 +271,10 @@ typedef struct _GlusFace
 // change [8/25/2016 tld] : face use array too 
 typedef struct _GlusMesh
 {	
-	PGlusVector	Points,		Normals;
+	PGlusVector	Points, Normals, Textures;
 	PGlusFace	Faces;
-	Glusnum		PointNum, NormalNum, FaceNum;
+	Glusnum		PointNum, NormalNum, TextureNum,FaceNum;
 	Glusindex	TextureID;
-	PGlusVector	Textures;
 }GlusMesh, *PGlusMesh;
 typedef struct _GlusMeshs
 {
