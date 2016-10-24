@@ -7,54 +7,46 @@
 	add glusSceneDefault
 */
 #define	_Key_Unknown -1
-#define Keys_n 21
+#define Keys_n 17
 str Keys[Keys_n] =
 {
 	"background",
-	"axis",
 	"projection",
 	"camera",
 	"diffuse",
 	"translate",
 	"scale",
 	"rotate",
-	"sphere",
 	"polyline",
-	"cube",
 	"mesh",
 	"shadelevel",
 	"globalambient",
 	"ambient",
 	"specular",
 	"light",
-	"teapot",
 	"texture",
 	"textureid",
-	"grid"
+	"shape"
 };
 GLsizei Keys_func_param[Keys_n] = 
 {
 	3,	// background
-	1,	// axis
 	9,	// projection
 	9,	// camera
 	4,	// diffuse
 	3,	// translate
 	3,	// scale
 	4,	// rotate
-	0,	// sphere
 	0,	// polyline
-	0,	// cube
 	0,	// mesh
 	1,	// shade level
 	4,	// global ambient
 	4,	// ambient
 	4,	// specular
 	9,	// light
-	0,	// teapot
 	0,	// texture
 	1,	// texture id
-	0,	// grid
+	0,	// shape
 };
 
 //
@@ -68,14 +60,7 @@ void background(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	_scene->Background.G = param[1];
 	_scene->Background.B = param[2];
 }
-void axis(		PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
-{
-	// create a new shape and add to scene
-	PGlusShape p = glusSceneCreateNewShape(_scene);
 
-	// set the draw function
-	p->Draw = glusAxis3D;
-}
 
 
 
@@ -209,22 +194,9 @@ void rotate(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	s->Transform.Ay = param[2];
 	s->Transform.Az = param[3];
 }
-void sphere(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
-{
-	PGlusShape p = glusSceneCreateNewShape(_scene);
 
-	p->Draw = glusSphere;
-}
 
-/*
- *	teapot
- */
-void teapot(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
-{
-	PGlusShape p = glusSceneCreateNewShape(_scene);
 
-	p->Draw = glusTeapot;
-}
 void polyline(PGlusScene _scene, pGLdouble p_param, GLsizei n_param, FILE *file)
 {
 	//
@@ -264,14 +236,7 @@ _polyline_failed_:
 	if (h)	glusLinkClear(h); glusFree(h);
 	if (p)	glusFree(p);
 }
-void cube(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
-{
-	// create a new shape and add to scene
-	PGlusShape p = glusSceneCreateNewShape(_scene);
 
-	// set the draw function
-	p->Draw = glusCube;
-}
 
 /*
 *	add support for mesh
@@ -352,40 +317,68 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	mesh->TextureID = param[0];
 }
 
+
+
 /*
- *	grid
+ *	shapes
  */
-void grid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+#define Shapes_number 5
+str  Shapes_name[Shapes_number] =
 {
+	"axis", "sphere", "cube", "teapot", "grid",
+};
+
+void(*Shapes_func[Shapes_number])(pvoid) =
+{
+	glusAxis3D, glusSphere, glusCube, glusTeapot, glusGrid,
+};
+
+void shape(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	/*
+	 *	get the shape name
+	 */
+	char name[20];
+	glusFileScanf(file, "%s", name, _countof(name));
+
+	/*
+	 *	find the shape-draw function
+	 */
+	int i = 0;
+	for (; i < Shapes_number;i++)
+	{
+		if (strequ(name, Shapes_name[i]))
+			break;
+	}
+	if (i == Shapes_number) { glusDebug("Shape name not found.\n"); return; }
+
 	// create a new shape and add to scene
 	PGlusShape p = glusSceneCreateNewShape(_scene);
 
 	// set the draw function
-	p->Draw = glusGrid;
+	p->Draw = Shapes_func[i];
 }
+
+
 void(*Keys_func[Keys_n])(PGlusScene, pGLdouble, GLsizei,FILE*) =
 {
 	background,
-	axis,
 	projection,
 	camera,
 	diffuse,
 	translate,
 	scale,
 	rotate,
-	sphere,
 	polyline,
-	cube,
 	mesh,
 	shadelevel,
 	globalambient,
 	ambient,
 	specular,
 	light,
-	teapot,
 	texture,
 	textureid,
-	grid
+	shape
 };
 
 int Keys_Get_id(FILE * file)
