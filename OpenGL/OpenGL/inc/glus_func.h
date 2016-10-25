@@ -140,6 +140,10 @@ Glus_Intersect	glusLIntersect(_In_ PGlusVector _laa, _In_	PGlusVector	_lab, _In_
 #define glusLFormNToP()
 #define glusLFormNToV()
 
+void	glusLineRel(_In_	double	_x, _In_	double	_y, _In_	double	_z);
+void	glusMoveTo(_In_	double	_x, _In_	double	_y, _In_	double	_z);
+void	glusLineTo(_In_	double	_x, _In_	double	_y, _In_	double	_z);
+
 //
 // see ray.c
 // 
@@ -273,8 +277,8 @@ void	glusTeapot(pvoid _pointer);
 void	glusGrid(pvoid _ptr);
 void	glusShapeDefault(_Inout_ PGlusShape _shape);
 
-
-
+void	glusKoch(double dir, double len, int n);
+void	glusKochSnow(pvoid ptr);
 // scene
 PGlusScene	glusSceneLoad(_In_	str	_fileName);
 void	glusSceneUnload(_In_	PGlusScene	_scene);

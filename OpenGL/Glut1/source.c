@@ -42,9 +42,9 @@ int _x, int _y)
 	case 'l' : glusCameraYaw(1, &Scene->Camera); break;
 	case 'i': glusCameraPitch(-1, &Scene->Camera); break;
 	case 'k': glusCameraPitch(1, &Scene->Camera); break;
-	
 	case '=': glusSetShadeLevel(Glus_Shade_Wire); break;
 	case '+': glusSetShadeLevel(Glus_Shade_Solid); break;
+
 	default:
 		break;
 	}

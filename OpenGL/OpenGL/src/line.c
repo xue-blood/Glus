@@ -1,5 +1,8 @@
 #include "..\inc\glus.h"
 
+static GlusVector	_CurrentPosition = { 0, 0, 0, 1 };
+
+
 /*
 //  [7/6/2016 Tld]
 	glusLIntersect	change,convert to parameter PGlusLine to PGlusVector
@@ -81,3 +84,77 @@ _Out_	PGlusVector _p)
 	return Intersect_Exsit;
 }
 
+GlusVector
+glusGetCP()
+{
+	return _CurrentPosition;
+}
+
+
+/*
+ *	draw line relative from current position
+ */
+// create [10/25/2016 blue]
+void 
+glusLineRel(
+_In_	double	_x,
+_In_	double	_y,
+_In_	double	_z)
+{
+	if (_x == 0 && _y == 0 && _z ==0 )	return;
+
+	GlusVector	cp = glusGetCP(), next;
+	next.X = cp.X + _x;
+	next.Y = cp.Y + _y;
+	next.Z = cp.Z + _z;
+	next.V = 1;
+
+	glBegin(GL_LINES);
+	{
+		glVertex3d(cp.X,cp.Y,cp.Z);
+		glVertex3d(next.X, next.Y, next.Z);
+	}
+	glEnd();
+
+	glusMoveTo(next.X, next.Y, next.Z);
+}
+
+/*
+*	move current position
+*/
+// create [10/25/2016 blue]
+void
+glusMoveTo(
+_In_	double	_x,
+_In_	double	_y,
+_In_	double	_z)
+{
+	_CurrentPosition.X = _x;
+	_CurrentPosition.Y = _y;
+	_CurrentPosition.Z = _z;
+}
+
+/*
+ *	draw line 
+ */
+// create [10/25/2016 blue]
+void
+glusLineTo(
+	_In_	double	_x,
+	_In_	double	_y,
+	_In_	double	_z)
+{
+	if (_x == 0 && _y == 0 && _z == 0)	return;
+
+	GlusVector cp = glusGetCP();
+
+	glBegin(GL_LINES);
+	{
+		glVertex3d(cp.X, cp.Y, cp.Z);
+		glVertex3d(_x, _y, _z);
+	}
+	glEnd();
+
+	glusMoveTo(_x, _y, _z);
+
+}

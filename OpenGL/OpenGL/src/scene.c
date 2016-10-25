@@ -322,15 +322,15 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 /*
  *	shapes
  */
-#define Shapes_number 5
+#define Shapes_number 6
 str  Shapes_name[Shapes_number] =
 {
-	"axis", "sphere", "cube", "teapot", "grid",
+	"axis", "sphere", "cube", "teapot", "grid", "snow"
 };
 
 void(*Shapes_func[Shapes_number])(pvoid) =
 {
-	glusAxis3D, glusSphere, glusCube, glusTeapot, glusGrid,
+	glusAxis3D, glusSphere, glusCube, glusTeapot, glusGrid,glusKochSnow
 };
 
 void shape(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
@@ -357,6 +357,12 @@ void shape(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 
 	// set the draw function
 	p->Draw = Shapes_func[i];
+
+	/*
+	 *	try get some parameter
+	 */
+	int pa, n; glusFileScanfex(file,n, "%d", &pa);
+	if (n > 0)	p->Extern = (pvoid)pa;
 }
 
 

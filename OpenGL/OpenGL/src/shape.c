@@ -98,7 +98,8 @@ _In_	GLdouble	_length)
 	// draw cone
 	//
 	glusTranslate(0, 0, _length - 0.2);
-	glutWireCone(0.04, 0.2, 12, 9);
+	if (glusGetShadeLevel()==Glus_Shade_Wire)	glutWireCone(0.04, 0.2, 12, 9);
+	else										glutSolidCone(0.04, 0.2, 12, 9);
 
 	glusPopCT();
 }
@@ -229,4 +230,44 @@ glusGrid(pvoid _ptr)
 	glEnd();
 
 	glPopMatrix();
+}
+
+/*
+ *	draw "Koch" curve
+ */
+// create [10/24/2016 blue]
+void
+glusKoch(double dir,double len,int n)
+{
+	double  rad_dir = Glus_Rad *dir;
+
+	if (n <= 0)	glusLineRel(len*cos(rad_dir), len*sin(rad_dir),0);
+	else
+	{
+		n--;
+		len /= 3;
+
+		glusKoch(dir, len, n);	dir += 60;
+		glusKoch(dir, len, n);	dir -= 120;
+		glusKoch(dir, len, n);	dir += 60;
+		glusKoch(dir, len, n);
+	}
+
+}
+
+/*
+ *	draw "Koch" snow
+ */
+// create [10/25/2016 blue]
+void
+glusKochSnow(pvoid ptr)
+{
+	int n = (int)ptr;
+	if (n > 10) glusDebug("level is too high.\n");
+	
+	glDisable(GL_LIGHTING);
+
+	glusMoveTo(0, 0, 0);				glusKoch(60,  9, n);
+	glusMoveTo(4.5, 9*cosa(30), 0);		glusKoch(-60, 9, n);
+	glusMoveTo(9, 0, 0);				glusKoch(180, 9, n);
 }
