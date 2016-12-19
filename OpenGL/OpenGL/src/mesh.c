@@ -9,7 +9,7 @@ _In_	PGlusMesh	_mesh)
 
 	for (Glusnum i = 0; i < _mesh->FaceNum;i++)	// draw each face
 	{
-		glusDebug("\nface:\t%d\n", i);
+		glusLog("\nface:\t%d\n", i);
 
 		/*
 		 *	is require light source
@@ -53,8 +53,8 @@ _In_	PGlusMesh	_mesh)
 			glVertex3dv((pdouble)(_mesh->Points+id_point));		// point	// change [9/1/2016 blue] : add a (), and now work fine
 			
 			//glusDebug("point,normal:\t%d,%d\n", id_point, id_normal);
-			glusDebug("point:\t%d\t", id_point);
-			glusDebug("normal:\t%d\n", id_normal);
+			glusLog("point:\t%d\t", id_point);
+			glusLog("normal:\t%d\n", id_normal);
 		}
 
 _mesh_end:
@@ -160,7 +160,7 @@ _In_	PGlusMesh	_mesh)
 {
 	assertp(_mesh);
 
-	glusDebug(__FUNCTION__"\n");
+	glusLog(__FUNCTION__"\n");
 
 	// free texture-id
 	glusFree(_mesh->Textures);

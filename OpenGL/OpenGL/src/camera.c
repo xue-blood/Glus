@@ -35,7 +35,7 @@ _In_	PGlusCamera		_camera)
 	glLoadMatrixd(m);
 
 
-	glusDebug("eye:%2.2f %2.2f %2.2f ;n:%2.2f %2.2f %2.2f;u:%2.2f %2.2f %2.2f;v:%2.2f %2.2f %2.2f\n",
+	glusLog("eye:%2.2f %2.2f %2.2f ;n:%2.2f %2.2f %2.2f;u:%2.2f %2.2f %2.2f;v:%2.2f %2.2f %2.2f\n",
 		_camera->Eye.X, _camera->Eye.Y, _camera->Eye.Z,
 		_camera->N.X, _camera->N.Y, _camera->N.Z,
 		_camera->U.X, _camera->U.Y, _camera->U.Z,

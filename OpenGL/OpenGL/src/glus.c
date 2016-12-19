@@ -6,7 +6,7 @@ FILE	*_Glus_Std_Debug, *_Glus_Std_Null;
 
 void m_exit(void)
 {
-	glusDebug("Main exit.\n");
+	glusLog("Main exit.\n");
 
 	fclose(_Glus_Std_Null);
 }

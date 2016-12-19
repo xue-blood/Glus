@@ -263,7 +263,7 @@ void
 glusKochSnow(pvoid ptr)
 {
 	int n = (int)ptr;
-	if (n > 10) glusDebug("level is too high.\n");
+	if (n > 10) glusLog("level is too high.\n");
 	
 	glDisable(GL_LIGHTING);
 

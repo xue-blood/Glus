@@ -57,7 +57,16 @@ typedef	long long	Glusindex;	// add [8/24/2016 tld] : the index of object
 typedef size_t		Glusnum;	// add [8/24/2016 tld] : the num of object
 typedef	GLenum		Glusenum;
 
-
+// add [12/19/2016 xue]
+#define Check(_ptr,funcHandle,funcFinally)		\
+	do											\
+			{											\
+		if(!(_ptr))							\
+						{										\
+			funcHandle;							\
+			funcFinally;						\
+						}										\
+			}while(0)
 
 /*
  *	status

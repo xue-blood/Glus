@@ -74,8 +74,7 @@ void data()
 
 void set()
 {
-	//glusDebugEnable(true);
-
+	
 	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	

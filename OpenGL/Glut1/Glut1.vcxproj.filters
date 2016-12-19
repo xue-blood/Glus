@@ -31,5 +31,8 @@
     <None Include="back.sdl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="camera.sdl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

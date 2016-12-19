@@ -16,7 +16,7 @@ void	glusInit();
 // 
 void	glusDebugEnable(_In_	bool	_is_debug);
 // #define glusDebug(msg,...)	do { if (IsDebug) printf(msg,__VA_ARGS__); } while(0)
-#define glusDebug(msg,...)		fprintf_s(_Glus_Std_Debug,msg,__VA_ARGS__)
+#define glusLog(msg,...)		fprintf_s(_Glus_Std_Debug,msg,__VA_ARGS__)
 //
 // see init.c
 // 
@@ -337,7 +337,7 @@ bool	glusIsFaceBack(_In_	PGlusVector	_eye,_In_	PGlusVector	_p,_In_	PGlusVector	_
 /*
  *	memory
  */
-#define glusCheckex(pointer,do_when_fail) do{if(!pointer) {glusDebug(__FILE__ ## "-" ## __FUNCTION__ ## "Allocate memory failed");do_when_fail;}}while(0)
+#define glusCheckex(pointer,do_when_fail) do{if(!pointer) {glusLog(__FILE__ ## "-" ## __FUNCTION__ ## "Allocate memory failed");do_when_fail;}}while(0)
 
 // allocate memory ,zero the memory and  check it
 #define glusAllocex(pointer,type,num,do_when_fail)		(pointer) = (type*)malloc((num)*sizeof(type));ZeroMemory((pointer),(num)*sizeof(type));glusCheckex(pointer,do_when_fail)

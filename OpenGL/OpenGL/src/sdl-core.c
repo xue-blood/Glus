@@ -8,11 +8,12 @@ add glusSceneDefault
 */
 #define	_Key_Unknown -1
 
-#define Keys_count 18
+#define Keys_count 19
 
 str Keys[Keys_count] =
 {
 	"inc",
+	"debug",
 	"background",
 	"projection",
 	"camera",
@@ -34,6 +35,7 @@ str Keys[Keys_count] =
 GLsizei Keys_func_param[Keys_count] =
 {
 	0,	// inc new file
+	1,	// debug
 	3,	// background
 	9,	// projection
 	9,	// camera
@@ -54,7 +56,7 @@ GLsizei Keys_func_param[Keys_count] =
 };
 
 //
-// key function
+// inc new file
 //
 void inc(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 {
@@ -63,22 +65,44 @@ void inc(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 	 */
 	char s_newfile[100] = { 0 };
 
+	/*
+	 *	start resolve
+	 */
+	glusFileSkipSpace(file);
+	char c_s = getc(file);	if (c_s != '(')	return;
+
 	while (true)
 	{
+		/*
+		 *	is resolve end
+		 */
+		glusFileSkipSpace(file);
+		c_s = getc(file);	
+		if (c_s == ')')	return;
+		else			ungetc(c_s, file);
+
 		glusFileScanf(file, "%s.sdl", s_newfile, _countof(s_newfile));
-		if (!s_newfile[0]) return;
+		if (!s_newfile[0]) return;	// no file input now
 
 		/*
 		 *	open file
 		 */
 		FILE * file_new;
 		fopen_s(&file_new, s_newfile, "r");
-		if (!file_new)	return;
+		Check(file_new, glusLog("Error: ( %s ) file no found.\n",s_newfile), return);
 
 		glusSDL(_scene, file_new);	// resolve the file with current scene
 	}
 }
 
+//
+// key function
+//
+void debug(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+{
+	if (!param_n)	return;
+	glusDebugEnable(param[0]);
+}
 //
 // key function
 //
@@ -354,6 +378,7 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 {
 	inc,
+	debug,
 	background,
 	projection,
 	camera,
@@ -396,6 +421,11 @@ int Keys_Get_id(FILE * file)
 			return i;
 		}
 	}
+
+	/*
+	 *	key no found
+	 */
+	glusLog("Error: ( %s ) key no found.\n", func_name);
 	return _Key_Unknown;
 
 }

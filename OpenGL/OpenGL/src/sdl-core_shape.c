@@ -33,7 +33,7 @@ void shape(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
 		if (strequ(name, Shapes_name[i]))
 			break;
 	}
-	if (i == Shapes_count) { glusDebug("Shape name not found.\n"); return; }
+	if (i == Shapes_count) { glusLog("Shape name not found.\n"); return; }
 
 	// create a new shape and add to scene
 	PGlusShape p = glusSceneCreateNewShape(_scene);
