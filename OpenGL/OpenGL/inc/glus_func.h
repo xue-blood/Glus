@@ -279,6 +279,7 @@ void	glusShapeDefault(_Inout_ PGlusShape _shape);
 
 void	glusKoch(double dir, double len, int n);
 void	glusKochSnow(pvoid ptr);
+
 // scene
 PGlusScene	glusSceneLoad(_In_	str	_fileName);
 void	glusSceneUnload(_In_	PGlusScene	_scene);
@@ -288,6 +289,8 @@ void	glusSceneLight(_In_	PGlusScene	_scene);
 
 #define glusSceneGetLastShape(p_scene)	(PGlusShape)glusLinkData((p_scene)->Shapes.FLink)
 PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
+// sdl
+void	glusSDL(_Inout_ PGlusScene	_scene,_In_	FILE*		_file);
 
 //
 // file

@@ -37,6 +37,8 @@
     <ClCompile Include="src\mesh.c" />
     <ClCompile Include="src\mouse.c" />
     <ClCompile Include="src\rgbpixmap.c" />
+    <ClCompile Include="src\sdl-core.c" />
+    <ClCompile Include="src\sdl-core_shape.c" />
     <ClCompile Include="src\shape.c" />
     <ClCompile Include="src\plane.c" />
     <ClCompile Include="src\points.c" />

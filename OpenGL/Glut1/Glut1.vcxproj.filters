@@ -28,5 +28,8 @@
     <None Include="scene.sdl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="back.sdl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

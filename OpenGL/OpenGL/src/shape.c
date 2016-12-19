@@ -203,15 +203,15 @@ glusGrid(pvoid _ptr)
 
 	glDisable(GL_LIGHTING);
 
-	GLint max_x = 30;
-	GLint max_z = 30;
+	GLint max_x = 15;
+	GLint max_z = 15;
 
 	glBegin(GL_LINES);
 	
 	/*
 	 *	draw align x-axis
 	 */
-	for (GLint z = -max_z; z < max_z; z++)
+	for (GLint z = -max_z; z <= max_z; z++)
 	{
 		glVertex3i(-max_x, 0, z);
 		glVertex3i(max_x, 0, z);
@@ -220,7 +220,7 @@ glusGrid(pvoid _ptr)
 	/*
 	 *	draw align z-axis
 	 */
-	for (GLint x = -max_x; x < max_x; x += 1)
+	for (GLint x = -max_x; x <= max_x; x += 1)
 	{
 		glVertex3i(x, 0, - max_z);
 		glVertex3i(x, 0, max_z);

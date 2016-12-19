@@ -104,5 +104,11 @@
     <ClCompile Include="src\texture.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\sdl-core.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sdl-core_shape.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
