@@ -16,7 +16,7 @@ static void(*Shapes_func[Shapes_count])(pvoid) =
 	glusAxis3D, glusSphere, glusCube, glusTeapot, glusGrid, glusKochSnow
 };
 
-void shape(PGlusScene _scene, pGLdouble param, GLsizei param_n, FILE *file)
+void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 {
 	/*
 	*	get the shape name

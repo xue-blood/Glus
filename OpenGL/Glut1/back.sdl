@@ -1,7 +1,7 @@
-background	0 0 0
+background	.3 .3 .3
 
-shape grid		diffuse	.2 .2 .2	specular 0 0 0 0 ambient 0 0 0 0
-shape axis	
+shape grid		diffuse	.2 .2 .2	specular 0 0 0 ambient 0 0 0
+shape axis		scale	9	9	9
 shape snow 5	diffuse .2 .7 .9
 
 shadelevel	1

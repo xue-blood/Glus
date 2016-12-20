@@ -34,7 +34,6 @@ _Outptr_ PGlusVector	_vector)
 {
 	assertp(_file && _format && _vector);
 
-
 	glusFileScanf(_file,_format, &_vector->X, &_vector->Y, &_vector->Z);
 	_vector->V = 0;
 }
@@ -254,7 +253,7 @@ _In_	char *	mul_end_comment)
 	 */
 	while (index = strstr(buffer, line_comment))
 	{
-		while (*index != '\n')
+		while (*index != '\n' && *index != '\0')
 			*(index++) = ' ';	// use space to replace
 	}
 

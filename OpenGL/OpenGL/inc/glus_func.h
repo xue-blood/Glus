@@ -281,8 +281,9 @@ void	glusKoch(double dir, double len, int n);
 void	glusKochSnow(pvoid ptr);
 
 // scene
-PGlusScene	glusSceneLoad(_In_	str	_fileName);
-void	glusSceneUnload(_In_	PGlusScene	_scene);
+PGlusScene	glusSceneNew(_In_	str	_fileName);
+void	glusSceneLoad(_In_	PGlusScene	_scene,_In_	str			_file_name);
+void	glusSceneClear(_In_	PGlusScene	_scene);
 PGlusScene	glusSceneDefault();
 void	glusSceneDraw(_In_	PGlusScene	_scene);
 void	glusSceneLight(_In_	PGlusScene	_scene);
@@ -291,7 +292,7 @@ void	glusSceneLight(_In_	PGlusScene	_scene);
 PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
 // sdl
 void	glusSDL(_Inout_ PGlusScene	_scene,_In_	FILE*		_file);
-
+void	glusSDLClear();
 //
 // file
 //

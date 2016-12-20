@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\sdl">
+      <UniqueIdentifier>{2650b9ad-bacb-45b1-a6b8-4d2f73d8b2cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\glus.h">
@@ -104,11 +107,14 @@
     <ClCompile Include="src\texture.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\sdl-core.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\sdl-core_shape.c">
-      <Filter>源文件</Filter>
+      <Filter>源文件\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sdl-core.c">
+      <Filter>源文件\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sdl-core_def-use.c">
+      <Filter>源文件\sdl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

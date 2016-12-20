@@ -4,7 +4,7 @@
 
 
 PGlusScene
-glusSceneLoad(
+glusSceneNew(
 _In_	str	_fileName)
 {
 	assert(_fileName);
@@ -24,14 +24,33 @@ _In_	str	_fileName)
 
 	glusSDL(scene, file);
 
+	fclose(file);
 	return scene;
 }
 
 void
-glusSceneUnload(
+glusSceneLoad(
+_In_	PGlusScene	_scene,
+_In_	str			_file_name)
+{
+	assert(_file_name);
+
+	FILE * file;
+	fopen_s(&file, _file_name, "r");
+	if (!file)		return;
+
+	glusSDL(_scene, file);
+	fclose(file);
+}
+
+void
+glusSceneClear(
 _In_	PGlusScene	_scene)
 {
 	assert(_scene);
+
+	// clear sdl
+	glusSDLClear();
 
 	//
 	// clear shapes

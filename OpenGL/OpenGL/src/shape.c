@@ -84,7 +84,9 @@ _In_	GLdouble	_length)
 {
 	glusPushCT();
 
+	glLineWidth(2);
 	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
 	//
 	// draw z-axis
 	//
@@ -93,6 +95,7 @@ _In_	GLdouble	_length)
 		glVertex3d(0.0, 0.0, 0.0);	glVertex3d(0.0, 0.0, _length);
 	}
 	glEnd();
+	glLineWidth(1);
 
 	//
 	// draw cone
@@ -202,19 +205,22 @@ glusGrid(pvoid _ptr)
 	glPushMatrix();
 
 	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
 
 	GLint max_x = 15;
 	GLint max_z = 15;
 
-	glBegin(GL_LINES);
 	
 	/*
 	 *	draw align x-axis
 	 */
 	for (GLint z = -max_z; z <= max_z; z++)
 	{
-		glVertex3i(-max_x, 0, z);
-		glVertex3i(max_x, 0, z);
+		glLineWidth((!z) * 11 + 1);
+		glBegin(GL_LINES);
+			glVertex3i(-max_x, 0, z);
+			glVertex3i(max_x, 0, z);
+		glEnd();
 	}
 
 	/*
@@ -222,12 +228,14 @@ glusGrid(pvoid _ptr)
 	 */
 	for (GLint x = -max_x; x <= max_x; x += 1)
 	{
-		glVertex3i(x, 0, - max_z);
-		glVertex3i(x, 0, max_z);
+		glLineWidth((!x) * 11 + 1);
+		glBegin(GL_LINES);
+			glVertex3i(x, 0, -max_z);
+			glVertex3i(x, 0, max_z);
+		glEnd();
 	}
 
 	
-	glEnd();
 
 	glPopMatrix();
 }

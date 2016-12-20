@@ -159,6 +159,7 @@
   <ItemGroup>
     <None Include="back.sdl" />
     <None Include="camera.sdl" />
+    <None Include="obj.sdl" />
     <None Include="scene.sdl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

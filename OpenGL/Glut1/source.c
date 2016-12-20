@@ -54,7 +54,7 @@ void clear(void)
 {
 	printf("exit\n");
 
-	glusSceneUnload(Scene);
+	glusSceneClear(Scene);
 }
 
 void tm(int id)
@@ -67,7 +67,7 @@ void tm(int id)
 void data()
 {
 
-	Scene = glusSceneLoad("scene.sdl");
+	Scene = glusSceneNew("scene.sdl");
 
 	
 }
