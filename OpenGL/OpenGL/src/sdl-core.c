@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 21
+#define Keys_count 22
 
 str Keys[Keys_count] =
 {
@@ -28,6 +28,7 @@ str Keys[Keys_count] =
 	"globalambient",
 	"ambient",
 	"specular",
+	"islight",
 	"light",
 	"texture",
 	"textureid",
@@ -52,6 +53,7 @@ GLsizei Keys_func_param[Keys_count] =
 	4,	// global ambient	: v_c
 	4,	// ambient		: v_c
 	4,	// specular		: v_c
+	1,	// is light		: b_l
 	8,	// light		: i_id v_p v_c
 	0,	// texture		: i_id	s_name/s_file_name
 	1,	// texture id	: i_id
@@ -335,6 +337,14 @@ void globalambient(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *fi
 	_scene->GlobalAmbient.A = (n_param == 3) ? 1 : param[3];
 }
 
+
+/*
+*	is enable light
+*/
+void islight(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	_scene->IsLight = param[0];
+}
 /*
 *	light
 */
@@ -398,6 +408,7 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	globalambient,
 	ambient,
 	specular,
+	islight,
 	light,
 	texture,
 	textureid,

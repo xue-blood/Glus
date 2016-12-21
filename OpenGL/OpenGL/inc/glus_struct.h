@@ -242,7 +242,8 @@ typedef	struct _GlusScene
 	GlusLink	Lights;
 	GlusLink	Textures;
 	// add [7/9/2016 tld]
-	bool		EnableAxis;	
+	bool		EnableAxis;
+	bool		IsLight;
 	GLdouble	AxisLength;
 }GlusScene, *PGlusScene;
 

@@ -33,7 +33,7 @@ void def(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	/*
 	 *	now we can store the def object
 	 */
-	int len = i_end - i_start - 3;
+	int len = i_end - i_start+1;
 	str	as_buf; glusAllocex(as_buf, char, len, goto _def_failed_);
 	
 	fseek(file, i_start, SEEK_SET);	 // goto the start

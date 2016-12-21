@@ -190,7 +190,8 @@ _In_	PGlusScene	_scene)
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (GLfloat*)&s->Specular);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, (GLfloat*)&s->Ambient);
 
-			glEnable(GL_LIGHTING);
+			if(_scene->IsLight) glEnable(GL_LIGHTING);
+			else				glDisable(GL_LIGHTING);
 		}
 
 		//
@@ -200,7 +201,7 @@ _In_	PGlusScene	_scene)
 		glusScalev(&s->Transform);			// scale
 		glusRotatev(&s->Transform);			// rotate
 
-		
+		glEnable(GL_DEPTH_TEST);
 
 		s->Draw(s->Extern);					// draw it
 

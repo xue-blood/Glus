@@ -105,6 +105,8 @@ void glusInit()
 {
 	printf("init\n");
 
+
+
 	glusInitWin(300, 100, 600, 400, "glut1", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	set();

@@ -1,11 +1,11 @@
 debug		1
 inc			( back.sdl camera.sdl obj.sdl )
 
-light		0	50 70 40		.9 .8 .3 1
-
 texture		100		CHECKBOARD
 
+islight		0
+light		0	10 10 10  1 1 1  1
+use back	
 
 
-
-debug		0
+debug		0		

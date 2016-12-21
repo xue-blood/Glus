@@ -172,8 +172,10 @@ glusCube(pvoid _pointer)
 {
 	glusPushCT();
 
+	glShadeModel(GL_FLAT);
 	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireCube(1);
 	else											glutSolidCube(1);
+	glColor3f(0, 0, 0);
 	glutWireCube(1);
 
 	glusPopCT();
