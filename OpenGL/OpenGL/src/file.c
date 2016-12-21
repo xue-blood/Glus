@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <strsafe.h>
 
+FILE * _F_In;
 
 
 //
@@ -235,8 +236,8 @@ _In_	char *	mul_end_comment)
 	memset(buffer, 0, size);
 
 	fread_s(buffer, size, size, 1, file);	// read data to buffer
-	fclose(file);	file = NULL;			// close the original file
 	
+	bool is_comment=false;
 	char * index;
 	/*
 	*	remove mul-line comment
@@ -246,6 +247,8 @@ _In_	char *	mul_end_comment)
 		char * end = strstr(buffer, mul_end_comment);	// get the mul-line comment end
 
 		memset(index, ' ', end - index + strlen(mul_end_comment));
+
+		is_comment = true;
 	}
 
 	/*
@@ -253,15 +256,51 @@ _In_	char *	mul_end_comment)
 	 */
 	while (index = strstr(buffer, line_comment))
 	{
-		while (*index != '\n' && *index != '\0')
-			*(index++) = ' ';	// use space to replace
+ 		while (*index != '\n' && *index != '\0')
+ 			*(index++) = ' ';	// use space to replace
+
+		is_comment = true;
+
 	}
 
 
 	/*
 	 *	create the a mem-file from buffer
 	 */
-	*_file = fmemopen(buffer, size, "wb+");
-
+	if (is_comment)
+	{
+		*_file = fmemopen(buffer, size, "wb+");	// open a new file
+		fclose(file);	file = NULL;			// close the original file
+	}
+	else
+		rewind(file);
 	free(buffer);
+}
+
+FILE *fgetstdin()
+{
+
+	FILE * f_in = stdin;
+
+	char c = fgetc(f_in); ungetc(c, f_in); // get the input 
+	int i_end = f_in->_cnt;	// get the end
+
+	int size = i_end + 1;	
+	str buf; glusAllocex(buf, char,size, return NULL);
+	memcpy_s(buf, size, f_in->_ptr, size); // we just copy the buff
+	buf[size - 1] = 0;
+
+	fseek(f_in, i_end, SEEK_SET);
+	
+	if (!_F_In) _F_In = fmemopen(buf, size, "r");	// is file already created
+	else
+	{
+		int i_org = ftell(_F_In);
+		fwrite(buf,sizeof(char), size, _F_In);
+		fseek(_F_In, i_org, SEEK_SET);
+	}
+
+	glusFree(buf);
+
+	return _F_In;
 }

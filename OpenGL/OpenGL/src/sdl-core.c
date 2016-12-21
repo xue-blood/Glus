@@ -409,11 +409,12 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 int Keys_Get_id(FILE * file)
 {
 	char	func_name[30];
-
+	int		n_get;
 	//
 	// get function name
 	//
-	glusFileScanf(file, "%s", func_name, _countof(func_name));
+	glusFileScanfex(file,n_get, "%s", func_name, _countof(func_name));
+	if (!n_get)	return-1;
 	if (feof(file))	// add [9/4/2016 blue],fix for file end
 		return -1;
 
@@ -451,32 +452,24 @@ GLsizei Keys_Get_param(FILE *file, int id, pGLdouble param)
 			break;
 
 		if (feof(file))				// add [9/4/2016 blue],fix for file end
-			break;
+			continue;
 	}
 
 	return i;
 }
 
-
 void
-glusSDL(
+glusSDLex(
 _Inout_ PGlusScene	_scene,
 _In_	FILE*		_file)
 {
-
-	/*
-	*	 skip comment
-	*/
-	fskipcomment(&_file, "//", "/*", "*/");
-
-
 	GLdouble	func_param[30];	// max parameters
 
 	while (!feof(_file))
 	{
 		/*
-		 *	get key id
-		 */
+		*	get key id
+		*/
 		int id = Keys_Get_id(_file);
 		if (id == Key_Unknown)
 			continue;
@@ -485,7 +478,22 @@ _In_	FILE*		_file)
 
 		Keys_func[id](_scene, func_param, n, _file);	// resolve the key
 	}
+}
 
+void
+glusSDL(
+_Inout_ PGlusScene	_scene,
+_In_	FILE*		_file)
+{
+
+	/*
+	*	skip comment
+	*	except stdin
+	*/
+	fskipcomment(&_file, "//", "/*", "*/");
+
+	glusSDLex(_scene, _file);
+	
 }
 
 void 

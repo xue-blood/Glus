@@ -3,12 +3,15 @@
 
 // enable debug ,global
 FILE	*_Glus_Std_Debug, *_Glus_Std_Null;
+extern FILE * _F_In;
 
 void m_exit(void)
 {
 	glusLog("Main exit.\n");
 
 	fclose(_Glus_Std_Null);
+
+	if (_F_In)	fclose(_F_In);
 }
 
 void main(int argc,char **argv)

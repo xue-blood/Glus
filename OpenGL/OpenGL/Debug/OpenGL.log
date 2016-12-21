@@ -1,8 +1,12 @@
-﻿Build started 12/21/2016 12:48:47 AM.
+﻿Build started 12/21/2016 1:37:08 PM.
      1>Project "D:\xue\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\file.c
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\file.c src\glus.c "src\sdl-core.c" "src\sdl-core_def-use.c"
+         sdl-core_def-use.c
+         sdl-core.c
+         glus.c
          file.c
+         Generating Code...
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\xue\project\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\callback.obj
          Debug\camera.obj
@@ -39,4 +43,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.47
+Time Elapsed 00:00:01.03

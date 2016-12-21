@@ -291,7 +291,8 @@ void	glusSceneLight(_In_	PGlusScene	_scene);
 #define glusSceneGetLastShape(p_scene)	(PGlusShape)glusLinkData((p_scene)->Shapes.FLink)
 PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
 // sdl
-void	glusSDL(_Inout_ PGlusScene	_scene,_In_	FILE*		_file);
+void	glusSDL(_Inout_ PGlusScene	_scene, _In_	FILE*		_file);
+void	glusSDLex(_Inout_ PGlusScene	_scene, _In_	FILE*		_file);
 void	glusSDLClear();
 //
 // file
@@ -316,6 +317,7 @@ Glussize	glusFileLoadVectors_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, 
 FILE*	fmemopen(_In_	char *	buffer,_In_	size_t	size,_In_	char *	mode);
 #endif
 void	fskipcomment(_In_	FILE **	_file,_In_	char *	line_comment,_In_	char *	mul_start_comment,_In_	char *	mul_end_comment);
+FILE *fgetstdin();
 //
 // mesh
 //

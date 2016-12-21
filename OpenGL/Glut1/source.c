@@ -1,5 +1,6 @@
 #include "Header.h"
 #include "../OpenGL//inc/rgbpixmap.h"
+#include <process.h>
 
 PGlusScene Scene =NULL;
 #define TIME 30
@@ -44,7 +45,6 @@ int _x, int _y)
 	case 'k': glusCameraPitch(1, &Scene->Camera); break;
 	case '=': glusSetShadeLevel(Glus_Shade_Wire); break;
 	case '+': glusSetShadeLevel(Glus_Shade_Solid); break;
-
 	default:
 		break;
 	}
@@ -81,6 +81,15 @@ void set()
 	
 }
 
+void edit(pvoid p)
+{
+	while (true)
+	{
+		putchar('>');
+		glusSDLex(Scene, fgetstdin());
+	}
+}
+
 void func()
 {
 
@@ -101,4 +110,6 @@ void glusInit()
 	set();
 	data();
 	func();
+
+	_beginthread(edit,0,0);
 }   

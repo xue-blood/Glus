@@ -33,12 +33,12 @@ void def(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	/*
 	 *	now we can store the def object
 	 */
-	int len = i_end - i_start + 1;
+	int len = i_end - i_start - 3;
 	str	as_buf; glusAllocex(as_buf, char, len, goto _def_failed_);
 	
 	fseek(file, i_start, SEEK_SET);	 // goto the start
 
-	fread_s(as_buf, len, sizeof(char), len - 1, file);
+	fread_s(as_buf, len - 1 , sizeof(char), len - 1, file);
 	as_buf[len - 2] = 0;
 
 	p->File= fmemopen(as_buf, len, "r");	// store the object to file
@@ -75,7 +75,7 @@ void use(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 		 */
 		if (strequ(d->Name, name))
 		{
-			glusSDL(_scene, d->File);
+			glusSDLex(_scene, d->File);
 			return;
 		}
 
