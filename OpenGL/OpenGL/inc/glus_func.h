@@ -14,9 +14,10 @@
 // user should define the function by themself
 void	glusInit();
 // 
-void	glusDebugEnable(_In_	bool	_is_debug);
-// #define glusDebug(msg,...)	do { if (IsDebug) printf(msg,__VA_ARGS__); } while(0)
-#define glusLog(msg,...)		fprintf_s(_Glus_Std_Debug,msg,__VA_ARGS__)
+void	glusLogLevel(_In_	int		_level);
+#define glusLogex(level,msg,...)		fprintf_s(_Glus_Logs[level],msg,__VA_ARGS__)
+#define glusLog(msg,...)				fprintf_s(_Glus_Logs[Glus_Log_Normal],msg,__VA_ARGS__)
+
 //
 // see init.c
 // 
@@ -144,6 +145,9 @@ void	glusLineRel(_In_	double	_x, _In_	double	_y, _In_	double	_z);
 void	glusMoveTo(_In_	double	_x, _In_	double	_y, _In_	double	_z);
 void	glusLineTo(_In_	double	_x, _In_	double	_y, _In_	double	_z);
 
+void	glusTurn(double _angle);
+void	glusTurnTo(double _angle);
+void	glusForward(_In_	double	_dist,_In_	bool	_is_visible);
 //
 // see ray.c
 // 
@@ -401,6 +405,16 @@ PGlusVector	glusGetEye();
  */
 Glus_Status	glusTextureLoad(_In_	FILE*		file,_Inout_	PGlusScene	_scene);
 Glus_Status	glusTextureIDLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	_mesh);
+
+
+/*
+ *	peano curve
+ */
+void	glusPeano(_In_	str		_file_name,_In_	PPeano	_pea,_In_	int		_level);
+void	glusPeanoProduc(_In_	PPeano		_peano,_In_	int			_level);
+void	glusPeanoDraw(_In_	PPeano		_peano, _In_	int			_level);
+void	glusPeanoClear(_In_	PPeano	_pea);
+
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

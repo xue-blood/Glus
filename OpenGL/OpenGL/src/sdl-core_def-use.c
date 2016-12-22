@@ -49,7 +49,7 @@ void def(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	return;
 
 _def_failed_:
-	glusLog("Fail: ( %s ) can't define.\n", p->Name);
+	glusLogex(Glus_Log_Warning,"Fail: ( %s ) can't define.\n", p->Name);
 	if (p)		glusFree(p);
 	if (as_buf) glusFree(as_buf);
 	return;
@@ -85,7 +85,7 @@ void use(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	/*
 	 *	name no defined
 	 */
-	glusLog("Error: ( %s ) name no defined.\n", name);
+	glusLogex(Glus_Log_Error,"Error: ( %s ) name no defined.\n", name);
 }
 
 void def_clear()

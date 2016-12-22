@@ -3,7 +3,9 @@
 #include <process.h>
 
 PGlusScene Scene =NULL;
+Peano pea;
 #define TIME 30
+int level = 5;
 
 void dispaly(void)
 {
@@ -11,7 +13,20 @@ void dispaly(void)
 	glusSceneLight(Scene);
 
 	glusSceneDraw(Scene);
+	
+	glColor3f(1, 1, 1);
 
+	glusMoveTo(1, 1, 0);	glusTurnTo(0);
+	glusPeanoDraw(&pea, level);
+	
+	glusTurn(120);
+	glusPeanoDraw(&pea, level); 
+
+	glusTurn(120);
+	glusPeanoDraw(&pea, level);
+
+
+	
 	glutSwapBuffers();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -45,6 +60,8 @@ int _x, int _y)
 	case 'k': glusCameraPitch(1, &Scene->Camera); break;
 	case '=': glusSetShadeLevel(Glus_Shade_Wire); break;
 	case '+': glusSetShadeLevel(Glus_Shade_Solid); break;
+	case ',': glusPeanoProduc(&pea, --level); printf("\rlevel :%d", level); break;
+	case '.': glusPeanoProduc(&pea, ++level); printf("\rlevel :%d", level); break;
 	default:
 		break;
 	}
@@ -52,7 +69,7 @@ int _x, int _y)
 
 void clear(void)
 {
-	printf("exit\n");
+	printf("\nexit\n");
 
 	glusSceneClear(Scene);
 }
@@ -69,6 +86,7 @@ void data()
 
 	Scene = glusSceneNew("scene.sdl");
 
+	glusPeano("snow.pea", &pea, level);
 	
 }
 
@@ -114,4 +132,5 @@ void glusInit()
 	func();
 
 	_beginthread(edit,0,0);
+
 }   

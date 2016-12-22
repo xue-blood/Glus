@@ -36,6 +36,7 @@
     <ClCompile Include="src\link.c" />
     <ClCompile Include="src\mesh.c" />
     <ClCompile Include="src\mouse.c" />
+    <ClCompile Include="src\peano.c" />
     <ClCompile Include="src\rgbpixmap.c" />
     <ClCompile Include="src\sdl-core.c" />
     <ClCompile Include="src\sdl-core_def-use.c" />

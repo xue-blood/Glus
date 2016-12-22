@@ -13,7 +13,6 @@
 // extern from glus.c
 //
 // extern bool IsDebug;
-extern	FILE*	_Glus_Std_Debug;
-
+extern	FILE	*_Glus_Logs[5];
 #endif
 #endif

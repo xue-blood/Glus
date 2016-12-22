@@ -292,5 +292,16 @@ typedef	struct _GlusMouse
 	pvoid	Custom;			// pointer for custom
 	void(*glusMouse)(int _button, int _state, GLint x, GLint y, pvoid custom);	// function 
 }GlusMouse, *PGlusMouse;
+
+typedef struct _Peano
+{
+	char		Atom[10];
+	float		F,A;
+	int			Ratio;
+	FILE *		File;
+	GlusLink	Rules;
+	GlusLink	Strings;
+}Peano, *PPeano;
+
 #endif // !_GLUS_STRUCT_H
 #endif // !_glus_struct_h

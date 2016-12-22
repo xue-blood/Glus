@@ -2,7 +2,9 @@
 
 
 // enable debug ,global
-FILE	*_Glus_Std_Debug, *_Glus_Std_Null;
+FILE	*_Glus_Std_Null;
+FILE	*_Glus_Logs[5] = { 0 };
+
 extern FILE * _F_In;
 
 void m_exit(void)
@@ -23,7 +25,8 @@ void main(int argc,char **argv)
 	 *	default the debug is off
 	 */
 	fopen_s(&_Glus_Std_Null,"nul", "w");
-	_Glus_Std_Debug = _Glus_Std_Null;
+	glusLogLevel(0);
+
 
 	atexit(m_exit);
 
@@ -34,11 +37,12 @@ void main(int argc,char **argv)
 }
 
 void
-glusDebugEnable(
-_In_	bool	_is_debug)
+glusLogLevel(
+_In_	int		_level)
 {
-	if (_is_debug)
-		_Glus_Std_Debug = stdout;
-	else
-		_Glus_Std_Debug = _Glus_Std_Null;
+	int i = 0;
+	for (; i <= _level;	i++)
+		_Glus_Logs[i] = stdout;
+	for (; i <= Glus_Log_Info;		i++)
+		_Glus_Logs[i] = _Glus_Std_Null;
 }

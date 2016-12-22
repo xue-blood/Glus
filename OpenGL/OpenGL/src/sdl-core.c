@@ -14,7 +14,7 @@ add glusSceneDefault
 str Keys[Keys_count] =
 {
 	"inc",
-	"debug",
+	"log",
 	"background",
 	"projection",
 	"camera",
@@ -39,7 +39,7 @@ str Keys[Keys_count] =
 GLsizei Keys_func_param[Keys_count] =
 {
 	0,	// inc			: ( s_file-name... )
-	1,	// debug		: i_mode 
+	1,	// log			: i_mode 
 	3,	// background	: v_color
 	9,	// projection	: i_angle f_antio	f_near f_far
 	9,	// camera		: v_postion v_target v_up
@@ -96,7 +96,9 @@ void inc(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 		 */
 		FILE * file_new;
 		fopen_s(&file_new, s_newfile, "r");
-		Check(file_new, glusLog("Error: ( %s ) file no found.\n",s_newfile), return);
+		Check(file_new, glusLogex(Glus_Log_Error, "Error: ( %s ) file no found.\n", s_newfile), return);
+
+		glusLog("[sd] inc new file %s.\n", s_newfile);
 
 		glusSDL(_scene, file_new);	// resolve the file with current scene
 		
@@ -107,10 +109,10 @@ void inc(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 //
 // key function
 //
-void debug(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+void loglevel(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 {
 	if (!n_param)	return;
-	glusDebugEnable(param[0]);
+	glusLogLevel(param[0]);
 }
 //
 // key function
@@ -385,6 +387,7 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	PGlusShape s = glusSceneGetLastShape(_scene);
 	PGlusMesh  mesh = s->Extern;
 	mesh->TextureID = param[0];
+
 }
 
 
@@ -394,7 +397,7 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 {
 	inc,
-	debug,
+	loglevel,
 	background,
 	projection,
 	camera,
@@ -445,7 +448,7 @@ int Keys_Get_id(FILE * file)
 	/*
 	 *	key no found
 	 */
-	glusLog("Error: ( %s ) key no found.\n", func_name);
+	glusLogex(Glus_Log_Error,"Error: ( %s ) key no found.\n", func_name);
 	return Key_Unknown;
 
 }
@@ -474,6 +477,9 @@ glusSDLex(
 _Inout_ PGlusScene	_scene,
 _In_	FILE*		_file)
 {
+	assert(_scene &&_file);
+	
+
 	GLdouble	func_param[30];	// max parameters
 
 	while (!feof(_file))
@@ -496,6 +502,7 @@ glusSDL(
 _Inout_ PGlusScene	_scene,
 _In_	FILE*		_file)
 {
+	assert(_scene &&_file);
 
 	/*
 	*	skip comment

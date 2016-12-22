@@ -37,5 +37,8 @@
     <None Include="obj.sdl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="snow.pea">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

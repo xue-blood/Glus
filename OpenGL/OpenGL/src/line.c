@@ -2,6 +2,7 @@
 
 static GlusVector	_CurrentPosition = { 0, 0, 0, 1 };
 
+static double		_CurrentDirection = 0;
 
 /*
 //  [7/6/2016 Tld]
@@ -157,4 +158,30 @@ glusLineTo(
 
 	glusMoveTo(_x, _y, _z);
 
+}
+
+
+void glusTurn(double _angle)
+{
+	_CurrentDirection += _angle;
+}
+
+void glusTurnTo(double _angle)
+{
+	_CurrentDirection = _angle;
+}
+
+void
+glusForward(
+_In_	double	_dist,
+_In_	bool	_is_visible)
+{
+	GLfloat x, y;
+	x = _CurrentPosition.X + _dist*cos(_CurrentDirection*3.14 / 180);
+	y = _CurrentPosition.Y + _dist*sin(_CurrentDirection*3.14 / 180);
+
+	if (_is_visible)
+		glusLineTo(x, y,0);
+	else
+		glusMoveTo(x, y,0);
 }

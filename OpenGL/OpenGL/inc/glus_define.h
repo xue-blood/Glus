@@ -75,7 +75,14 @@ typedef	GLenum		Glusenum;
 #define Glus_Shade_Wire		0
 #define Glus_Shade_Solid	1
 
-
+/*
+ *	log level
+ */
+#define Glus_Log_Important	0
+#define Glus_Log_Error		1
+#define Glus_Log_Warning	2
+#define Glus_Log_Normal		3
+#define Glus_Log_Info		4
 
 #endif // !_glus_define_h
 #endif // !_GLUS_DEFINE_H

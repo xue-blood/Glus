@@ -16,6 +16,9 @@
     <Filter Include="源文件\sdl">
       <UniqueIdentifier>{2650b9ad-bacb-45b1-a6b8-4d2f73d8b2cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\inf">
+      <UniqueIdentifier>{86c42dde-a47d-4c25-bd2c-da4b153acf28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\glus.h">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="src\sdl-core_def-use.c">
       <Filter>源文件\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\peano.c">
+      <Filter>源文件\inf</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
