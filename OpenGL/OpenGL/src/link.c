@@ -156,7 +156,7 @@ _Inout_ PGlusSink	_linkHead)
 	assertp(_linkHead );
 
 	PGlusSink	p = _linkHead->Next;
-
+	if (!p)	return p;
 	//  [7/6/2016 Tld]: change from tail to head
 	_linkHead->Next = p->Next;
 
@@ -176,4 +176,21 @@ _In_	PGlusSink	_linkHead)
 	}
 	return l;
 }
+
+// add [12/22/2016 xue]
+void
+glusSinkClear(
+_Inout_	PGlusSink	_sink_head)
+{
+	assertp(_sink_head);
+
+	while (true)
+	{
+		PGlusSink p = glusSinkPop(_sink_head);
+		if (!p) return;
+		glusFree(p);
+	}
+	
+}
+
 //============Singly link list===============

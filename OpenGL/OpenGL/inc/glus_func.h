@@ -145,6 +145,9 @@ void	glusLineRel(_In_	double	_x, _In_	double	_y, _In_	double	_z);
 void	glusMoveTo(_In_	double	_x, _In_	double	_y, _In_	double	_z);
 void	glusLineTo(_In_	double	_x, _In_	double	_y, _In_	double	_z);
 
+void	glusPushCS();
+void	glusPopCS();
+
 void	glusTurn(double _angle);
 void	glusTurnTo(double _angle);
 void	glusForward(_In_	double	_dist,_In_	bool	_is_visible);
@@ -247,6 +250,7 @@ void	glusLinkClear(_Inout_	PGlusLink	_link_head);
 void	glusSinkPush(_Inout_ PGlusSink _linkHead, _In_ PGlusSink _linkEntry);
 PGlusSink	glusSinkPop(_Inout_ PGlusSink _linkHead);
 GLint	glusSinkLength(_In_ PGlusSink _linkHead);
+void	glusSinkClear(_Inout_	PGlusSink	_sink_head);
 
 // transformations
 void	glusInitCT();

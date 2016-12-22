@@ -23,9 +23,11 @@ _In_	int			_level)
 			else			
 			{
 				float len = _peano->F;
-				if (_peano->Level > 0) 
-					len= _peano->F / pow(_peano->Ratio, _peano->Level);
-
+				if (_peano->Level > 0)
+				{
+					len = _peano->F / pow(_peano->Ratio, _peano->Level);
+					glLineWidth(10 / _peano->Level);
+				}
 				glusForward(len, 1);
 			}
 			break;
@@ -35,6 +37,8 @@ _In_	int			_level)
 		case 'Y':
 			if (_level > 0)	glusPeano(_peano, _peano->YString, _level - 1);
 			break;
+		case '[': glusPushCS(); break;
+		case ']': glusPopCS();	break;
 		}
 		_as++;
 	}

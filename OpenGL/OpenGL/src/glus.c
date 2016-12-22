@@ -6,6 +6,7 @@ FILE	*_Glus_Std_Null;
 FILE	*_Glus_Logs[5] = { 0 };
 
 extern FILE * _F_In;
+extern GlusSink	_CurrentState;
 
 void m_exit(void)
 {
@@ -14,6 +15,8 @@ void m_exit(void)
 	fclose(_Glus_Std_Null);
 
 	if (_F_In)	fclose(_F_In);
+
+	glusSinkClear(&_CurrentState);
 }
 
 void main(int argc,char **argv)

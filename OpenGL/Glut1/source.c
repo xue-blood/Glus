@@ -15,7 +15,7 @@ void dispaly(void)
 	glusSceneDraw(Scene);
 
 	glColor3f(1, 1, 1);
-	//glusPeanoDraw(&pea);
+	glusPeanoDraw(&pea);
 
 
 	

@@ -4,6 +4,15 @@ static GlusVector	_CurrentPosition = { 0, 0, 0, 1 };
 
 static double		_CurrentDirection = 0;
 
+glusSink(_CurrentState);
+
+typedef	struct _GlusCS
+{
+	GlusSink	Sink;
+	GlusVector	CP;
+	double		CD;
+}GlusCS, *PGlusCS;
+
 /*
 //  [7/6/2016 Tld]
 	glusLIntersect	change,convert to parameter PGlusLine to PGlusVector
@@ -160,16 +169,20 @@ glusLineTo(
 
 }
 
-
+// add [12/22/2016 xue]
 void glusTurn(double _angle)
 {
 	_CurrentDirection += _angle;
 }
 
+// add [12/22/2016 xue]
+
 void glusTurnTo(double _angle)
 {
 	_CurrentDirection = _angle;
 }
+
+// add [12/22/2016 xue]
 
 void
 glusForward(
@@ -184,4 +197,29 @@ _In_	bool	_is_visible)
 		glusLineTo(x, y,0);
 	else
 		glusMoveTo(x, y,0);
+}
+
+// add [12/22/2016 xue]
+
+void
+glusPushCS()
+{
+	PGlusCS cs; glusAllocex(cs, GlusCS, 1, return);
+
+	cs->CD = _CurrentDirection;
+	cs->CP = _CurrentPosition;
+
+	glusSinkPush(&_CurrentState, (PGlusSink)cs);
+}
+
+// add [12/22/2016 xue]
+
+void
+glusPopCS()
+{
+	PGlusCS cs = (PGlusCS)glusSinkPop(&_CurrentState);
+	if (!cs) return;
+
+	_CurrentDirection = cs->CD;
+	_CurrentPosition = cs->CP;
 }
