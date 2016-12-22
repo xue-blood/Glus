@@ -301,7 +301,7 @@ void	glusSDLClear();
 //
 // file
 //
-#define		glusFileSkipSpace(file)		fscanf_s(file,"%*[ \r\t\n]")
+#define		glusFileSkipSpace(file)				fscanf_s(file,"%*[ \r\t\n]")
 #define		glusFileScanf(file,sz_format,...)	do{					\
 				glusFileSkipSpace(file);										\
 				fscanf_s(file,sz_format, __VA_ARGS__ );}while(0)	// skip all kind of space
@@ -410,11 +410,9 @@ Glus_Status	glusTextureIDLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	_mesh);
 /*
  *	peano curve
  */
-void	glusPeano(_In_	str		_file_name,_In_	PPeano	_pea,_In_	int		_level);
-void	glusPeanoProduc(_In_	PPeano		_peano,_In_	int			_level);
-void	glusPeanoDraw(_In_	PPeano		_peano, _In_	int			_level);
-void	glusPeanoClear(_In_	PPeano	_pea);
-
+void	glusPeanoLoad(_In_	FILE *	_file,_In_	PPeano	_pea);
+void	glusPeano(_In_	PPeano		_peano,_In_	str			_as,_In_	int			_level);
+void	glusPeanoDraw(_In_	PPeano	_peano);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

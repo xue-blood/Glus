@@ -17,7 +17,7 @@ _In_	str				_format,
 _Outptr_ PGlusVector	_p_point)
 {
 	assertp(_file && _format && _p_point);
-
+	glusFileSkipSpace(_file);
 	glusFileScanf(_file,_format, &_p_point->X, &_p_point->Y, &_p_point->Z);
 	_p_point->V = 1;
 }

@@ -5,7 +5,7 @@
 PGlusScene Scene =NULL;
 Peano pea;
 #define TIME 30
-int level = 5;
+int level = 1;
 
 void dispaly(void)
 {
@@ -13,17 +13,9 @@ void dispaly(void)
 	glusSceneLight(Scene);
 
 	glusSceneDraw(Scene);
-	
+
 	glColor3f(1, 1, 1);
-
-	glusMoveTo(1, 1, 0);	glusTurnTo(0);
-	glusPeanoDraw(&pea, level);
-	
-	glusTurn(120);
-	glusPeanoDraw(&pea, level); 
-
-	glusTurn(120);
-	glusPeanoDraw(&pea, level);
+	//glusPeanoDraw(&pea);
 
 
 	
@@ -60,8 +52,9 @@ int _x, int _y)
 	case 'k': glusCameraPitch(1, &Scene->Camera); break;
 	case '=': glusSetShadeLevel(Glus_Shade_Wire); break;
 	case '+': glusSetShadeLevel(Glus_Shade_Solid); break;
-	case ',': glusPeanoProduc(&pea, --level); printf("\rlevel :%d", level); break;
-	case '.': glusPeanoProduc(&pea, ++level); printf("\rlevel :%d", level); break;
+		
+	case ',': --level; pea.Level = level; printf("\rlevel :%d", level); break;
+	case '.': ++level; pea.Level = level; printf("\rlevel :%d", level); break;
 	default:
 		break;
 	}
@@ -86,8 +79,9 @@ void data()
 
 	Scene = glusSceneNew("scene.sdl");
 
-	glusPeano("snow.pea", &pea, level);
-	
+	FILE *f; fopen_s(&f, "exp.pea", "r");
+	glusPeanoLoad(f, &pea);
+	pea.Level = level;
 }
 
 void set()

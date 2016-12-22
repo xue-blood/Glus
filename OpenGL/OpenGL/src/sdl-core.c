@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 22
+#define Keys_count 23
 
 str Keys[Keys_count] =
 {
@@ -34,7 +34,8 @@ str Keys[Keys_count] =
 	"textureid",
 	"shape",
 	"def",
-	"use"
+	"use",
+	"peano"
 };
 GLsizei Keys_func_param[Keys_count] =
 {
@@ -60,7 +61,14 @@ GLsizei Keys_func_param[Keys_count] =
 	0,	// shape		: s_name [ n_param ... ]
 	0,  // def			: s_name { ... }
 	0,	// use			: s_name
+	0,	// peano curve	: (...) i_level
 };
+
+void glusSDLDefaultClear(pvoid p)
+{
+	glusFree(p);
+}
+
 
 //
 // inc new file
@@ -390,7 +398,27 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 
 }
 
+/*
+ *	peano curve
+ */
+void peano(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	//
+	// create a shape
+	//
+	PGlusShape p = glusSceneCreateNewShape(_scene);
+	p->Draw = glusPeanoDraw;
+	p->Clear = glusSDLDefaultClear;	// use default clear
 
+	/*
+	 *	set curve
+	 */
+	glusAllocex(p->Extern, Peano, 1, return);
+
+	glusPeanoLoad(file, p->Extern); // load the peano curve
+
+	glusFileScanf(file, "%d", &((PPeano)p->Extern)->Level); // get the level
+}
 
 
 
@@ -417,7 +445,8 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	textureid,
 	shape,
 	def,
-	use
+	use,
+	peano
 };
 
 int Keys_Get_id(FILE * file)
@@ -519,3 +548,4 @@ glusSDLClear()
 {
 	def_clear();
 }
+
