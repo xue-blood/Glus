@@ -4,6 +4,7 @@ void
 glusPeano(
 _In_	PPeano		_peano,
 _In_	str			_as,
+_In_	double		_len,
 _In_	int			_level)
 {
 	assert(_peano && _as);
@@ -11,31 +12,30 @@ _In_	int			_level)
 	if (_level < 0) _level = 0;
 	if (_level > 10) glusLogex(Glus_Log_Info, "[Peano] : level is to high (%d).\n", _level);
 
-
+	_len /= _peano->Ratio;
+	
 	while (*_as)
 	{
 		switch (*_as)
 		{
-		case '+':	glusTurn(_peano->A); break;
-		case '-':	glusTurn(-_peano->A); break;
+		case '+':	glusTurn(_peano->A + -5 *_peano->Radom); break;
+		case '-':	glusTurn(-_peano->A + -5 * _peano->Radom); break;
 		case 'F':	
-			if (_level > 0)	glusPeano(_peano, _peano->FString, _level - 1);
+			if (_level > 0)	glusPeano(_peano, _peano->FString, _len, _level - 1);
 			else			
 			{
-				float len = _peano->F;
 				if (_peano->Level > 0)
 				{
-					len = _peano->F / pow(_peano->Ratio, _peano->Level);
-					glLineWidth(10 / _peano->Level);
+					glLineWidth(6 / _peano->Level);
 				}
-				glusForward(len, 1);
+				glusForward(_len * (0.8+_peano->Radom), 1);
 			}
 			break;
 		case 'X':
-			if (_level > 0)	glusPeano(_peano, _peano->XString, _level - 1);
+			if (_level > 0)	glusPeano(_peano, _peano->XString, _len, _level - 1);
 			break;
 		case 'Y':
-			if (_level > 0)	glusPeano(_peano, _peano->YString, _level - 1);
+			if (_level > 0)	glusPeano(_peano, _peano->YString, _len, _level - 1);
 			break;
 		case '[': glusPushCS(); break;
 		case ']': glusPopCS();	break;
@@ -52,8 +52,8 @@ _In_	PPeano	_peano)
 	assert(_peano);
 
 	glusMoveTo(0, 0, 0);
-	glusTurnTo(0);
-	glusPeano(_peano, _peano->Atom, _peano->Level);
+	glusTurnTo(_peano->StartAngle);
+	glusPeano(_peano, _peano->Atom, _peano->F,_peano->Level);
 }
 
 void 
@@ -66,6 +66,9 @@ _In_	PPeano	_pea)
 	fgetc(_file);
 
 
+	/*
+	 *	load the main information
+	 */
 	glusFileScanf(_file, "%s,", _pea->Atom, _countof(_pea->Atom)); // get the atom
 	*(strchr(_pea->Atom, ','))=0;
 
@@ -88,4 +91,14 @@ _In_	PPeano	_pea)
 
 	fscanf_s(_file, "%*[^)])"); // skip the ')'
 	fgetc(_file);
+
+	/*
+	 *	load other control information
+	 */
+
+	glusFileScanf(_file, "%d", &_pea->Level);
+
+	glusFileScanf(_file, "%f", &_pea->StartAngle);
+
+	glusFileScanf(_file, "%f", &_pea->Radom);
 }

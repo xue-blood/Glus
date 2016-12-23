@@ -213,7 +213,6 @@ glusPushCS()
 }
 
 // add [12/22/2016 xue]
-
 void
 glusPopCS()
 {
@@ -222,4 +221,6 @@ glusPopCS()
 
 	_CurrentDirection = cs->CD;
 	_CurrentPosition = cs->CP;
+
+	glusFree(cs);
 }

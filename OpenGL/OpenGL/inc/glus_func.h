@@ -415,7 +415,7 @@ Glus_Status	glusTextureIDLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	_mesh);
  *	peano curve
  */
 void	glusPeanoLoad(_In_	FILE *	_file,_In_	PPeano	_pea);
-void	glusPeano(_In_	PPeano		_peano,_In_	str			_as,_In_	int			_level);
+void	glusPeano(_In_	PPeano		_peano, _In_	str			_as, _In_	double		_len, _In_	int			_level);
 void	glusPeanoDraw(_In_	PPeano	_peano);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h

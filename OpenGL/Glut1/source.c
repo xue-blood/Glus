@@ -5,7 +5,7 @@
 PGlusScene Scene =NULL;
 Peano pea;
 #define TIME 30
-int level = 1;
+int level = 7;
 
 void dispaly(void)
 {
@@ -55,6 +55,8 @@ int _x, int _y)
 		
 	case ',': --level; pea.Level = level; printf("\rlevel :%d", level); break;
 	case '.': ++level; pea.Level = level; printf("\rlevel :%d", level); break;
+
+	case 'r': pea.Radom = (rand() % 10) / (double)10; break;
 	default:
 		break;
 	}

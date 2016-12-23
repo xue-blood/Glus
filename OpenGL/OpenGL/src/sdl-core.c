@@ -417,7 +417,6 @@ void peano(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 
 	glusPeanoLoad(file, p->Extern); // load the peano curve
 
-	glusFileScanf(file, "%d", &((PPeano)p->Extern)->Level); // get the level
 }
 
 

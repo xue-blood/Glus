@@ -295,9 +295,17 @@ typedef	struct _GlusMouse
 
 typedef struct _Peano
 {
+	/*
+	 *	main 
+	 */
 	char	Atom[64], FString[64], XString[64], YString[64];
-	float	F,A,Ratio;	
+	float	F, A;
+
+	/*
+	 *	other
+	 */
 	int		Level;
+	float	Radom, StartAngle, Ratio;
 }Peano, *PPeano;
 
 #endif // !_GLUS_STRUCT_H
