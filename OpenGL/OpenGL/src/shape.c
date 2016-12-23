@@ -218,7 +218,7 @@ glusGrid(pvoid _ptr)
 	 */
 	for (GLint z = -max_z; z <= max_z; z++)
 	{
-		glLineWidth((!z) * 11 + 1);
+		glLineWidth((!z) * 3 + 1);
 		glBegin(GL_LINES);
 			glVertex3i(-max_x, 0, z);
 			glVertex3i(max_x, 0, z);
@@ -230,7 +230,7 @@ glusGrid(pvoid _ptr)
 	 */
 	for (GLint x = -max_x; x <= max_x; x += 1)
 	{
-		glLineWidth((!x) * 11 + 1);
+		glLineWidth((!x) * 3 + 1);
 		glBegin(GL_LINES);
 			glVertex3i(x, 0, -max_z);
 			glVertex3i(x, 0, max_z);

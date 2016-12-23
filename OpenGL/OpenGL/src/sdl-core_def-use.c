@@ -16,7 +16,7 @@ void def(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	/*
 	 *	get the def name
 	 */
-	glusFileScanf(file, "%s", p->Name, Def_Name_Length);
+	glusScanf(file, "%s", p->Name, Def_Name_Length);
 
 	/*
 	 *	find the start
@@ -63,7 +63,7 @@ void use(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	 *	get use name
 	 */
 	char	name[Def_Name_Length];
-	glusFileScanf(file, "%s", name, Def_Name_Length);
+	glusScanf(file, "%s", name, Def_Name_Length);
 	if (!name[0])	return;
 
 

@@ -40,6 +40,7 @@ _In_	int			_level)
 		case '[': glusPushCS(); break;
 		case ']': glusPopCS();	break;
 		}
+		glusLogex(Glus_Log_Info, "%c", *_as);
 		_as++;
 	}
 
@@ -50,6 +51,8 @@ glusPeanoDraw(
 _In_	PPeano	_peano)
 {
 	assert(_peano);
+
+	glusLogex(Glus_Log_Info, "\r");
 
 	glusMoveTo(0, 0, 0);
 	glusTurnTo(_peano->StartAngle);
@@ -69,25 +72,25 @@ _In_	PPeano	_pea)
 	/*
 	 *	load the main information
 	 */
-	glusFileScanf(_file, "%s,", _pea->Atom, _countof(_pea->Atom)); // get the atom
+	glusScanf(_file, "%s,", _pea->Atom, _countof(_pea->Atom)); // get the atom
 	*(strchr(_pea->Atom, ','))=0;
 
-	glusFileScanf(_file, "%s,", _pea->FString, _countof(_pea->FString)); // f-string
+	glusScanf(_file, "%s,", _pea->FString, _countof(_pea->FString)); // f-string
 	*(strchr(_pea->FString, ',')) = 0;
 
-	glusFileScanf(_file, "%s,", _pea->XString, _countof(_pea->XString)); // x-string
+	glusScanf(_file, "%s,", _pea->XString, _countof(_pea->XString)); // x-string
 	if (strequ(_pea->XString, "nil,"))	_pea->XString[0] = 0;
 	else								*(strchr(_pea->XString, ',')) = 0;
 
-	glusFileScanf(_file, "%s,", _pea->YString, _countof(_pea->YString)); // y-string
+	glusScanf(_file, "%s,", _pea->YString, _countof(_pea->YString)); // y-string
 	if (strequ(_pea->YString, "nil,"))	_pea->YString[0] = 0;
 	else								*(strchr(_pea->YString, ',')) = 0;
 
-	glusFileScanf(_file, "%f,", &_pea->F); // length 
+	glusScanf(_file, "%f,", &_pea->F); // length 
 
-	glusFileScanf(_file, "%f,", &_pea->A); // angle
+	glusScanf(_file, "%f,", &_pea->A); // angle
 
-	glusFileScanf(_file, "%f", &_pea->Ratio); // length ratio
+	glusScanf(_file, "%f", &_pea->Ratio); // length ratio
 
 	fscanf_s(_file, "%*[^)])"); // skip the ')'
 	fgetc(_file);
@@ -96,9 +99,9 @@ _In_	PPeano	_pea)
 	 *	load other control information
 	 */
 
-	glusFileScanf(_file, "%d", &_pea->Level);
+	glusScanf(_file, "%d", &_pea->Level);
 
-	glusFileScanf(_file, "%f", &_pea->StartAngle);
+	glusScanf(_file, "%f", &_pea->StartAngle);
 
-	glusFileScanf(_file, "%f", &_pea->Radom);
+	glusScanf(_file, "%f", &_pea->Radom);
 }

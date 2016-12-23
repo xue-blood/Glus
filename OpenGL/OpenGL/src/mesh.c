@@ -83,16 +83,16 @@ _Inout_	PGlusMesh	*_mesh)
 	/*
 	 *	first: get the point,normal,texture and face number
 	 */
-	glusFileScanf(_file, "%d", &p_mesh->PointNum);
-	glusFileScanf(_file, "%d", &p_mesh->NormalNum);
-	glusFileScanf(_file, "%d", &p_mesh->TextureNum);
-	glusFileScanf(_file, "%d", &p_mesh->FaceNum);
+	glusScanf(_file, "%d", &p_mesh->PointNum);
+	glusScanf(_file, "%d", &p_mesh->NormalNum);
+	glusScanf(_file, "%d", &p_mesh->TextureNum);
+	glusScanf(_file, "%d", &p_mesh->FaceNum);
 
 	/*
 	 *	then read the points
 	 */
 	glusAllocN(p_mesh->Points, GlusVector, p_mesh->PointNum);
-	glusFileLoadPoints_A(_file, p_mesh->Points, p_mesh->PointNum);
+	glusPointsLoad_A(_file, p_mesh->Points, p_mesh->PointNum);
 
 	/*
 	 *	read the normals
@@ -100,7 +100,7 @@ _Inout_	PGlusMesh	*_mesh)
 	if (p_mesh->NormalNum > 0) // is require normal
 	{
 		glusAllocN(p_mesh->Normals, GlusVector, p_mesh->NormalNum);
-		glusFileLoadVectors_A(_file, p_mesh->Normals, p_mesh->NormalNum);
+		glusVectorsLoad_A(_file, p_mesh->Normals, p_mesh->NormalNum);
 	}
 
 	/*
@@ -121,20 +121,20 @@ _Inout_	PGlusMesh	*_mesh)
 		/*
 		 *	read the number of id for current face
 		 */
-		glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDNum);
+		glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDNum);
 
 		glusAllocN(p_mesh->Faces[i].FaceIDs, GlusFaceIndex, p_mesh->Faces[i].FaceIDNum);
 		
 
 		// for point
 		for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)	
-			glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].PointID);
+			glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].PointID);
 
 		// for normal
 		if (p_mesh->NormalNum > 0)
 		{
 			for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
-				glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].NormalID);
+				glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].NormalID);
 		}
 
 		/*
@@ -143,7 +143,7 @@ _Inout_	PGlusMesh	*_mesh)
 		if (p_mesh->TextureNum > 0)
 		{
 			for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
-				glusFileScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].TextureID);
+				glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].TextureID);
 		}
 	}
 	glusCheck(p_mesh);

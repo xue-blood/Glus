@@ -305,22 +305,21 @@ void	glusSDLClear();
 //
 // file
 //
-#define		glusFileSkipSpace(file)				fscanf_s(file,"%*[ \r\t\n]")
-#define		glusFileScanf(file,sz_format,...)	do{					\
-				glusFileSkipSpace(file);										\
-				fscanf_s(file,sz_format, __VA_ARGS__ );}while(0)	// skip all kind of space
-#define		glusFileScanfex(file,n_converted,sz_format,...)	do{					\
-				glusFileSkipSpace(file);										\
-				(n_converted) = fscanf_s(file,sz_format, __VA_ARGS__ );}while(0)	// skip all kind of space
+#define		glusScanf(file,sz_format,...)		fscanf_s(file,sz_format,__VA_ARGS__)
+#define		glusSkipSpace(file)					fscanf_s(file,"%*[ \t\r\n]")
 
-void		glusFileLoadPoint(_In_	FILE * _file, _In_	str _format, _Outptr_ PGlusVector	_p_point);
-void		glusFileLoadVector(_In_	FILE * _file, _In_	str _format, _Outptr_ PGlusVector	_p_vector);
+#define		glusPointLoad(file,sz_format,ptr) \
+					glusScanf(file,sz_format, &(ptr)->X, &(ptr)->Y, &(ptr)->Z);(ptr)->V = 1
 
-Glussize	glusFileLoadPoints_L(_In_	FILE *		_file,_In_	PGlusLink	_head,_In_	Glussize	_max_size);
-Glussize	glusFileLoadPoints_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, _In_	Glussize	_max_size);
+#define		glusVectorLoad(file,sz_format,ptr) \
+					glusScanf(file,sz_format, &(ptr)->X, &(ptr)->Y, &(ptr)->Z);(ptr)->V = 0
 
-Glussize	glusFileLoadVectors_L(_In_	FILE *		_file, _In_	PGlusLink	_head, _In_	Glussize	_max_size);
-Glussize	glusFileLoadVectors_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, _In_	Glussize	_max_size);
+Glussize	glusPointsLoad_L(_In_	FILE *		_file,_In_	PGlusLink	_head,_In_	Glussize	_max_size);
+Glussize	glusPointsLoad_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, _In_	Glussize	_max_size);
+
+Glussize	glusVectorsLoad_L(_In_	FILE *		_file, _In_	PGlusLink	_head, _In_	Glussize	_max_size);
+Glussize	glusVectorsLoad_A(_In_	FILE *		_file, _Inout_	PGlusVector	_buffer, _In_	Glussize	_max_size);
+
 #if WIN32
 FILE*	fmemopen(_In_	char *	buffer,_In_	size_t	size,_In_	char *	mode);
 #endif

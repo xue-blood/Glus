@@ -22,7 +22,7 @@ void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	*	get the shape name
 	*/
 	char name[20];
-	glusFileScanf(file, "%s", name, _countof(name));
+	glusScanf(file, "%s", name, _countof(name));
 	name[19] = 0;
 
 	/*
@@ -46,6 +46,6 @@ void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	*	try get some parameter
 	*/
 	int pa, n; 
-	glusFileScanfex(file, n, "%d", &pa);
+	n= glusScanf(file, "%d", &pa);
 	if (n > 0)	p->Extern = (pvoid)pa;
 }

@@ -83,20 +83,19 @@ void inc(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	/*
 	 *	start resolve
 	 */
-	glusFileSkipSpace(file);
-	char c_s = getc(file);	if (c_s != '(')	return;
+	glusScanf(file, "%*[^(](");
 
 	while (true)
 	{
 		/*
 		 *	is resolve end
 		 */
-		glusFileSkipSpace(file);
-		c_s = getc(file);	
+		glusSkipSpace(file);
+		char c_s = getc(file);
 		if (c_s == ')')	return;
 		else			ungetc(c_s, file);
 
-		glusFileScanf(file, "%s.sdl", s_newfile, _countof(s_newfile));
+		glusScanf(file, "%s.sdl", s_newfile, _countof(s_newfile));
 		if (!s_newfile[0]) return;	// no file input now
 
 		/*
@@ -297,10 +296,10 @@ void polyline(PGlusScene _scene, pGLdouble p_param, GLsizei n_param, FILE *file)
 	// get the point number
 	//
 	Glusnum	n;
-	glusFileScanf(file, "%d", &n);
+	glusScanf(file, "%d", &n);
 
 	// get points' data
-	glusFileLoadPoints_L(file, h, n);
+	glusPointsLoad_L(file, h, n);
 
 	return;
 
@@ -455,7 +454,7 @@ int Keys_Get_id(FILE * file)
 	//
 	// get function name
 	//
-	glusFileScanfex(file,n_get, "%s", func_name, _countof(func_name));
+	n_get = glusScanf(file, "%s", func_name, _countof(func_name));
 	if (!n_get)	return-1;
 	if (feof(file))	// add [9/4/2016 blue],fix for file end
 		return -1;
@@ -476,7 +475,7 @@ int Keys_Get_id(FILE * file)
 	/*
 	 *	key no found
 	 */
-	glusLogex(Glus_Log_Error,"Error: ( %s ) key no found.\n", func_name);
+	if(func_name[0]) glusLogex(Glus_Log_Error,"Error: ( %s ) key no found.\n", func_name);
 	return Key_Unknown;
 
 }
@@ -488,8 +487,7 @@ GLsizei Keys_Get_param(FILE *file, int id, pGLdouble param)
 
 	for (; i < n && !feof(file); i++)
 	{
-		ubyte	u;
-		glusFileScanfex(file, u, "%lf", param + i);
+		ubyte	u=glusScanf(file, "%lf", param + i);
 		if (u == 0)
 			break;
 

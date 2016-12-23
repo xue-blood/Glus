@@ -1,4 +1,5 @@
-log			3
+	
+	log			3
 
 inc			( back.sdl camera.sdl obj.sdl )
 
@@ -9,10 +10,11 @@ light		0	10 10 10  1 1 1  1
 
 def snow
 {
-	peano	(F++F++F, F-F++F-F, nil, nil, 3, 60, 3) 7 0 0
+	peano	(X, [F+F+F]FF, F+F+F, nil, 4, 120, 2) 5 0 0
 
 	translate	1 1 0
 	diffuse		0 1 1
+	rotate	90	0 1 0
 }
 
 use snow

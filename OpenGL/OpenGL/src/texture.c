@@ -17,7 +17,7 @@ _Inout_	PGlusScene	_scene)
 
 	PGlusTexture	tex; glusAlloc(tex, GlusTexture);
 
-	glusFileScanf(file, "%d", &tex->ID);	// get texture id
+	glusScanf(file, "%d", &tex->ID);	// get texture id
 
 	/*
 	*	load pixmap for texture
@@ -27,7 +27,7 @@ _Inout_	PGlusScene	_scene)
 	*	load name
 	*/
 	char name[50];
-	glusFileScanf(file, "%s", name, _countof(name));
+	glusScanf(file, "%s", name, _countof(name));
 
 	name[49] = 0;
 	if (strequ(name, tex_checkboard)) // use check-board direct
@@ -69,7 +69,7 @@ _Inout_	PGlusMesh	_mesh)
 	glusAllocex(_mesh->Textures, GlusVector, _mesh->PointNum, return Glus_Status_Memory_Allocate_Fail);
 	for (Glusnum i = 0; i < _mesh->PointNum;i++)
 	{
-		glusFileScanf(_file, "(%lf,%lf)", &_mesh->Textures[i].X, &_mesh->Textures[i].Y);
+		glusScanf(_file, "(%lf,%lf)", &_mesh->Textures[i].X, &_mesh->Textures[i].Y);
 	}
 
 	return Glus_Status_Success;
