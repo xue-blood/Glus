@@ -23,6 +23,7 @@ void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	*/
 	char name[20];
 	glusFileScanf(file, "%s", name, _countof(name));
+	name[19] = 0;
 
 	/*
 	*	find the shape-draw function

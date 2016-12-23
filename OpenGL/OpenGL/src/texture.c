@@ -29,6 +29,7 @@ _Inout_	PGlusScene	_scene)
 	char name[50];
 	glusFileScanf(file, "%s", name, _countof(name));
 
+	name[49] = 0;
 	if (strequ(name, tex_checkboard)) // use check-board direct
 	{
 		tex->Pixmap = rgbCheckboard();

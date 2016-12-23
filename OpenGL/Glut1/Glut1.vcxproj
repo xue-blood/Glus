@@ -159,7 +159,6 @@
   <ItemGroup>
     <None Include="back.sdl" />
     <None Include="camera.sdl" />
-    <None Include="exp.pea" />
     <None Include="obj.sdl" />
     <None Include="scene.sdl" />
   </ItemGroup>

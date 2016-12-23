@@ -12,7 +12,6 @@ _Out_	PGlusCircle _c)
 	assert(_pb != NULL);
 	assert(_pc != NULL);
 	assert(_c != NULL);
-
 	
 	//
 	// compute vectors
@@ -51,8 +50,8 @@ glusCGetTangentPoints(
 _In_	PGlusVector	_pa,
 _In_	PGlusVector	_pb,
 _In_	PGlusVector	_pc,
-_Out_	PGlusVector	_pr,
 _Out_	PGlusVector	_ps,
+_Out_	PGlusVector	_pr,
 _Out_	PGlusVector	_pt)
 {
 	assert(_pa && _pb&&_pc&&_pr&&_ps&&_pt);

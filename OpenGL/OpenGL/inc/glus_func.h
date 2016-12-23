@@ -44,7 +44,7 @@ void	glusV(_In_	GLdouble	_x, _In_	GLdouble	_y, _In_	GLdouble	_z,_Out_	PGlusVecto
 
 
 // line
-void	glusL(_In_ GLdouble ax, _In_ GLdouble ay, _In_ GLdouble az, _In_ GLdouble bx, _In_ GLdouble by, _In_ GLdouble bz, _Out_ PGlusLine o);
+void	glusL(_In_ GLdouble ax, _In_ GLdouble ay, _In_ GLdouble az, _In_ GLdouble bx, _In_ GLdouble by, _In_ GLdouble bz, _Inout_ PGlusLine o);
 #define glusL3f		glusL
 #define glusL3i		glusL
 #define glusL2d(ax,ay,bx,by,o) glusL(ax,ay,0,bx,by,0,o)
@@ -58,7 +58,7 @@ void	glusL(_In_ GLdouble ax, _In_ GLdouble ay, _In_ GLdouble az, _In_ GLdouble b
 #define glusL2iv		glusL2dv
 
 // plane
-void	gluspd(_In_ GLdouble ax, _In_ GLdouble ay, _In_ GLdouble az, _In_ GLdouble bx, _In_ GLdouble by, _In_ GLdouble bz, _In_ GLdouble cx, _In_ GLdouble cy, _In_ GLdouble cz, _Out_ PGlusPlane o);
+void	gluspd(_In_ GLdouble ax, _In_ GLdouble ay, _In_ GLdouble az, _In_ GLdouble bx, _In_ GLdouble by, _In_ GLdouble bz, _In_ GLdouble cx, _In_ GLdouble cy, _In_ GLdouble cz, _Inout_ PGlusPlane o);
 #define gluspf	gluspd
 #define gluspi	gluspd
 
@@ -113,7 +113,7 @@ void	glusVAdd(_In_	GlusVector *_va, _In_	GLdouble	_pa, _In_	GlusVector *_vb, _In
 #define glusVFromPoint(PointA,PointB,Vector) glusVAdd((PointA),-1,(PointB),1,(Vector))
 #define glusPAddV(p_point,p_vector,p_point_out) glusVAdd( (p_point) ,1, (p_vector),1, (p_point_out))
 void	glusVUnit(_Inout_ PGlusVector _v);
-void	glusVNormal(_In_ GlusVector *_in, _Out_ GlusVector *_out);
+void	glusVNormal(_In_ GlusVector *_in, _Inout_ GlusVector *_out);
 void	glusVNormalize(_Inout_ PGlusVector _v);
 #define glusVExtern(Vector,parameter) (Vector)->X = parameter*(Vector)->X,(Vector)->Y = parameter*(Vector)->Y,(Vector)->Z = parameter*(Vector)->Z;
 #define glusVOpposite(Vector)	glusVExtern(Vector,-1)
@@ -132,7 +132,7 @@ void	glusVCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _
 //
 void	glusDrawCoord();
 void	glusLDraw(_In_ PGlusLine _pLine);
-Glus_Intersect	glusLIntersect(_In_ PGlusVector _laa, _In_	PGlusVector	_lab, _In_ PGlusVector _lba, _In_	PGlusVector	_lbb, _Out_ PGlusVector _p);
+Glus_Intersect	glusLIntersect(_In_ PGlusVector _laa, _In_	PGlusVector	_lab, _In_ PGlusVector _lba, _In_	PGlusVector	_lbb, _Inout_ PGlusVector _p);
 #define	glusLMiddle(PointA,PointB,PointM) glusVAdd(PointA,0.5,PointB,0.5,PointM)
 #define glusLFormPToR()
 #define glusLFormPToN()
@@ -156,12 +156,12 @@ void	glusForward(_In_	double	_dist,_In_	bool	_is_visible);
 // 
 void	glusRDraw(_In_ PGlusRay _pRay);
 GLdouble	glusRHit(_In_ PGlusRay _r, _In_ PGlusVector _n, _In_ PGlusVector _p);
-void	glusRReflecte(_Inout_	PGlusRay	_ray, _In_	PGlusVector	_normal, _Out_	PGlusVector	_direction);
+void	glusRReflecte(_Inout_	PGlusRay	_ray, _In_	PGlusVector	_normal, _Inout_	PGlusVector	_direction);
 
-GLdouble	glusRTrace2D(_In_	PGlusRay	_ray, _In_	PGlusLink	_head, _Out_	PGlusRay	_nRay);
+GLdouble	glusRTrace2D(_In_	PGlusRay	_ray, _In_	PGlusLink	_head, _Inout_	PGlusRay	_nRay);
 void	glusRTraces2D(_Inout_	PGlusRay		_ray, _In_	PGlusLinks	_head);
 
-GLdouble	glusRHit2DS(_In_	PGlusRay	_ray,_In_	PGlusSink	_head,_Out_	PGlusRay	_nRay);
+GLdouble	glusRHit2DS(_In_	PGlusRay	_ray,_In_	PGlusSink	_head,_Inout_	PGlusRay	_nRay);
 void	glusRHitMul2DS(_Inout_	PGlusRay		_ray,_In_	PGlusMulSink	_head);
 
 void	glusRHitS(_Inout_ PGlusRay _ray, _In_ PGlusSink _head);
@@ -182,7 +182,7 @@ void	glusDrawArc(_In_	PGlusCircle	_c,_In_	GLdouble	_angle_start,_In_	GLdouble	_a
 //
 // see plane.c
 //
-Glus_Intersect	glusPlaneIntersect(_In_	PGlusPlane	_pa, _In_	PGlusPlane	_pb, _Out_	PGlusLine	_l);
+Glus_Intersect	glusPlaneIntersect(_In_	PGlusPlane	_pa, _In_	PGlusPlane	_pb, _Inout_	PGlusLine	_l);
 
 //
 // see points.c
@@ -192,12 +192,12 @@ void	glusDrawPolygonS(_In_	PGlusSink	_p);
 void	glusDrawMulPolygonS(_In_	PGlusSink	_p);
 void	glusDrawPolygons(_In_	PGlusLink	_p);
 void	glusDrawPolyLine(_In_	PGlusLink	_p);
-void	glusPolygonUnion(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _Out_	PGlusLink	_po);
+void	glusPolygonUnion(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _Inout_	PGlusLink	_po);
 void	glusPointsClear_A(_In_	PGlusVector	_pointer);
 void	glusPointsClear_L(_In_	PGlusLink	_head);
 void	glusPointsNormal_A(_In_	PGlusVector	_p_points,_In_	Glusnum		_n_points,_Inout_	PGlusVector	_normal);
 void	glusPointsNormal_L(_In_	PGlusLink	_head,_Inout_	PGlusVector	_normal);
-void	glusPointsConvert_L_A(_In_	PGlusLink	_h_points,_Out_	PGlusVector	_a_points,_In_	Glusnum		_n);
+void	glusPointsConvert_L_A(_In_	PGlusLink	_h_points,_Inout_	PGlusVector	_a_points,_In_	Glusnum		_n);
 void	glusPointsConvert_A_L(_In_	PGlusVector	_a_points,_In_	Glusnum		_n,_Inout_	PGlusLink	_h_points);
 void	glusPointsExtrude(_In_	PGlusVector		_source,_Inout_	PGlusVector		_target,_In_	Glusnum			_n,_In_	PGlusVector		_vector);
 
@@ -368,9 +368,9 @@ bool	glusIsFaceBack(_In_	PGlusVector	_eye,_In_	PGlusVector	_p,_In_	PGlusVector	_
 /*
  *	see surface.c
  */
-void	glusSurfaceSphere(_In_	GLdouble	_u,_In_	GLdouble	_v,_Out_	PGlusVector	_o);
+void	glusSurfaceSphere(_In_	GLdouble	_u,_In_	GLdouble	_v,_Inout_	PGlusVector	_o);
 Glus_Status	glusSurfaceBuildFace(_In_	PGlusMesh	_mesh,_In_	Glusnum		_n_piece,_In_	Glusnum		_n_stack);
-void	glusSurfaceBilinear(_In_	GLdouble	_u, _In_	GLdouble	_v, _In_	void(*_f_a)(GLdouble u, PGlusVector o), _In_	void(*_f_b)(GLdouble u, PGlusVector o), _Out_	PGlusVector	_o);
+void	glusSurfaceBilinear(_In_	GLdouble	_u, _In_	GLdouble	_v, _In_	void(*_f_a)(GLdouble u, PGlusVector o), _In_	void(*_f_b)(GLdouble u, PGlusVector o), _Inout_	PGlusVector	_o);
 
 /*
  *	see camera.c
