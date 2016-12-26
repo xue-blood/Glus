@@ -162,6 +162,9 @@ typedef	struct _GlusShape
 	GlusColor		Diffuse, Specular, Ambient;
 
 	GlusTransform	Transform;
+
+	char	Name[64];	// add [12/26/2016 xue]
+	bool	IsHide;		// add [12/26/2016 xue]
 }GlusShape, *PGlusShape;
 
 typedef struct _GlusShapes
@@ -307,6 +310,30 @@ typedef struct _Peano
 	int		Level;
 	float	Radom, StartAngle, Ratio;
 }Peano, *PPeano;
+
+
+typedef	enum _Array_Type
+{
+	Array_Rect,
+	Array_Circle,
+	Array_Curve
+}Array_Type;
+
+typedef	struct _Array
+{
+	Array_Type	Type;
+
+	PGlusShape	Shape;
+
+	union 
+	{
+		struct  
+		{
+			ubyte	n_X, n_Y, n_Z;
+			float	d_X, d_Y, d_Z;
+		}Rect;
+	}Data;
+}Array,*PArray;
 
 #endif // !_GLUS_STRUCT_H
 #endif // !_glus_struct_h

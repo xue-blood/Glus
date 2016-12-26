@@ -76,3 +76,16 @@ _In_	PGlusTransform	_trans)
 
 	_trans->Sx = _trans->Sy = _trans->Sz = 1;
 }
+
+// add [12/26/2016 xue]
+void
+glusTransform(
+_In_	PGlusTransform	_trans)
+{
+	glMatrixMode(GL_MODELVIEW);
+	
+	glTranslated(_trans->Dx, _trans->Dy, _trans->Dz);
+	glScaled(_trans->Sx, _trans->Sy, _trans->Sz);
+	glRotated(_trans->Angle,_trans->Ax,_trans->Ay,_trans->Az);
+
+}

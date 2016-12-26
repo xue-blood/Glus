@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 23
+#define Keys_count 26
 
 str Keys[Keys_count] =
 {
@@ -35,7 +35,10 @@ str Keys[Keys_count] =
 	"shape",
 	"def",
 	"use",
-	"peano"
+	"name",
+	"hide",
+	"peano",
+	"array"
 };
 GLsizei Keys_func_param[Keys_count] =
 {
@@ -61,7 +64,10 @@ GLsizei Keys_func_param[Keys_count] =
 	0,	// shape		: s_name [ n_param ... ]
 	0,  // def			: s_name { ... }
 	0,	// use			: s_name
+	0,	// name			: s_name
+	0,	// hide			: none
 	0,	// peano curve	: (...) i_level
+	0,	// array		: s_methon(n_x,n_y,n_z)<d_x,d_y,d_z> s_target_name
 };
 
 void glusSDLDefaultClear(pvoid p)
@@ -398,6 +404,30 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 }
 
 /*
+*	set a name for shape
+*/
+void name(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	//
+	// get the name
+	//
+	PGlusShape s = glusSceneGetLastShape(_scene);
+	glusScanf(file, "%s", s->Name,_countof(s->Name));
+}
+
+/*
+*	show or no current shape
+*/
+void hide(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	//
+	// get the name
+	//
+	PGlusShape s = glusSceneGetLastShape(_scene);
+	s->IsHide = true;
+}
+
+/*
  *	peano curve
  */
 void peano(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
@@ -417,6 +447,35 @@ void peano(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	glusPeanoLoad(file, p->Extern); // load the peano curve
 
 }
+
+/*
+*	array
+*/
+void array(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	/*
+	*	get the target name
+	*/
+	char name[30];
+	glusScanf(file, "%s", name, _countof(name));
+	PGlusShape t = glusSceneGetShapeByName(_scene, name);
+	if (!t)	{glusLogex(Glus_Log_Error,"Error: ( %s ) name not found.\n",name); return;}
+
+	//
+	// create a shape
+	//
+	PGlusShape p = glusSceneCreateNewShape(_scene);
+	p->Draw = glusArrayDraw;
+	p->Clear = glusSDLDefaultClear;	// use default clear
+
+	
+	/*
+	*	set curve
+	*/
+	glusAllocex(p->Extern, Array, 1, return);
+	glusArrayLoad(file, p->Extern, t);
+}
+
 
 
 
@@ -444,7 +503,10 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	shape,
 	def,
 	use,
-	peano
+	name,
+	hide,
+	peano,
+	array
 };
 
 int Keys_Get_id(FILE * file)

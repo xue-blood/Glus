@@ -27,6 +27,7 @@
     <ClInclude Include="inc\rgbpixmap.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\array.c" />
     <ClCompile Include="src\callback.c" />
     <ClCompile Include="src\camera.c" />
     <ClCompile Include="src\circle.c" />

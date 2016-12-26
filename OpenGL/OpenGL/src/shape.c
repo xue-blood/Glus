@@ -281,3 +281,37 @@ glusKochSnow(pvoid ptr)
 	glusMoveTo(4.5, 9*cosa(30), 0);		glusKoch(-60, 9, n);
 	glusMoveTo(9, 0, 0);				glusKoch(180, 9, n);
 }
+
+// add [12/26/2016 xue]
+void
+glusShapeDraw(
+_In_	PGlusShape	_p)
+{
+	assertp(_p);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+
+	glColor4fv((GLfloat*)&_p->Diffuse);	// no material
+
+	
+	//
+	// transform
+	//
+	glusTransform(&_p->Transform);
+
+	/*
+	 *	material
+	 */
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, (GLfloat*)&_p->Diffuse);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (GLfloat*)&_p->Specular);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, (GLfloat*)&_p->Ambient);
+
+	glEnable(GL_DEPTH_TEST);
+	//
+	// we just call the function already setting 
+	//
+	_p->Draw(_p->Extern);
+
+	glPopMatrix();
+}

@@ -14,7 +14,8 @@ def snow
 
 	translate	1 1 0
 	diffuse		0 1 1
-	rotate	90	0 1 0
 }
 
-use snow
+use snow	name snow hide
+
+array snow rect (3,3,2) <1,1,1>

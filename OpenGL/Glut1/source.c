@@ -6,11 +6,17 @@ PGlusScene Scene =NULL;
 
 #define TIME 30
 
+PPeano snow;
+
+int level;
 
 void dispaly(void)
 {
 
 	glusSceneLight(Scene);
+
+	snow->Level = level;
+	
 
 	glusSceneDraw(Scene);
 
@@ -49,7 +55,8 @@ int _x, int _y)
 	case 'k': glusCameraPitch(1, &Scene->Camera); break;
 	case '=': glusSetShadeLevel(Glus_Shade_Wire); break;
 	case '+': glusSetShadeLevel(Glus_Shade_Solid); break;
-		
+	case ',': printf("\rlevel: %d", --level); break;
+	case '.': printf("\rlevel: %d", ++level); break;
 	default:
 		break;
 	}
@@ -73,8 +80,8 @@ void data()
 {
 
 	Scene = glusSceneNew("scene.sdl");
-
-
+	snow = (PPeano)glusSceneGetShapeByName(Scene, "snow")->Extern;
+	level = snow->Level;
 }
 
 void set()

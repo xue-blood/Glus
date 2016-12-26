@@ -256,6 +256,7 @@ void	glusSinkClear(_Inout_	PGlusSink	_sink_head);
 void	glusInitCT();
 void	glusPushCT();
 void	glusPopCT();
+void	glusTransform(_In_	PGlusTransform	_trans);
 void	glusScale(_In_	GLdouble	_sx,_In_		GLdouble	_sy,_In_	GLdouble	_sz);
 void	glusTranslate(_In_ GLdouble	_dx,_In_		GLdouble	_dy,_In_	GLdouble	_dz);
 void	glusRotate(_In_	GLdouble	_angle,_In_		GLdouble	_x, _In_	GLdouble	_y,_In_	GLdouble	_z);
@@ -267,9 +268,6 @@ void	glusRotate(_In_	GLdouble	_angle,_In_		GLdouble	_x, _In_	GLdouble	_y,_In_	GL
 #define glusTranslate2D(dx,dy)	glusTranslate(dx,dy,0.0)
 #define glusRotate2D(angle)		glusRotate(angle,0.0,0.0,1.0)
 
-#define glusTranslatev(p)	glusTranslate((p)->Dx,(p)->Dy,(p)->Dz)
-#define glusScalev(p)	glusScale((p)->Sx,(p)->Sy,(p)->Sz)
-#define glusRotatev(p)	glusRotate((p)->Angle,(p)->Ax,(p)->Ay,(p)->Az)
 
 void	glusTransformDefault(_In_	PGlusTransform	_trans);
 
@@ -284,6 +282,7 @@ void	glusCube(pvoid _pointer);
 void	glusTeapot(pvoid _pointer);
 void	glusGrid(pvoid _ptr);
 void	glusShapeDefault(_Inout_ PGlusShape _shape);
+void	glusShapeDraw(_In_	PGlusShape	_p);
 
 void	glusKoch(double dir, double len, int n);
 void	glusKochSnow(pvoid ptr);
@@ -298,6 +297,7 @@ void	glusSceneLight(_In_	PGlusScene	_scene);
 
 #define glusSceneGetLastShape(p_scene)	(PGlusShape)glusLinkData((p_scene)->Shapes.FLink)
 PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
+PGlusShape	glusSceneGetShapeByName(_In_	PGlusScene		_scene,_In_	str				_name);
 // sdl
 void	glusSDL(_Inout_ PGlusScene	_scene, _In_	FILE*		_file);
 void	glusSDLex(_Inout_ PGlusScene	_scene, _In_	FILE*		_file);
@@ -416,6 +416,14 @@ Glus_Status	glusTextureIDLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	_mesh);
 void	glusPeanoLoad(_In_	FILE *	_file,_In_	PPeano	_pea);
 void	glusPeano(_In_	PPeano		_peano, _In_	str			_as, _In_	double		_len, _In_	int			_level);
 void	glusPeanoDraw(_In_	PPeano	_peano);
+
+
+/*
+ *	array
+ */
+void	glusArrayLoad(_In_	FILE *		_file,_Out_	PArray		_array,_In_	PGlusShape	_target);
+void	glusArrayDraw(_In_	PArray	_p);
+void	glusArrayRect(_In_	PArray	_p);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

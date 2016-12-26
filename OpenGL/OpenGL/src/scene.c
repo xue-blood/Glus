@@ -169,46 +169,22 @@ _In_	PGlusScene	_scene)
 	//
 	PGlusShapes p = (PGlusShapes)_scene->Shapes.BLink;
 	while (!glusLinkIsHead(p,&_scene->Shapes))
-	{
-		//
-		// we just call the function already setting 
-		// 
-		
+	{	
 		// convert pointer to shape
 		PGlusShape s = (PGlusShape)glusLinkData(p);
+		// is need show it
+		if (s->IsHide) goto _scene_draw_end_;
 		
-		glusPushCT();
-
-		glColor4fv((GLfloat*)&s->Diffuse);	// no material
-		
-		if (glusGetShadeLevel()!= Glus_Shade_Wire)
+		if (glusGetShadeLevel() != Glus_Shade_Wire)
 		{
-			/*
-			*	set material
-			*/
-			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, (GLfloat*)&s->Diffuse);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (GLfloat*)&s->Specular);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, (GLfloat*)&s->Ambient);
-
-			if(_scene->IsLight) glEnable(GL_LIGHTING);
+			if (_scene->IsLight) glEnable(GL_LIGHTING);
 			else				glDisable(GL_LIGHTING);
 		}
 
-		//
-		// transform
-		//
-		glusTranslatev(&s->Transform);		// translate
-		glusScalev(&s->Transform);			// scale
-		glusRotatev(&s->Transform);			// rotate
-
-		glEnable(GL_DEPTH_TEST);
-
-		s->Draw(s->Extern);					// draw it
-
-		glusPopCT();
+		glusShapeDraw(s);
 
 
-
+_scene_draw_end_:
 		p = (PGlusShapes)p->Link.BLink;
 
 	}
@@ -281,4 +257,28 @@ _In_	PGlusScene	_scene)
 
 	// return the pointer
 	return &shape->Shape;
+}
+
+/*
+ *	try get shape by name
+ */
+PGlusShape
+glusSceneGetShapeByName(
+_In_	PGlusScene		_scene,
+_In_	str				_name)
+{
+	assert(_scene && _name);
+	
+	if (!_name[0]) return NULL;
+
+	PGlusShapes p = (PGlusShapes)_scene->Shapes.BLink;
+	while (!glusLinkIsHead(p,&_scene->Shapes))
+	{
+		if (strequ(_name, p->Shape.Name))
+			return	&p->Shape; // find it
+
+		p = (PGlusShapes)p->Link.BLink;
+	}
+
+	return NULL;
 }
