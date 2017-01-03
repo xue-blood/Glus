@@ -335,5 +335,13 @@ typedef	struct _Array
 	}Data;
 }Array,*PArray;
 
+
+typedef	struct _Fractal
+{
+	PGlusPoints		Points;
+	float			MinLenSq, StdDev, Fractor;
+	int				Seed;
+}Fractal,*PFractal;
+
 #endif // !_GLUS_STRUCT_H
 #endif // !_glus_struct_h

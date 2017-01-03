@@ -18,9 +18,11 @@ void dispaly(void)
 	snow->Level = level;
 	
 
-	glusSceneDraw(Scene);
+	glusSceneDraw(Scene);	
+	GlusVector a = { 0, 0, 0, 1 };
+	GlusVector	b = { 1, 1, 0, 1 };
 
-
+	glusFract(&a, &b,1,0.5,1.5,1);
 	
 	glutSwapBuffers();
 

@@ -1,17 +1,5 @@
 #include "..\inc\glus.h"
 
-GLdouble
-glusPDistance(
-_In_	PGlusVector _pa,
-_In_	PGlusVector _pb)
-{
-	assertp(_pa);
-	assertp(_pb);
-
-	return	sqrt((_pb->X - _pa->X)*(_pb->X - _pa->X)	+
-				(_pb->Y - _pa->Y)*(_pb->Y - _pa->Y)		+
-				(_pb->Z - _pa->Z)*(_pb->Z - _pa->Z));
-}
 
 bool	
 glusPIs3PointOnLine(

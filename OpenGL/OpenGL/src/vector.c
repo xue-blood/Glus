@@ -95,6 +95,17 @@ _In_	GlusVector *_v)
 		_v->Z*_v->Z);
 }
 
+double 
+glusPDistanceSq(
+_In_	PGlusVector	_a,
+_In_	PGlusVector	_b)
+{
+	double x = _a->X - _b->X;
+	double y = _a->Y - _b->Y;
+	double z = _a->Z - _b->Z;
+
+	return (x*x + y*y + z*z);
+}
 GLdouble 
 glusVDotPro(
 _In_	GlusVector *_va,

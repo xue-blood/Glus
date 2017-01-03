@@ -119,8 +119,11 @@ void	glusVNormalize(_Inout_ PGlusVector _v);
 #define glusVOpposite(Vector)	glusVExtern(Vector,-1)
 GLdouble	glusVDotPro(_In_ GlusVector *_va, _In_ GlusVector *_vb);
 GLdouble	glusVLength(_In_ GlusVector *_v);
-GLdouble	glusPDistance(_In_ GlusVector *_pa, _In_ GlusVector *_pb);
+GLdouble	glusPDistanceSq(_In_ GlusVector *_pa, _In_ GlusVector *_pb);
+#define		glusPDistance(a,b) sqrt(glusPDistanceSq(a,b))
 void	glusVCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _vo);
+
+#define glusVLengthSq(v)
 
 //
 // color
@@ -424,6 +427,13 @@ void	glusPeanoDraw(_In_	PPeano	_peano);
 void	glusArrayLoad(_In_	FILE *		_file,_Out_	PArray		_array,_In_	PGlusShape	_target);
 void	glusArrayDraw(_In_	PArray	_p);
 void	glusArrayRect(_In_	PArray	_p);
+
+/*
+ *	fract 
+ */
+void	glusFract(_In_	PGlusVector	_a,_In_	PGlusVector	_b,_In_	double		_std_dev,_In_	double		_min_len_sq,_In_	double		_fractor,_In_	int			_seed);
+void	glusFractDraw(_In_	PFractal	_p);
+
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 
