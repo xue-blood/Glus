@@ -131,5 +131,8 @@
     <ClCompile Include="src\chaos_game.c">
       <Filter>源文件\inf</Filter>
     </ClCompile>
+    <ClCompile Include="src\mandelbrot_set.c">
+      <Filter>源文件\inf</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

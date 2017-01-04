@@ -37,6 +37,7 @@
     <ClCompile Include="src\init.c" />
     <ClCompile Include="src\line.c" />
     <ClCompile Include="src\link.c" />
+    <ClCompile Include="src\mandelbrot_set.c" />
     <ClCompile Include="src\mesh.c" />
     <ClCompile Include="src\mouse.c" />
     <ClCompile Include="src\peano.c" />
