@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 26
+#define Keys_count 27
 
 str Keys[Keys_count] =
 {
@@ -38,7 +38,8 @@ str Keys[Keys_count] =
 	"name",
 	"hide",
 	"peano",
-	"array"
+	"array",
+	"chaos"
 };
 GLsizei Keys_func_param[Keys_count] =
 {
@@ -68,6 +69,7 @@ GLsizei Keys_func_param[Keys_count] =
 	0,	// hide			: none
 	0,	// peano curve	: (...) i_level
 	0,	// array		: s_methon(n_x,n_y,n_z)<d_x,d_y,d_z> s_target_name
+	0,	// chaos game	: (...)
 };
 
 void glusSDLDefaultClear(pvoid p)
@@ -477,7 +479,23 @@ void array(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 }
 
 
-
+/*
+*	chaos game
+*/
+void chaos(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	PChaosGame cas = glusChaosGameLoad(file);
+	if (!cas)
+	{
+		glusLog("Choas game load failed.\n");
+		return;
+	}
+	
+	PGlusShape p = glusSceneCreateNewShape(_scene);
+	p->Draw = glusChaosGame;
+	p->Clear = glusSDLDefaultClear;	// use default clear
+	p->Extern = cas;		// the data for chaos game
+}
 
 void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 {
@@ -506,7 +524,8 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	name,
 	hide,
 	peano,
-	array
+	array,
+	chaos
 };
 
 int Keys_Get_id(FILE * file)

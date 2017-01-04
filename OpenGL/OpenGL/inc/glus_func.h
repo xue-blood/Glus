@@ -357,8 +357,8 @@ bool	glusIsFaceBack(_In_	PGlusVector	_eye,_In_	PGlusVector	_p,_In_	PGlusVector	_
 #define glusFree(pointer)		if(pointer) free(pointer),pointer = NULL
 
 #define glusCheck(pointer)		glusCheckex(pointer,return Glus_Status_Memory_Allocate_Fail)
-#define glusAlloc(pointer,type)			(pointer) = (type*)malloc(sizeof(type));	ZeroMemory((pointer),sizeof(type));glusCheck(pointer)
-#define glusAllocN(pointer,type,num)	(pointer) = (type*)malloc((num)*sizeof(type));ZeroMemory((pointer),(num)*sizeof(type));glusCheck(pointer)
+#define glusAlloc(pointer,type)			type* pointer = (type*)malloc(sizeof(type));	ZeroMemory((pointer),sizeof(type));glusCheck(pointer)
+#define glusAllocN(pointer,type,num)	type* pointer = malloc((num)*sizeof(type));ZeroMemory((pointer),(num)*sizeof(type));glusCheck(pointer)
 
 /*
  *	status
@@ -433,6 +433,12 @@ void	glusArrayRect(_In_	PArray	_p);
  */
 void	glusFract(_In_	PGlusVector	_a,_In_	PGlusVector	_b,_In_	double		_std_dev,_In_	double		_min_len_sq,_In_	double		_fractor,_In_	int			_seed);
 void	glusFractDraw(_In_	PFractal	_p);
+
+/*
+ *	chaos game
+ */
+PChaosGame	glusChaosGameLoad(_In_	FILE *	_file);
+void	glusChaosGame(_In_	PChaosGame	_p);
 
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h

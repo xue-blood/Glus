@@ -30,6 +30,7 @@
     <ClCompile Include="src\array.c" />
     <ClCompile Include="src\callback.c" />
     <ClCompile Include="src\camera.c" />
+    <ClCompile Include="src\chaos_game.c" />
     <ClCompile Include="src\circle.c" />
     <ClCompile Include="src\file.c" />
     <ClCompile Include="src\fractal.c" />

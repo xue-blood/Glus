@@ -60,7 +60,6 @@ _In_	Glussize	_max_size)
 		//
 		// allocate memory for entry
 		//
-		PGlusPoints	p_entry; 
 		glusAlloc(p_entry,GlusPoints);
 		
 
@@ -131,7 +130,6 @@ _In_	Glussize	_max_size)
 		//
 		// allocate memory for entry
 		//
-		PGlusPoints	p_entry;
 		glusAlloc(p_entry, GlusPoints);
 		
 		// get data

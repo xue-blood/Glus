@@ -15,7 +15,7 @@ _Inout_	PGlusScene	_scene)
 {
 	assert(file && _scene);
 
-	PGlusTexture	tex; glusAlloc(tex, GlusTexture);
+	glusAlloc(tex, GlusTexture);
 
 	glusScanf(file, "%d", &tex->ID);	// get texture id
 

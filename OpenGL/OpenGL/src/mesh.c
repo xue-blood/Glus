@@ -77,7 +77,7 @@ _Inout_	PGlusMesh	*_mesh)
 	assertp(_file);
 
 	*_mesh = NULL;
-	PGlusMesh	p_mesh;		glusAlloc(p_mesh,GlusMesh);
+	glusAlloc(p_mesh,GlusMesh);
 	*_mesh = p_mesh;
 
 	/*
@@ -91,7 +91,7 @@ _Inout_	PGlusMesh	*_mesh)
 	/*
 	 *	then read the points
 	 */
-	glusAllocN(p_mesh->Points, GlusVector, p_mesh->PointNum);
+	glusAllocex(p_mesh->Points, GlusVector, p_mesh->PointNum, goto _mesh_load_failed_);
 	glusPointsLoad_A(_file, p_mesh->Points, p_mesh->PointNum);
 
 	/*
@@ -99,7 +99,7 @@ _Inout_	PGlusMesh	*_mesh)
 	 */
 	if (p_mesh->NormalNum > 0) // is require normal
 	{
-		glusAllocN(p_mesh->Normals, GlusVector, p_mesh->NormalNum);
+		glusAllocex(p_mesh->Normals, GlusVector, p_mesh->NormalNum, goto _mesh_load_failed_);
 		glusVectorsLoad_A(_file, p_mesh->Normals, p_mesh->NormalNum);
 	}
 
@@ -108,14 +108,14 @@ _Inout_	PGlusMesh	*_mesh)
 	 */
 	if (p_mesh->TextureNum > 0)
 	{
-		glusAllocN(p_mesh->Textures, GlusVector, p_mesh->TextureNum);
+		glusAllocex(p_mesh->Textures, GlusVector, p_mesh->TextureNum, goto _mesh_load_failed_);
 		glusTextureIDLoad(_file, p_mesh);
 	}
 
 	/*
 	 *	read the faces
 	 */
-	glusAllocN(p_mesh->Faces, GlusFace, p_mesh->FaceNum); 
+	glusAllocex(p_mesh->Faces, GlusFace, p_mesh->FaceNum, goto _mesh_load_failed_);
 	for (Glusnum i = 0; i < p_mesh->FaceNum; i++) // each face
 	{
 		/*
@@ -123,7 +123,7 @@ _Inout_	PGlusMesh	*_mesh)
 		 */
 		glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDNum);
 
-		glusAllocN(p_mesh->Faces[i].FaceIDs, GlusFaceIndex, p_mesh->Faces[i].FaceIDNum);
+		glusAllocex(p_mesh->Faces[i].FaceIDs, GlusFaceIndex, p_mesh->Faces[i].FaceIDNum,goto _mesh_load_failed_);
 		
 
 		// for point
@@ -148,6 +148,16 @@ _Inout_	PGlusMesh	*_mesh)
 	}
 	glusCheck(p_mesh);
 	return Glus_Status_Success;
+_mesh_load_failed_:
+
+	glusFree(p_mesh->Points);
+	glusFree(p_mesh->Normals);
+	glusFree(p_mesh->Textures);
+
+	glusFree(p_mesh->Faces->FaceIDs);
+	glusFree(p_mesh->Faces);
+
+	return	Glus_Status_Memory_Allocate_Fail;
 }
 
 /*

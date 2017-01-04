@@ -10,6 +10,8 @@ PPeano snow;
 
 int level;
 
+PChaosGame chaos;
+
 void dispaly(void)
 {
 
@@ -19,11 +21,8 @@ void dispaly(void)
 	
 
 	glusSceneDraw(Scene);	
-	GlusVector a = { 0, 0, 0, 1 };
-	GlusVector	b = { 1, 1, 0, 1 };
 
-	glusFract(&a, &b,1,0.5,1.5,1);
-	
+
 	glutSwapBuffers();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -84,6 +83,8 @@ void data()
 	Scene = glusSceneNew("scene.sdl");
 	snow = (PPeano)glusSceneGetShapeByName(Scene, "snow")->Extern;
 	level = snow->Level;
+
+	
 }
 
 void set()

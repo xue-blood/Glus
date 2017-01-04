@@ -37,15 +37,18 @@ typedef wchar_t *	wstring;
 
 typedef double *	pdouble;
 typedef void *		pvoid;
-typedef	unsigned char	ubyte, *pubyte;
+typedef	unsigned	char		ubyte,	*pubyte;
+typedef	unsigned	short		uword,	*puword;
+typedef	unsigned	int			uint,	*puint;
+typedef	unsigned	long int	ulong,	*pulong;
 
 #define assertp(p)	assert(p != NULL)
 
 #define Glus_Zero		0.00000000000001	// for double
 //  [8/5/2016 Tld]: change 0.000000001 to 0.00000000000001 
-
 #define Glus_Zerof		0.000001			// for float
 //  [8/5/2016 Tld]: add
+#define Glus_Inf		10000000000000
 
 #define null		{ 0 }	
 

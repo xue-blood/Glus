@@ -128,5 +128,8 @@
     <ClCompile Include="src\fractal.c">
       <Filter>源文件\inf</Filter>
     </ClCompile>
+    <ClCompile Include="src\chaos_game.c">
+      <Filter>源文件\inf</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

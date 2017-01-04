@@ -23,8 +23,8 @@
 
 typedef enum _Glus_Status
 {
-	Glus_Status_Memory_Allocate_Fail	= -1,
-	Glus_Status_Success = 0
+	Glus_Status_Memory_Allocate_Fail	= 0,
+	Glus_Status_Success = 1
 }Glus_Status;
 
 // doubly link list
@@ -343,5 +343,17 @@ typedef	struct _Fractal
 	int				Seed;
 }Fractal,*PFractal;
 
+
+typedef	struct _ChaosGame
+{
+	uint		MaxLoop;
+	GlusLink	Affines;
+}ChaosGame, *PChaosGame;
+typedef	struct _ChaosGameAffine
+{
+	GlusLink	Link;
+	float		M11, M12, M21, M22, M13, M23;
+	uint		Pr;
+}ChaosGameAffine, *PChaosGameAffine;
 #endif // !_GLUS_STRUCT_H
 #endif // !_glus_struct_h

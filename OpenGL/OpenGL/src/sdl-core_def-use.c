@@ -39,7 +39,9 @@ void def(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	fseek(file, i_start, SEEK_SET);	 // goto the start
 
 	fread_s(as_buf, len - 1 , sizeof(char), len - 1, file);
-	*(strrchr(as_buf, '}')) = 0;
+	str s = strrchr(as_buf, '}');
+	if (s) *s = 0;
+	else   goto _def_failed_;
 
 	fseek(file, i_end, SEEK_SET);	 // goto the end
 
