@@ -1,6 +1,7 @@
 #include "Header.h"
-#include "../OpenGL//inc/rgbpixmap.h"
 #include <process.h>
+
+#define Height 400
 
 PGlusScene Scene =NULL;
 
@@ -10,22 +11,35 @@ PPeano snow;
 
 int level;
 
-PChaosGame chaos;
+PPixMap pic[2];
 
 void dispaly(void)
 {
 
-	glusSceneLight(Scene);
+	//glusSceneLight(Scene);
 
 	snow->Level = level;
 	
 
 	glusSceneDraw(Scene);	
 
+	glusUIEntry();
+	//glEnable(GL_COLOR_LOGIC_OP);
+	glLogicOp(GL_INVERT);
+	glRasterPos2i(30, 30);
+	pixDraw(pic[0]);
+
+	glRasterPos2i(94, 30);
+	pixBlend(pic[0]);
+
+	glDisable(GL_COLOR_LOGIC_OP);
+	glusUILeave();
 
 	glutSwapBuffers();
 
+	glClearColor(.3, .3, .3, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 }
 
 void 
@@ -84,6 +98,9 @@ void data()
 	snow = (PPeano)glusSceneGetShapeByName(Scene, "snow")->Extern;
 	level = snow->Level;
 
+	pic[0] = pixCheckboard();
+	pixChromaKey(pic[0], 0, 0, 0);
+	pic[1] = glusMandelbrotSet(40, 60, 0.5);
 	
 }
 
@@ -105,13 +122,20 @@ void edit(pvoid p)
 	}
 }
 
+void move(int x, int y)
+{
+	//glRasterPos2i(x, Height - y);
+}
 void func()
 {
 
 	glutDisplayFunc(dispaly);
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
+	glutMotionFunc(move);
+
 	glutCloseFunc(clear);
+
 
 	glutTimerFunc(TIME, tm, 0);
 
@@ -122,7 +146,7 @@ void glusInit()
 
 
 
-	glusInitWin(300, 100, 600, 400, "glut1", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glusInitWin(300, 100, 600, Height, "glut1", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	set();
 	data();

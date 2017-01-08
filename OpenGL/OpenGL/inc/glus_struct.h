@@ -21,12 +21,6 @@
 #ifndef _GLUS_STRUCT_H
 #define _GLUS_STRUCT_H
 
-typedef enum _Glus_Status
-{
-	Glus_Status_Memory_Allocate_Fail	= 0,
-	Glus_Status_Success = 1
-}Glus_Status;
-
 // doubly link list
 typedef struct _GlusLink
 {
@@ -231,7 +225,7 @@ typedef struct _GlusCamera
 typedef	struct _GlusTexture
 {
 	GlusLink	Link;
-	PRgbMap		Pixmap;
+	PPixMap		Pixmap;
 	Glusindex	ID;
 }GlusTexture, *PGlusTexture;
 

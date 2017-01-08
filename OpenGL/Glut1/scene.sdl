@@ -50,6 +50,7 @@ chaos
 	.18 -.13 .09 .18 6.08 1.5 .05
 }
 
-use cas2
+use cas2 
 	scale 0.2 0.2 0.2
-	diffuse 1 1 0
+	diffuse 0 0 0
+	hide

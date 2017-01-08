@@ -1,27 +1,26 @@
-﻿Build started 1/4/2017 7:01:30 PM.
+﻿Build started 1/8/2017 5:52:01 PM.
      1>Project "D:\xue\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\chaos_game.c src\mandelbrot_set.c
-         mandelbrot_set.c
-         chaos_game.c
-     1>d:\xue\project\opengl\opengl\opengl\src\chaos_game.c(56): warning C4047: 'return' : 'PChaosGame' differs in levels of indirection from 'int'
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\canvas.c src\init.c
+         init.c
+         canvas.c
          Generating Code...
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\xue\project\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\array.obj
          Debug\callback.obj
          Debug\camera.obj
+         Debug\canvas.obj
          Debug\chaos_game.obj
          Debug\circle.obj
          Debug\file.obj
          Debug\fractal.obj
          Debug\init.obj
-         Debug\line.obj
          Debug\link.obj
          Debug\mandelbrot_set.obj
          Debug\mesh.obj
          Debug\mouse.obj
          Debug\peano.obj
-         Debug\rgbpixmap.obj
+         Debug\pixmap.obj
          "Debug\sdl-core.obj"
          "Debug\sdl-core_def-use.obj"
          "Debug\sdl-core_shape.obj"
@@ -47,4 +46,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.47
+Time Elapsed 00:00:00.67

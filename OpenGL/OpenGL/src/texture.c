@@ -8,7 +8,7 @@
  *	load texture to scene
  */
 // create [10/23/2016 blue]
-Glus_Status
+bool
 glusTextureLoad(
 _In_	FILE*		file,
 _Inout_	PGlusScene	_scene)
@@ -32,13 +32,13 @@ _Inout_	PGlusScene	_scene)
 	name[49] = 0;
 	if (strequ(name, tex_checkboard)) // use check-board direct
 	{
-		tex->Pixmap = rgbCheckboard();
+		tex->Pixmap = pixCheckboard();
 	}
 
 	glusLinkInsertTail(&_scene->Textures, tex); // add texture to link-list
-	rgbSetTexture(tex->Pixmap, tex->ID);
+	pixSetTexture(tex->Pixmap, tex->ID);
 
-	return Glus_Status_Success;
+	return true;
 
 	goto _texture_failed;
 
@@ -55,7 +55,7 @@ _texture_failed:
 *	load texture id from file
 */
 // create [10/23/2016 blue]
-Glus_Status
+bool
 glusTextureIDLoad(
 _In_	FILE *		_file,
 _Inout_	PGlusMesh	_mesh)
@@ -66,11 +66,11 @@ _Inout_	PGlusMesh	_mesh)
 	 *	get the texture coordinates,
 	 *	we just use the point-num
 	 */
-	glusAllocex(_mesh->Textures, GlusVector, _mesh->PointNum, return Glus_Status_Memory_Allocate_Fail);
+	glusAllocex(_mesh->Textures, GlusVector, _mesh->PointNum, return false);
 	for (Glusnum i = 0; i < _mesh->PointNum;i++)
 	{
 		glusScanf(_file, "(%lf,%lf)", &_mesh->Textures[i].X, &_mesh->Textures[i].Y);
 	}
 
-	return Glus_Status_Success;
+	return true;
 }

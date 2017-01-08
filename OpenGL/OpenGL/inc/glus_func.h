@@ -131,7 +131,8 @@ void	glusVCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _
 #define glusColor(pointer,r,g,b,a)	((pointer)->R = r),((pointer)->G = g),((pointer)->B = b),((pointer)->A = a)
 //
 //
-// see line.c
+// canvas
+// work on 2d-mode
 //
 void	glusDrawCoord();
 void	glusLDraw(_In_ PGlusLine _pLine);
@@ -154,6 +155,8 @@ void	glusPopCS();
 void	glusTurn(double _angle);
 void	glusTurnTo(double _angle);
 void	glusForward(_In_	double	_dist,_In_	bool	_is_visible);
+void	glusUIEntry();
+void	glusUILeave();
 //
 // see ray.c
 // 
@@ -332,9 +335,9 @@ FILE *fgetstdin();
 // mesh
 //
 void	glusMeshDraw(_In_	PGlusMesh	_mesh);
-Glus_Status	glusMeshLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	*_mesh);
+bool	glusMeshLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	*_mesh);
 void	glusMeshClear(_In_	PGlusMesh	_mesh);
-Glus_Status	glusMeshAddToScene(_In_	PGlusMesh	_mesh, _Inout_	PGlusScene	_scene);
+bool	glusMeshAddToScene(_In_	PGlusMesh	_mesh, _Inout_	PGlusScene	_scene);
 
 void	glusMeshFaceNormal(_Inout_		PGlusMesh	_mesh);
 PGlusMesh	glusMeshMakePrism(_In_	PGlusLink	_point, _In_	PGlusVector	_vector);
@@ -356,22 +359,22 @@ bool	glusIsFaceBack(_In_	PGlusVector	_eye,_In_	PGlusVector	_p,_In_	PGlusVector	_
 #define glusAllocex(pointer,type,num,do_when_fail)		(pointer) = (type*)malloc((num)*sizeof(type));ZeroMemory((pointer),(num)*sizeof(type));glusCheckex(pointer,do_when_fail)
 #define glusFree(pointer)		if(pointer) free(pointer),pointer = NULL
 
-#define glusCheck(pointer)		glusCheckex(pointer,return Glus_Status_Memory_Allocate_Fail)
+#define glusCheck(pointer)		glusCheckex(pointer,return 0)
 #define glusAlloc(pointer,type)			type* pointer = (type*)malloc(sizeof(type));	ZeroMemory((pointer),sizeof(type));glusCheck(pointer)
 #define glusAllocN(pointer,type,num)	type* pointer = malloc((num)*sizeof(type));ZeroMemory((pointer),(num)*sizeof(type));glusCheck(pointer)
 
 /*
  *	status
  */
-#define glusSuccess(status)	(status == Glus_Status_Success)
-#define glusFail(status)	(status != Glus_Status_Success)
+#define glusSuccess(status)	(status == true)
+#define glusFail(status)	(status != true)
 
 
 /*
  *	see surface.c
  */
 void	glusSurfaceSphere(_In_	GLdouble	_u,_In_	GLdouble	_v,_Inout_	PGlusVector	_o);
-Glus_Status	glusSurfaceBuildFace(_In_	PGlusMesh	_mesh,_In_	Glusnum		_n_piece,_In_	Glusnum		_n_stack);
+bool	glusSurfaceBuildFace(_In_	PGlusMesh	_mesh,_In_	Glusnum		_n_piece,_In_	Glusnum		_n_stack);
 void	glusSurfaceBilinear(_In_	GLdouble	_u, _In_	GLdouble	_v, _In_	void(*_f_a)(GLdouble u, PGlusVector o), _In_	void(*_f_b)(GLdouble u, PGlusVector o), _Inout_	PGlusVector	_o);
 
 /*
@@ -409,8 +412,8 @@ PGlusVector	glusGetEye();
 /*
  *	texture
  */
-Glus_Status	glusTextureLoad(_In_	FILE*		file,_Inout_	PGlusScene	_scene);
-Glus_Status	glusTextureIDLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	_mesh);
+bool	glusTextureLoad(_In_	FILE*		file,_Inout_	PGlusScene	_scene);
+bool	glusTextureIDLoad(_In_	FILE *		_file,_Inout_	PGlusMesh	_mesh);
 
 
 /*
@@ -439,6 +442,7 @@ void	glusFractDraw(_In_	PFractal	_p);
  */
 PChaosGame	glusChaosGameLoad(_In_	FILE *	_file);
 void	glusChaosGame(_In_	PChaosGame	_p);
+PPixMap glusMandelbrotSet(_In_	double	px,_In_	double	py,_In_	double	w);
 
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h

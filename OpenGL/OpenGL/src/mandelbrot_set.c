@@ -22,15 +22,18 @@ int dwell(double cx, double cy)
 }
 
 
-void glusMandelbrotSet(
+PPixMap glusMandelbrotSet(
 _In_	double	px,
 _In_	double	py,
-_In_	double	w,
-_In_	PRgbMap	map)
+_In_	double	w)
 {
-	for (int i = 0; i < map->nRow;i++)
+	glusAlloc(map, PixMap);
+	map->nCol = py, map->nRow = px;
+	glusAllocex(map->Pixels, RGBA, px*py, goto _manset_failed_);
+
+	for (int j = 0; j < map->nCol; j++)
 	{
-		for (int j = 0; j < map->nCol;j++)
+		for (int i = 0; i < map->nRow;i++)
 		{
 			/*
 			 *	find the corresponding c-val for current point
@@ -47,11 +50,20 @@ _In_	PRgbMap	map)
 			/*
 			 *	store the color
 			 */
-			map->Pixels[i*map->nRow + j].R = v*v;
-			map->Pixels[i*map->nRow + j].G = v*v;
-			map->Pixels[i*map->nRow + j].B = 0.2;
+			map->Pixels[j*map->nRow + i].R = v*v *255;
+			map->Pixels[j*map->nRow + i].G = v*v * 255;
+			map->Pixels[j*map->nRow + i].B = 0.2 * 255;
+			map->Pixels[j*map->nRow + i].B = 255;
 		}
 	}
+
+	return map;
+
+_manset_failed_:
+	glusFree(map->Pixels);
+	glusFree(map);
+
+	return NULL;
 }
 
 #undef NUM

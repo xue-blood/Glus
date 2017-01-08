@@ -36,7 +36,7 @@
     <ClInclude Include="inc\glus_func.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rgbpixmap.h">
+    <ClInclude Include="inc\pixmap.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,9 +45,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\glus.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\line.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\circle.c">
@@ -104,9 +101,6 @@
     <ClCompile Include="src\status.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\rgbpixmap.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\texture.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -133,6 +127,12 @@
     </ClCompile>
     <ClCompile Include="src\mandelbrot_set.c">
       <Filter>源文件\inf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pixmap.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\canvas.c">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

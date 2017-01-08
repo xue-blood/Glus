@@ -69,7 +69,7 @@ _mesh_end:
 //
 // add [8/31/2016 blue]
 // change return type [8/31/2016 blue] : 
-Glus_Status
+bool
 glusMeshLoad(
 _In_	FILE *		_file,
 _Inout_	PGlusMesh	*_mesh)
@@ -147,7 +147,7 @@ _Inout_	PGlusMesh	*_mesh)
 		}
 	}
 	glusCheck(p_mesh);
-	return Glus_Status_Success;
+	return true;
 _mesh_load_failed_:
 
 	glusFree(p_mesh->Points);
@@ -157,7 +157,7 @@ _mesh_load_failed_:
 	glusFree(p_mesh->Faces->FaceIDs);
 	glusFree(p_mesh->Faces);
 
-	return	Glus_Status_Memory_Allocate_Fail;
+	return	false;
 }
 
 /*
@@ -195,7 +195,7 @@ _In_	PGlusMesh	_mesh)
 // add a mesh to scene
 //
 // add [8/30/2016 tld]
-Glus_Status
+bool
 glusMeshAddToScene(
 _In_	PGlusMesh	_mesh,
 _Inout_	PGlusScene	_scene)
@@ -215,7 +215,7 @@ _Inout_	PGlusScene	_scene)
 	// set the data
 	p_shape->Extern = _mesh;
 
-	return Glus_Status_Success;
+	return true;
 }
 
 /*

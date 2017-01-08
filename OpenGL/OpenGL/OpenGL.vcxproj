@@ -24,24 +24,24 @@
     <ClInclude Include="inc\glus_pre.h" />
     <ClInclude Include="inc\glus.h" />
     <ClInclude Include="inc\glus_struct.h" />
-    <ClInclude Include="inc\rgbpixmap.h" />
+    <ClInclude Include="inc\pixmap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\array.c" />
     <ClCompile Include="src\callback.c" />
     <ClCompile Include="src\camera.c" />
+    <ClCompile Include="src\canvas.c" />
     <ClCompile Include="src\chaos_game.c" />
     <ClCompile Include="src\circle.c" />
     <ClCompile Include="src\file.c" />
     <ClCompile Include="src\fractal.c" />
     <ClCompile Include="src\init.c" />
-    <ClCompile Include="src\line.c" />
     <ClCompile Include="src\link.c" />
     <ClCompile Include="src\mandelbrot_set.c" />
     <ClCompile Include="src\mesh.c" />
     <ClCompile Include="src\mouse.c" />
     <ClCompile Include="src\peano.c" />
-    <ClCompile Include="src\rgbpixmap.c" />
+    <ClCompile Include="src\pixmap.c" />
     <ClCompile Include="src\sdl-core.c" />
     <ClCompile Include="src\sdl-core_def-use.c" />
     <ClCompile Include="src\sdl-core_shape.c" />

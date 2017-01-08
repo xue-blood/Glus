@@ -1,5 +1,7 @@
 #include "..\inc\glus.h"
 
+int		_Window_Height, _Window_Width;
+
 void
 glusInitWin(
 _In_	GLint	_left,
@@ -15,6 +17,9 @@ _In_	GLenum	_mode)
 	glutInitWindowPosition(_left, _top);
 	glutInitWindowSize(_width, _height);
 	glutCreateWindow(_name);
+
+	_Window_Height = _height;
+	_Window_Width = _width;
 }
 
 void	
