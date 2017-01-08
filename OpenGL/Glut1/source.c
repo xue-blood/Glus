@@ -1,7 +1,6 @@
 #include "Header.h"
 #include <process.h>
 
-#define Height 400
 
 PGlusScene Scene =NULL;
 
@@ -12,6 +11,8 @@ PPeano snow;
 int level;
 
 PPixMap pic[2];
+
+int x, y;
 
 void dispaly(void)
 {
@@ -24,13 +25,11 @@ void dispaly(void)
 	glusSceneDraw(Scene);	
 
 	glusUIEntry();
-	//glEnable(GL_COLOR_LOGIC_OP);
-	glLogicOp(GL_INVERT);
-	glRasterPos2i(30, 30);
+	glEnable(GL_COLOR_LOGIC_OP);
+	glLogicOp(GL_XOR);
+	glRasterPos2i(x, y);
 	pixDraw(pic[0]);
 
-	glRasterPos2i(94, 30);
-	pixBlend(pic[0]);
 
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
@@ -122,22 +121,27 @@ void edit(pvoid p)
 	}
 }
 
-void move(int x, int y)
+void move(int cx, int cy)
 {
-	//glRasterPos2i(x, Height - y);
+	x=cx, y= glusGetHeight() - cy;
 }
+
+
 void func()
 {
 
 	glutDisplayFunc(dispaly);
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
+	glutPassiveMotionFunc(move);
 	glutMotionFunc(move);
-
 	glutCloseFunc(clear);
+	glutReshapeFunc(glusReshape);
 
-
+	glusHideCursor();
+	
 	glutTimerFunc(TIME, tm, 0);
+
 
 }
 void glusInit()
@@ -146,7 +150,7 @@ void glusInit()
 
 
 
-	glusInitWin(300, 100, 600, Height, "glut1", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glusInitWin(300, 100, 600, 400, "glut1", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	set();
 	data();

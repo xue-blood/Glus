@@ -26,6 +26,7 @@ glusGetCP()
 }
 
 
+
 /*
 //  [7/6/2016 Tld]
 glusLIntersect	change,convert to parameter PGlusLine to PGlusVector
@@ -274,4 +275,25 @@ glusUILeave()
 	// keep the model-view matrix as the current
 	// matrix to keep things simple.
 	glMatrixMode(GL_MODELVIEW);
+}
+
+
+int glusGetHeight()
+{
+	return _Window_Height;
+}
+
+int glusGetWidth()
+{
+	return _Window_Width;
+}
+
+void glusReshape(int w,int h)
+{
+	_Window_Width	= w;
+	_Window_Height	= h;
+
+	// Set the viewport to be the entire window
+	glViewport(0, 0, w, h);
+
 }

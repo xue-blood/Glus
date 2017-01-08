@@ -8,6 +8,7 @@ FILE	*_Glus_Logs[5] = { 0 };
 extern FILE * _F_In;
 extern GlusSink	_CurrentState;
 
+
 void m_exit(void)
 {
 	glusLog("Main exit.\n");
@@ -18,6 +19,8 @@ void m_exit(void)
 
 	glusSinkClear(&_CurrentState);
 }
+
+
 
 void main(int argc,char **argv)
 {
@@ -30,11 +33,13 @@ void main(int argc,char **argv)
 	fopen_s(&_Glus_Std_Null,"nul", "w");
 	glusLogLevel(0);
 
+	
 
 	atexit(m_exit);
 
 	// call user define function
 	glusInit();
+
 
 	glutMainLoop();
 }

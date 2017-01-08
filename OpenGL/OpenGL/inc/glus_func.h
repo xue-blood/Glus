@@ -157,6 +157,11 @@ void	glusTurnTo(double _angle);
 void	glusForward(_In_	double	_dist,_In_	bool	_is_visible);
 void	glusUIEntry();
 void	glusUILeave();
+int		glusGetHeight();
+int		glusGetWidth();
+void	glusReshape(int x, int y);
+
+#define glusHideCursor() glutSetCursor(GLUT_CURSOR_NONE) // refer:https://www.gamedev.net/topic/147887-hide-mouse-with-glut/
 //
 // see ray.c
 // 
