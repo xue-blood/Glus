@@ -8,6 +8,7 @@ FILE	*_Glus_Logs[5] = { 0 };
 extern FILE * _F_In;
 extern GlusSink	_CurrentState;
 
+extern int		_Window_Height, _Window_Width;
 
 void m_exit(void)
 {
@@ -53,4 +54,26 @@ _In_	int		_level)
 		_Glus_Logs[i] = stdout;
 	for (; i <= Glus_Log_Info;		i++)
 		_Glus_Logs[i] = _Glus_Std_Null;
+}
+
+
+
+void
+glusInitWin(
+_In_	GLint	_left,
+_In_	GLint	_top,
+_In_	GLint	_width,
+_In_	GLint	_height,
+_In_	str	_name,
+_In_	GLenum	_mode)
+{
+	assertp(_name);
+
+	glutInitDisplayMode(_mode);
+	glutInitWindowPosition(_left, _top);
+	glutInitWindowSize(_width, _height);
+	glutCreateWindow(_name);
+
+	_Window_Height = _height;
+	_Window_Width = _width;
 }

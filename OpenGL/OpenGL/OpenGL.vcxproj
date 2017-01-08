@@ -35,7 +35,6 @@
     <ClCompile Include="src\circle.c" />
     <ClCompile Include="src\file.c" />
     <ClCompile Include="src\fractal.c" />
-    <ClCompile Include="src\init.c" />
     <ClCompile Include="src\link.c" />
     <ClCompile Include="src\mandelbrot_set.c" />
     <ClCompile Include="src\mesh.c" />

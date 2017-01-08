@@ -2,9 +2,8 @@
 
 /*
  *	the height and width of current windows
- *	extern from init.c
  */
-extern int		_Window_Height, _Window_Width;
+int		_Window_Height, _Window_Width;
 
 static GlusVector	_CurrentPosition = { 0, 0, 0, 1 };
 
