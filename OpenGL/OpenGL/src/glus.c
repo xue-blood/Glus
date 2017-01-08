@@ -10,6 +10,7 @@ extern GlusSink	_CurrentState;
 
 extern int		_Window_Height, _Window_Width;
 
+
 void m_exit(void)
 {
 	glusLog("Main exit.\n");
@@ -76,4 +77,22 @@ _In_	GLenum	_mode)
 
 	_Window_Height = _height;
 	_Window_Width = _width;
+}
+
+
+
+/*
+*	single control  ,refer:http://stackoverflow.com/questions/3294972/setting-max-frames-per-second-in-opengl
+*/
+static int redisplay_interval;
+
+void timer(int a) {
+	glutPostRedisplay();
+	glutTimerFunc(redisplay_interval, timer, 0);
+}
+
+void glusFPS(int fps)
+{
+	redisplay_interval = 1000 / fps;
+	glutTimerFunc(redisplay_interval, timer, 0);
 }

@@ -4,7 +4,6 @@
 
 PGlusScene Scene =NULL;
 
-#define TIME 30
 
 PPeano snow;
 
@@ -86,12 +85,6 @@ void clear(void)
 	glusSceneClear(Scene);
 }
 
-void tm(int id)
-{
-	glutPostRedisplay();
-
-	glutTimerFunc(TIME, tm, 0);
-}
 
 void data()
 {
@@ -148,7 +141,7 @@ void func()
 
 	glusHideCursor();
 	
-	glutTimerFunc(TIME, tm, 0);
+	glusFPS(30);
 
 
 }

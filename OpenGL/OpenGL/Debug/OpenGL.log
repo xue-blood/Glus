@@ -1,8 +1,40 @@
-﻿Build started 1/8/2017 9:29:06 PM.
+﻿Build started 1/8/2017 9:50:53 PM.
      1>Project "D:\xue\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\pixmap.c
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\array.c src\callback.c src\camera.c src\canvas.c src\chaos_game.c src\circle.c src\file.c src\fractal.c src\glus.c src\link.c src\mandelbrot_set.c src\mesh.c src\mouse.c src\peano.c src\pixmap.c src\plane.c src\point.c src\points.c src\ray.c src\scene.c "src\sdl-core.c" "src\sdl-core_def-use.c" "src\sdl-core_shape.c" src\shape.c src\status.c src\surface.c src\texture.c src\transfrom.c src\tween.c src\vector.c
+         vector.c
+         tween.c
+         transfrom.c
+         texture.c
+         surface.c
+         status.c
+         shape.c
+         sdl-core_shape.c
+         sdl-core_def-use.c
+         sdl-core.c
+         scene.c
+         ray.c
+         points.c
+         point.c
+         plane.c
          pixmap.c
+         peano.c
+         mouse.c
+         mesh.c
+         mandelbrot_set.c
+         Generating Code...
+         Compiling...
+         link.c
+         glus.c
+         fractal.c
+         file.c
+         circle.c
+         chaos_game.c
+         canvas.c
+         camera.c
+         callback.c
+         array.c
+         Generating Code...
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\xue\project\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\array.obj
          Debug\callback.obj
@@ -43,4 +75,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.52
+Time Elapsed 00:00:06.33

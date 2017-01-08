@@ -18,9 +18,9 @@ void	glusLogLevel(_In_	int		_level);
 #define glusLogex(level,msg,...)		fprintf_s(_Glus_Logs[level],msg,__VA_ARGS__)
 #define glusLog(msg,...)				fprintf_s(_Glus_Logs[Glus_Log_Normal],msg,__VA_ARGS__)
 
-//
-// see init.c
-// 
+
+void	glusFPS(int fps);
+
 void	glusInitWin(GLint	_left, _In_ GLint	_top, _In_ GLint	_width, _In_ GLint	_height, _In_ str _name, _In_ GLenum _mode);
 
 void	normalize(pGLdouble data);
