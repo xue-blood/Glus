@@ -155,7 +155,7 @@ void	glusPopCS();
 void	glusTurn(double _angle);
 void	glusTurnTo(double _angle);
 void	glusForward(_In_	double	_dist,_In_	bool	_is_visible);
-void	glusUIEntry();
+void	glusUIEnter();
 void	glusUILeave();
 int		glusGetHeight();
 int		glusGetWidth();

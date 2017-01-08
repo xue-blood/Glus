@@ -239,7 +239,7 @@ glusPopCS()
  *	refer : https://www.opengl.org/discussion_boards/showthread.php/123009-glRasterPos-problems
  */
 void 
-glusUIEntry()
+glusUIEnter()
 {
 	// Set matrix mode
 	glMatrixMode(GL_PROJECTION);
@@ -293,6 +293,7 @@ void glusReshape(int w,int h)
 	_Window_Height	= h;
 
 	// Set the viewport to be the entire window
+	// refer: http://www.lighthouse3d.com/tutorials/glut-tutorial/preparing-the-window-for-a-reshape/
 	glViewport(0, 0, w, h);
 
 }

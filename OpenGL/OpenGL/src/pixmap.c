@@ -76,7 +76,7 @@ pixChromaKey(PPixMap p, float fr, float fg, float fb)
 	{
 		for (int col = 0; col < p->nCol;col ++)
 		{
-			PRGBA c = p->Pixels + count;	
+			PRGBA c = p->Pixels + count++;	
 
 			// is color equal background
 			if (c->R == r && c->G == g && c->B == b)

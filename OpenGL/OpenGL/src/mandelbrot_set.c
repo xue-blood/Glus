@@ -28,7 +28,7 @@ _In_	double	py,
 _In_	double	w)
 {
 	glusAlloc(map, PixMap);
-	map->nCol = py, map->nRow = px;
+	map->nCol = px, map->nRow = py;
 	glusAllocex(map->Pixels, RGBA, px*py, goto _manset_failed_);
 
 	for (int j = 0; j < map->nCol; j++)
@@ -53,7 +53,7 @@ _In_	double	w)
 			map->Pixels[j*map->nRow + i].R = v*v *255;
 			map->Pixels[j*map->nRow + i].G = v*v * 255;
 			map->Pixels[j*map->nRow + i].B = 0.2 * 255;
-			map->Pixels[j*map->nRow + i].B = 255;
+			map->Pixels[j*map->nRow + i].A = 255;
 		}
 	}
 

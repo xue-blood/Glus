@@ -24,11 +24,14 @@ void dispaly(void)
 
 	glusSceneDraw(Scene);	
 
-	glusUIEntry();
-	glEnable(GL_COLOR_LOGIC_OP);
+	glusUIEnter();
+
+	//glEnable(GL_COLOR_LOGIC_OP);
 	glLogicOp(GL_XOR);
-	glRasterPos2i(x, y);
-	pixDraw(pic[0]);
+	glRasterPos2i(x-16, y+8);
+
+	//glPixelZoom(0.5, -0.5);
+	pixBlend(pic[0]);
 
 
 	glDisable(GL_COLOR_LOGIC_OP);
@@ -99,7 +102,7 @@ void data()
 
 	pic[0] = pixCheckboard();
 	pixChromaKey(pic[0], 0, 0, 0);
-	pic[1] = glusMandelbrotSet(40, 60, 0.5);
+	pic[1] = glusMandelbrotSet(160, 120, 0.5);
 	
 }
 
