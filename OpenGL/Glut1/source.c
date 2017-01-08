@@ -126,6 +126,11 @@ void move(int cx, int cy)
 	x=cx, y= glusGetHeight() - cy;
 }
 
+void reshape(int w, int h)
+{
+	glusReshape(w, h);
+	glusSceneReshape(Scene, w, h);
+}
 
 void func()
 {
@@ -136,7 +141,7 @@ void func()
 	glutPassiveMotionFunc(move);
 	glutMotionFunc(move);
 	glutCloseFunc(clear);
-	glutReshapeFunc(glusReshape);
+	glutReshapeFunc(reshape);
 
 	glusHideCursor();
 	

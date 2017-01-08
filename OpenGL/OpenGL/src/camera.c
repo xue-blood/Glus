@@ -229,7 +229,8 @@ _In_	PGlusProjection		_proj)
 	switch (_proj->Type)
 	{
 	case ProjectPers:
-		gluPerspective(_proj->Persp.AngleView, _proj->Persp.AspectRation, _proj->Near, _proj->Far);
+		gluPerspective(_proj->Persp.AngleView, 
+			_proj->Persp.AspectRation, _proj->Near, _proj->Far);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		break;
 

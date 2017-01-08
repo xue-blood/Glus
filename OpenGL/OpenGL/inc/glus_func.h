@@ -306,6 +306,8 @@ PGlusScene	glusSceneDefault();
 void	glusSceneDraw(_In_	PGlusScene	_scene);
 void	glusSceneLight(_In_	PGlusScene	_scene);
 
+void	glusSceneReshape(_In_ PGlusScene	_scene, int w, int h);
+
 #define glusSceneGetLastShape(p_scene)	(PGlusShape)glusLinkData((p_scene)->Shapes.FLink)
 PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
 PGlusShape	glusSceneGetShapeByName(_In_	PGlusScene		_scene,_In_	str				_name);

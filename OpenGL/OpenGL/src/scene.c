@@ -282,3 +282,10 @@ _In_	str				_name)
 
 	return NULL;
 }
+
+void	
+glusSceneReshape(
+_In_ PGlusScene	_scene, int w, int h)
+{
+	_scene->Projection.Persp.AspectRation = ((float)w) / h;
+}
