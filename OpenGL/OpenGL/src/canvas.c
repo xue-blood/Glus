@@ -297,3 +297,61 @@ void glusReshape(int w,int h)
 	glViewport(0, 0, w, h);
 
 }
+
+void 
+bresenham(int ax, int ay, int bx, int by)
+{
+	/*
+	// line is vertical
+	*/
+	if (ax == bx) 
+	{
+		for (; ay <= by; ay++)
+			drawPoint(ax, ay);
+		return;
+	}
+	/*
+	 *	line is horizontal
+	 */
+	if (ay==by)
+	{
+		for (; ax <= bx; ax++)
+			drawPoint(ax, ay);
+		return;
+	}
+
+	if (ax > bx)
+	{
+		int y = by, W = bx - ax, H = by - ay;
+		int	F = 2 * H - W;
+
+		for (int x = bx; x <= ax; x++)
+		{
+			drawPoint(x, y);
+			/*
+			*	find the next F
+			*/
+			if (F < 0)	F += 2 * H;
+			else		y++, F += 2 * (H - W);
+
+		}
+		return;
+	}
+
+	/*
+	 *	restiction a.x < b.x, 0 < H/W < 1
+	 */
+	int y = ay, W = bx - ax, H = by - ay;
+	int	F = 2 * H - W;
+
+	for (int x = ax; x <= bx; x++)
+	{
+		drawPoint(x, y);
+		/*
+		*	find the next F
+		*/
+		if (F < 0)	F += 2 * H;
+		else		y++, F += 2 * (H - W);
+
+	}
+}

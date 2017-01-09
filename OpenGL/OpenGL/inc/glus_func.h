@@ -102,6 +102,7 @@ void	gluspd(_In_ GLdouble ax, _In_ GLdouble ay, _In_ GLdouble az, _In_ GLdouble 
 // 
 // see point.c
 // 
+#define drawPoint(x,y)  {glBegin(GL_POINTS); glVertex2i(x, y); glEnd();}
 bool	glusPIs3PointOnLine(_In_ PGlusVector _pa, _In_ PGlusVector _pb, _In_ PGlusVector _pc);
 bool	glusPIsInPolygonS(_In_	PGlusVector		_point, _In_	PGlusSink		_polygon);
 bool	glusPIsInPolygon(_In_	PGlusVector		_point, _In_	PGlusLink		_polygon);
@@ -160,7 +161,7 @@ void	glusUILeave();
 int		glusGetHeight();
 int		glusGetWidth();
 void	glusReshape(int x, int y);
-
+void	bresenham(int ax, int ay, int bx, int by);
 #define glusHideCursor() glutSetCursor(GLUT_CURSOR_NONE) // refer:https://www.gamedev.net/topic/147887-hide-mouse-with-glut/
 //
 // see ray.c

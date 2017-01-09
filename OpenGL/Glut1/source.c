@@ -22,7 +22,7 @@ void dispaly(void)
 	
 
 	glusSceneDraw(Scene);	
-
+	
 	glusUIEnter();
 
 	//glEnable(GL_COLOR_LOGIC_OP);
@@ -31,7 +31,8 @@ void dispaly(void)
 
 	//glPixelZoom(0.5, -0.5);
 	pixBlend(pic[0]);
-
+	
+	bresenham(400, 200, 1, 1);
 
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
