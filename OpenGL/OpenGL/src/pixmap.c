@@ -196,3 +196,35 @@ _In_	PRGBA			_back)
 	}
 	
 }
+
+/*
+ *	draw a chain-code 
+ *	use 8-connected
+ */
+void	
+chainDraw(PChain p)
+{
+	assert(p);
+
+	int x = p->X, y = p->Y;
+
+	
+
+	for (int i = 0; i < p->Len;i++)
+	{
+		drawPoint(x, y);
+		switch (p->Steps[i])
+		{
+		case 0: x += p->StepLen; break;
+		case 1: x += p->StepLen; y += p->StepLen; break;
+		case 2: y += p->StepLen; break;
+		case 3: x -= p->StepLen; y += p->StepLen; break;
+		case 4: x -= p->StepLen; break;
+		case 5: x -= p->StepLen; y -= p->StepLen; break;
+		case 6: y -= p->StepLen; break;
+		case 7: x += p->StepLen; y -= p->StepLen; break;
+		default:
+			break;
+		}
+	}
+}

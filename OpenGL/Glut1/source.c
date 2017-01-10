@@ -31,16 +31,21 @@ void dispaly(void)
 	glLogicOp(GL_XOR);
 	glRasterPos2i(x-16, y+8);
 
-	//glPixelZoom(0.5, -0.5);
+	glPixelZoom(0.5, -0.5);
 	pixBlend(pic[0]);
 
-	glRasterPos2i(x + 32, y + 8);
-	pixSetAlpha(pic[1], 0.5);
-	pixBlend(&pi);
+	Chain c;
+	c.X = 100, c.Y = 100; c.StepLen = 30, c.Len = 3;
+	char cs[3] = { 0, 1, 2 };
+	c.Steps = cs;
+	chainDraw(&c);
+
 
 
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
+
+
 
 	glutSwapBuffers();
 
