@@ -39,6 +39,9 @@
     <ClInclude Include="inc\pixmap.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="inc\link.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\vector.c">

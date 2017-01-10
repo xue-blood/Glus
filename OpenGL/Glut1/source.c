@@ -10,8 +10,10 @@ PPeano snow;
 int level;
 
 PPixMap pic[2];
-
+PixMap	pi;
 int x, y;
+
+RectRegion region;
 
 void dispaly(void)
 {
@@ -31,8 +33,11 @@ void dispaly(void)
 
 	//glPixelZoom(0.5, -0.5);
 	pixBlend(pic[0]);
-	
-	bresenham(400, 200, 1, 1);
+
+	glRasterPos2i(x + 32, y + 8);
+	pixSetAlpha(pic[1], 0.5);
+	pixBlend(&pi);
+
 
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
@@ -98,6 +103,12 @@ void data()
 	pixChromaKey(pic[0], 0, 0, 0);
 	pic[1] = glusMandelbrotSet(160, 120, 0.5);
 	
+	RGBA	c = { 0, 248, 248, 255 }, b = { 0, .R = 255, .A=128 };
+	pix2Rect(pic[0], &region, &c);
+
+	pi.nCol =128, pi.nRow = 128;
+	glusAllocex(pi.Pixels, RGBA, 128 * 128, return);
+	rect2pix(&pi, &region, &c, &b);
 }
 
 void set()

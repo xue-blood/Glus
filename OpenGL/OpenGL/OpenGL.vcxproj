@@ -24,6 +24,7 @@
     <ClInclude Include="inc\glus_pre.h" />
     <ClInclude Include="inc\glus.h" />
     <ClInclude Include="inc\glus_struct.h" />
+    <ClInclude Include="inc\link.h" />
     <ClInclude Include="inc\pixmap.h" />
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,7 @@
 
 #define strequ(a,b)	(strcmp(a,b)==0)
 
+#define memequ(a,b,size) (memcmp(a,b,size)==0)
 typedef	char *		str;
 typedef wchar_t *	wstring;
 

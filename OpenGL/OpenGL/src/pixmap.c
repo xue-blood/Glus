@@ -2,6 +2,20 @@
 #include "../inc/pixmap.h"
 #include "../inc/glus.h"
 
+
+/*
+ *	convet for rgba to unsinged
+ *	(only on x86 pc)
+ */
+unsigned int rgbg2uint(PRGBA p)
+{
+	unsigned int r = p->R; r <<= 8;
+	r += p->G; r <<= 8;
+	r += p->B; r <<= 8;
+	r += p->A;
+	
+	return r;
+}
 /*
  *	create a pixmap for checkboard
  */
@@ -86,4 +100,99 @@ pixChromaKey(PPixMap p, float fr, float fg, float fb)
 			
 		}
 	}
+}
+
+void
+pixSetAlpha(PPixMap p, float alpha)
+{
+	assert(p);
+
+	int count = 0;
+	unsigned char a = alpha * 255;
+
+	for (int row = 0; row < p->nRow; row++)
+	{
+		for (int col = 0; col < p->nCol; col++)
+		{
+			p->Pixels[count++].A = a;
+		}
+	}
+}
+
+
+bool
+pix2Rect(
+_In_	PPixMap			_map,
+_In_	PRectRegion		_region,
+_In_	PRGBA			_color)
+{
+	assert(_map && _region);
+
+	glusLinkInit(_region);	// to prevent problem
+
+	int count = 0;
+	bool start = false;
+	PRectRegionRun	run = NULL;
+
+	for (int row = 0; row < _map->nRow;_map++)
+	{
+		for (int col = 0; col < _map->nCol;col++)
+		{
+			if (memequ(_map->Pixels + count++, _color, sizeof(RGBA)))
+			{
+				if (!start) // start a new run
+				{
+					start = true;
+
+					glusAllocex(run, RectRegionRun,1,goto _region_failed_);
+					run->Row = row;
+					run->Col = col;
+
+					glusLinkInsertTail(_region, run);
+				}
+				else
+				{
+					run->Len++; // just add the length
+				}
+			}
+			else
+			{
+				start = false;  // end a start or just set to no-start
+			}
+		}
+	}
+
+	return true;
+_region_failed_:
+
+	return false;
+}
+
+void
+rect2pix(
+_In_	PPixMap			_map,
+_In_	PRectRegion		_region,
+_In_	PRGBA			_fore,
+_In_	PRGBA			_back)
+{
+	assert(_map && _region);
+
+	int count = 0;
+	for (int row = 0; row < _map->nRow; row++)
+		for (int col = 0; col < _map->nCol; col++)
+			memcpy_s(_map->Pixels + count++, sizeof(RGBA), _back, sizeof(RGBA));
+
+	/*
+	 *	now start the run
+	 */
+	PRectRegionRun	run = (PRectRegionRun)_region->BLink;
+	while (!glusLinkIsHead(run,_region))
+	{
+		PRGBA p = _map->Pixels + run->Row*_map->nCol + run->Col;
+
+		for (int i = 0; i < run->Len;i++)
+			memcpy_s(p + i, sizeof(RGBA), _fore, sizeof(RGBA));
+		run = (PRectRegionRun)run->Link.BLink;
+	}
+	
 }
