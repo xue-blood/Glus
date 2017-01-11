@@ -20,7 +20,7 @@ _In_	void(*callback)(void))
 	assertp(_orgTrans && _eachTrans && callback);
 
 	// store the current CT
-	glusPushCT();
+	glPushMatrix();
 
 
 	// handle some unbelieve data
@@ -43,11 +43,11 @@ _In_	void(*callback)(void))
 
 	for (Glussize z = 0; z < _z; z++)
 	{
-		glusPushCT();
+		glPushMatrix();
 
 		for (Glussize y = 0; y < _y; y++)
 		{
-			glusPushCT();
+			glPushMatrix();
 
 			for (Glussize x = 0; x < _x; x++)	// draw at x axis
 			{
@@ -62,16 +62,16 @@ _In_	void(*callback)(void))
 				glusRotate(_eachTrans->Angle, _eachTrans->Ax, _eachTrans->Ay, _eachTrans->Az);
 
 			}
-			glusPopCT();
+			glPopMatrix();
 
 			glusTranslate(0, _eachTrans->Dy, 0);
 		}
-		glusPopCT();
+		glPopMatrix();
 
 		glusTranslate(0, 0, _eachTrans->Dz);
 	}
 
-	glusPopCT();
+	glPopMatrix();
 }
 
 
@@ -82,7 +82,7 @@ void
 glusAxis(
 _In_	GLdouble	_length)
 {
-	glusPushCT();
+	glPushMatrix();
 
 	glLineWidth(2);
 	glDisable(GL_LIGHTING);
@@ -104,7 +104,7 @@ _In_	GLdouble	_length)
 	if (glusGetShadeLevel()==Glus_Shade_Wire)	glutWireCone(0.04, 0.2, 12, 9);
 	else										glutSolidCone(0.04, 0.2, 12, 9);
 
-	glusPopCT();
+	glPopMatrix();
 }
 
 //
@@ -124,7 +124,7 @@ _In_	pvoid		_ptr)
 	glColor3d(0, 0, 1);
 	glusAxis(_length);
 
-	glusPushCT();
+	glPushMatrix();
 	
 	//
 	// y-axis
@@ -142,7 +142,7 @@ _In_	pvoid		_ptr)
 	glusAxis(_length);
 
 
-	glusPopCT();
+	glPopMatrix();
 }
 
 void 

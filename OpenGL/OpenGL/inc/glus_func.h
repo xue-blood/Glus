@@ -452,6 +452,12 @@ PChaosGame	glusChaosGameLoad(_In_	FILE *	_file);
 void	glusChaosGame(_In_	PChaosGame	_p);
 PPixMap glusMandelbrotSet(_In_	double	px,_In_	double	py,_In_	double	w);
 
+
+/*
+ *	anime
+ */
+void	glusDissolve(PPixMap a, PPixMap b);
+
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

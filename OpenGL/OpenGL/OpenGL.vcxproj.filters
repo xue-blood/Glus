@@ -134,5 +134,8 @@
     <ClCompile Include="src\canvas.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\anime.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

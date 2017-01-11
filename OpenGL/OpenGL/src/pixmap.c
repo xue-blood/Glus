@@ -28,7 +28,7 @@ pixCheckboard()
 	map->nCol = map->nRow = 64; // set row and column count
 
 	// allocate memory for pixels
-	glusAllocex(map->Pixels, RGBA, 3 * 64 * 64, goto _checkboar_failed);
+	glusAllocex(map->Pixels, RGBA,  64 * 64, goto _checkboar_failed);
 
 	/*
 	 *	fill data
@@ -79,12 +79,12 @@ _In_	int			_id_texture)
 }
 
 void	
-pixChromaKey(PPixMap p, float fr, float fg, float fb)
+pixChromaKey(PPixMap p, unsigned char r, unsigned char g, unsigned char b)
 {
 	assert(p);
 
 	long count = 0;
-	unsigned char r = fr * 255, g = fg * 255, b = fb * 255;
+	//unsigned char r = fr * 255, g = fg * 255, b = fb * 255;
 
 	for (int row = 0; row < p->nRow;row ++)
 	{
@@ -95,8 +95,7 @@ pixChromaKey(PPixMap p, float fr, float fg, float fb)
 			// is color equal background
 			if (c->R == r && c->G == g && c->B == b)
 				c->A = 0;
-			else
-				c->A = 255;
+			
 			
 		}
 	}

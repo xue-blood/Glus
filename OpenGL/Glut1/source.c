@@ -9,7 +9,7 @@ PPeano snow;
 
 int level;
 
-PPixMap pic[2];
+PPixMap pic[3];
 PixMap	pi;
 int x, y;
 
@@ -29,23 +29,17 @@ void dispaly(void)
 
 	//glEnable(GL_COLOR_LOGIC_OP);
 	glLogicOp(GL_XOR);
+
 	glRasterPos2i(x-16, y+8);
 
 	glPixelZoom(0.5, -0.5);
-	pixBlend(pic[0]);
+	glusDissolve(pic[0], pic[2]);
 
-	Chain c;
-	c.X = 100, c.Y = 100; c.StepLen = 30, c.Len = 3;
-	char cs[3] = { 0, 1, 2 };
-	c.Steps = cs;
-	chainDraw(&c);
-
-
-
+	//pixBlend(pic[0]);
+	
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
-
-
+	
 
 	glutSwapBuffers();
 
@@ -106,8 +100,9 @@ void data()
 
 	pic[0] = pixCheckboard();
 	pixChromaKey(pic[0], 0, 0, 0);
-	pic[1] = glusMandelbrotSet(160, 120, 0.5);
-	
+	//pic[1] = glusMandelbrotSet(64, 64, 0.5);
+	pic[2] = pixCheckboard();
+	pixChromaKey(pic[2], 0,248,248);
 	RGBA	c = { 0, 248, 248, 255 }, b = { 0, .R = 255, .A=128 };
 	pix2Rect(pic[0], &region, &c);
 
@@ -160,7 +155,6 @@ void func()
 	
 	glusFPS(30);
 
-
 }
 void glusInit()
 {
@@ -168,7 +162,8 @@ void glusInit()
 
 
 
-	glusInitWin(300, 100, 600, 400, "glut1", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glusInitWin(300, 100, 600, 400, "glut1", 
+		GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 
 	set();
 	data();

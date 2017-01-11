@@ -313,7 +313,7 @@ bresenham(int ax, int ay, int bx, int by)
 	/*
 	 *	line is horizontal
 	 */
-	if (ay==by)
+	if (ay == by)
 	{
 		for (; ax <= bx; ax++)
 			drawPoint(ax, ay);
