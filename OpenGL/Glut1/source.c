@@ -24,7 +24,7 @@ void dispaly(void)
 	
 
 	glusSceneDraw(Scene);	
-	
+
 	glusUIEnter();
 
 	//glEnable(GL_COLOR_LOGIC_OP);

@@ -148,29 +148,29 @@ _In_	pvoid		_ptr)
 void 
 glusSphere(pvoid _pointer)
 {
-	glusPushCT();
+	glPushMatrix();
 
 	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireSphere(0.5, 24, 16);
 	else											glutSolidSphere(0.5, 24, 16);
 
-	glusPopCT();
+	glPopMatrix();
 }
 
 void
 glusTeapot(pvoid _pointer)
 {
-	glusPushCT();
+	glPushMatrix();
 
 	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireTeapot(0.5);
 	else											glutSolidTeapot(0.5);
 
-	glusPopCT();
+	glPopMatrix();
 }
 
 void
 glusCube(pvoid _pointer)
 {
-	glusPushCT();
+	glPushMatrix();
 
 	glShadeModel(GL_FLAT);
 	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireCube(1);
@@ -178,7 +178,7 @@ glusCube(pvoid _pointer)
 	glColor3f(0, 0, 0);
 	glutWireCube(1);
 
-	glusPopCT();
+	glPopMatrix();
 }
 
 void

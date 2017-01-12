@@ -212,12 +212,15 @@ _Out_	PGlusCircle _c)
 	return	glusCExTri(&pr, &ps, &pt, _c);
 }
 
+/*
+ *	draw arc in a faster speed
+ */
 void
 glusDrawArc(
 _In_	PGlusCircle	_c,
 _In_	GLdouble	_angle_start,
 _In_	GLdouble	_angle_sweep,
-_In_	Glussize		_n)
+_In_	Glussize	_n)
 {
 	assertp(_c);
 	assert(_n > 0);
@@ -237,7 +240,7 @@ _In_	Glussize		_n)
 			glVertex2d(_c->Center.X + x, _c->Center.Y + y);
 
 			//
-			// use shear to respent cos and sin function
+			// use shear to represent cos and sin function
 			//
 			x += T*y;
 			y -= S*x;

@@ -265,9 +265,6 @@ GLint	glusSinkLength(_In_ PGlusSink _linkHead);
 void	glusSinkClear(_Inout_	PGlusSink	_sink_head);
 
 // transformations
-void	glusInitCT();
-void	glusPushCT();
-void	glusPopCT();
 void	glusTransform(_In_	PGlusTransform	_trans);
 void	glusScale(_In_	GLdouble	_sx,_In_		GLdouble	_sy,_In_	GLdouble	_sz);
 void	glusTranslate(_In_ GLdouble	_dx,_In_		GLdouble	_dy,_In_	GLdouble	_dz);

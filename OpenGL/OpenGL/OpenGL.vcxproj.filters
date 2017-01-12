@@ -19,6 +19,9 @@
     <Filter Include="源文件\inf">
       <UniqueIdentifier>{86c42dde-a47d-4c25-bd2c-da4b153acf28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\view">
+      <UniqueIdentifier>{f631a13a-35dd-4110-99fd-2a4ee2b446e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\glus.h">
@@ -74,9 +77,6 @@
     <ClCompile Include="src\ray.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\transfrom.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\scene.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -93,9 +93,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\surface.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\camera.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\status.c">
@@ -133,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="src\canvas.c">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\camera.c">
+      <Filter>源文件\view</Filter>
+    </ClCompile>
+    <ClCompile Include="src\transfrom.c">
+      <Filter>源文件\view</Filter>
     </ClCompile>
     <ClCompile Include="src\anime.c">
       <Filter>源文件</Filter>

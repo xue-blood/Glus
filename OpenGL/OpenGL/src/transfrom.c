@@ -1,35 +1,11 @@
 #include "..\inc\glus.h"
 
 //  [8/11/2016 Tld]
-//	add glusInitCT
 //	add glusScale
 //	add glusTranslate
 //	add glusRotate
 
-//  [8/13/2016 Tld]
-//	add glusPushCT
-//	add glusPopCT
 
-void	
-glusInitCT()
-{
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
-
-void
-glusPushCT()
-{
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-}
-
-void
-glusPopCT()
-{
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-}
 
 void	
 glusScale(
