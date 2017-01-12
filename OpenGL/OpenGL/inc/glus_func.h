@@ -455,6 +455,12 @@ PPixMap glusMandelbrotSet(_In_	double	px,_In_	double	py,_In_	double	w);
  */
 void	glusDissolve(PPixMap a, PPixMap b);
 
+
+/*
+ *	curve
+ */
+GlusVector	bezier(PGlusVector points, int n, double t);
+void	glusBezier(PGlusPointsA points, int num);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

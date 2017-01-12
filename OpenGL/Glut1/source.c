@@ -37,6 +37,11 @@ void dispaly(void)
 
 	//pixBlend(pic[0]);
 	
+	GlusVector ps[4] = { 1, 1, 1, 1, 100, 300, 1, 1, 200, 1, 1, 1, 300, 300, 1, 1 };
+
+	GlusPointsA p = { ps, 4 };
+	glusBezier(&p, 100);
+	
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
 	

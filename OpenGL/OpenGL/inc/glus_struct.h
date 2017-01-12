@@ -62,6 +62,12 @@ typedef struct _GlusPoints
 	GlusVector	Point;
 }GlusPoints, *PGlusPoints;
 
+typedef	struct _GlusPointsA
+{
+	PGlusVector		Points;
+	unsigned int	Count;
+}GlusPointsA, *PGlusPointsA;
+
 typedef struct _GlusPointsS
 {
 	GlusSink	Sink;

@@ -140,5 +140,8 @@
     <ClCompile Include="src\anime.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\curve.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

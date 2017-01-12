@@ -35,6 +35,7 @@
     <ClCompile Include="src\canvas.c" />
     <ClCompile Include="src\chaos_game.c" />
     <ClCompile Include="src\circle.c" />
+    <ClCompile Include="src\curve.c" />
     <ClCompile Include="src\file.c" />
     <ClCompile Include="src\fractal.c" />
     <ClCompile Include="src\link.c" />
