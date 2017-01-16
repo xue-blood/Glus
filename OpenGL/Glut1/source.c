@@ -37,14 +37,18 @@ void dispaly(void)
 
 	//pixBlend(pic[0]);
 	
-	GlusVector ps[4] = { 1, 1, 1, 1, 100, 300, 1, 1, 200, 1, 1, 1, 300, 300, 1, 1 };
+	GlusVector ps[4] = { 1, 1, 0, 1, 150, 200, 0, 1, 200, 1, 0, 1, 300, 200, 0, 1 };
 
 	GlusPointsA p = { ps, 4 };
-	glusBezier(&p, 100);
-	
+	glColor3f(.1, .6, .3); glusDrawPlinesA(&p);
+	glColor3f(.6, .2, .8); glusBezier(&p, 100);
+	glColor3f(.4, .8, .8); glusBSpline(&p, 3, 100);
+
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
-	
+	glusTranslate(0, 1, 0);
+	glColor3f(.4, .8, .8); glusBSplineFunc(&p, 3, 100);
+
 
 	glutSwapBuffers();
 

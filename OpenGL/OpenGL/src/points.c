@@ -58,6 +58,19 @@ _In_	PGlusLink	_p)
 	}
 	glEnd();
 }
+void 
+glusDrawPlinesA(PGlusPointsA p)
+{
+	assertp(p);
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i < (int)p->Count;i++)
+		glVertex3d(p->Points[i].X, p->Points[i].Y, p->Points[i].Z);
+
+	glEnd();
+}
+
+
 void
 glusDrawPolygons(
 _In_	PGlusLink	_p)

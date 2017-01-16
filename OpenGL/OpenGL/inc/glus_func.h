@@ -204,6 +204,7 @@ void	glusDrawPolygonS(_In_	PGlusSink	_p);
 void	glusDrawMulPolygonS(_In_	PGlusSink	_p);
 void	glusDrawPolygons(_In_	PGlusLink	_p);
 void	glusDrawPolyLine(_In_	PGlusLink	_p);
+void	glusDrawPlinesA(PGlusPointsA p);
 void	glusPolygonUnion(_In_	PGlusLink	_pa, _In_	PGlusLink	_pb, _Inout_	PGlusLink	_po);
 void	glusPointsClear_A(_In_	PGlusVector	_pointer);
 void	glusPointsClear_L(_In_	PGlusLink	_head);
@@ -461,6 +462,8 @@ void	glusDissolve(PPixMap a, PPixMap b);
  */
 GlusVector	bezier(PGlusVector points, int n, double t);
 void	glusBezier(PGlusPointsA points, int num);
+void	glusBSpline(PGlusPointsA pa, int m, int num);
+void	glusBSplineFunc(PGlusPointsA pa, int m, int num);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 
