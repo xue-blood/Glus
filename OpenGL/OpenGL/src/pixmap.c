@@ -227,3 +227,117 @@ chainDraw(PChain p)
 		}
 	}
 }
+
+/*
+*	max and min
+*	refer :http://stackoverflow.com/questions/7074010/find-maximum-of-three-number-in-c-without-using-conditional-statement-and-ternar
+*/
+int max3(int a, int b, int c)
+{
+	int m = a;
+	(m < b) && (m = b); //these are not conditional statements.
+	(m < c) && (m = c); //these are just boolean expressions.
+	return m;
+}
+
+int min3(int a, int b, int c)
+{
+	int m = a;
+	(m > b) && (m = b); //these are not conditional statements.
+	(m > c) && (m = c); //these are just boolean expressions.
+	return m;
+}
+
+
+/*
+*	rgb space to hls
+*	rgb (int)
+*	hls (float)
+*/
+void	rgb2hls(PRGB rgb, PHLS hls)
+{
+	assert(rgb && hls);
+
+	/*
+	*	convent rgb from int to double
+	*/
+	double	r = rgb->R / (float)255,
+		g = rgb->G / (float)255,
+		b = rgb->B / (float)255;
+
+	double	mx = max3(r, g, b),
+		mn = min3(r, g, b);
+
+	// compute the lightness
+	hls->L = (mx + mn) / 2.0;
+
+	/*
+	*	compute  the saturation
+	*/
+	if (mx == mn)
+		hls->L = 0.0;	// the color is gray
+	else	// color is chromatic
+	{
+		if (hls->L <= 0.5)	hls->S = (mx - mn) / (mx + mn);
+		else hls->S = (mx - mn) / (2 - mx + mn);
+
+
+		/*
+		*	compute the hue
+		*/
+		double tr, tg, tb;
+		tr = (mx - r) / (mx - mn);
+		tg = (mx - g) / (mx - mn);
+		tb = (mx - b) / (mx - mn);
+
+		if (r == mx)		hls->H = tb - tg;
+		else if (g == mx)	hls->H = 2 + tr - tb;
+		else if (b == mx)	hls->H = 4 + tg - tr;
+
+		hls->H *= 60;
+		if (hls->H < 0.0)	hls->H += 360;
+	}
+
+}
+
+
+/*
+ *	hls to rgb
+ *	refer :http://www.rapidtables.com/convert/color/hsl-to-rgb.htm
+ */
+void	hls2rgb(PHLS hls, PRGB rgb)
+{
+	assert(hls && rgb);
+
+	/*
+	 *	C = (1 - |2L - 1|) ¡Á S
+		X = C ¡Á (1 - |(H / 60¡ã) mod 2 - 1|)
+		m = L - C/2
+
+		... 
+		(R,G,B) = ((R'+m)¡Á255, (G'+m)¡Á255,(B'+m)¡Á255)
+	 */
+	double c, x, m;
+	int t = hls->H / 60;
+
+	c = (1 - abs(2 * hls->L - 1))* hls->S;
+	x = c *(1 - abs(t % 2 - 1));
+	m = hls->L - c / 2;
+
+	double r, g, b;
+
+	switch (t)
+	{
+	case 0: r = c; g = x; b = 0; break;
+	case 1: r = x; g = c; b = 0; break;
+	case 2: r = 0; g = c; b = x; break;
+	case 3: r = 0; g = x; b = c; break;
+	case 4: r = x; g = 0; b = c; break;
+	case 5: r = c; g = 0; b = x; break;
+	default:	break;
+	}
+
+	rgb->R = (r + m) * 255;
+	rgb->G = (g + m) * 255;
+	rgb->B = (b + m) * 255;
+}

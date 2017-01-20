@@ -126,7 +126,11 @@ void set()
 	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	
-	
+	//RGB rgb = { 0, 255, 0 };
+	RGB rgb = { 0 };
+	HLS hls = { 120, 0.5, 1 };
+	//rgb2hls(&rgb, &hls);
+	hls2rgb(&hls, &rgb);
 }
 
 void edit(pvoid p)

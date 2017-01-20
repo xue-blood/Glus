@@ -19,6 +19,10 @@ typedef	struct _PixMap
 	PRGBA	Pixels;
 }PixMap, *PPixMap;
 
+typedef	struct _HLS
+{
+	double H, L, S;
+}HLS,*PHLS;
 
 /*
 *	data-struct for rectangle-defined region
@@ -79,4 +83,13 @@ void	rect2pix(PPixMap _map,PRectRegion _region,PRGBA	_fore,PRGBA	_back);
 
 void	pix2chain(PPixMap _map, PChain p, int x, int y);
 void	chainDraw(PChain p);
+
+int max3(int a, int b, int c);
+int min3(int a, int b, int c);
+
+/*
+ *	color convent
+ */
+void	rgb2hls(PRGB rgb, PHLS hls);
+void	hls2rgb(PHLS hls, PRGB rgb);
 #endif
