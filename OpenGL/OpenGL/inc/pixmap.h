@@ -19,10 +19,16 @@ typedef	struct _PixMap
 	PRGBA	Pixels;
 }PixMap, *PPixMap;
 
-typedef	struct _HLS
+typedef	struct _HSL
 {
 	double H, L, S;
-}HLS,*PHLS;
+}HSL, *PHSL;
+
+
+typedef	struct _HSV
+{
+	double H, S, V;
+}HSV, *PHSV;
 
 /*
 *	data-struct for rectangle-defined region
@@ -90,6 +96,8 @@ int min3(int a, int b, int c);
 /*
  *	color convent
  */
-void	rgb2hls(PRGB rgb, PHLS hls);
-void	hls2rgb(PHLS hls, PRGB rgb);
+void	rgb2hsl(PRGB rgb, PHSL hls);
+void	hsl2rgb(PHSL hls, PRGB rgb);
+void	rgb2hsv(PRGB rgb, PHSV hsv);
+void	hsv2rgb(PHSV hsv, PRGB rgb);
 #endif

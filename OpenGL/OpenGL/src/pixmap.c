@@ -254,7 +254,7 @@ int min3(int a, int b, int c)
 *	rgb (int)
 *	hls (float)
 */
-void	rgb2hls(PRGB rgb, PHLS hls)
+void	rgb2hsl(PRGB rgb, PHSL hls)
 {
 	assert(rgb && hls);
 
@@ -305,7 +305,7 @@ void	rgb2hls(PRGB rgb, PHLS hls)
  *	hls to rgb
  *	refer :http://www.rapidtables.com/convert/color/hsl-to-rgb.htm
  */
-void	hls2rgb(PHLS hls, PRGB rgb)
+void	hsl2rgb(PHSL hls, PRGB rgb)
 {
 	assert(hls && rgb);
 
@@ -323,6 +323,80 @@ void	hls2rgb(PHLS hls, PRGB rgb)
 	c = (1 - abs(2 * hls->L - 1))* hls->S;
 	x = c *(1 - abs(t % 2 - 1));
 	m = hls->L - c / 2;
+
+	double r, g, b;
+
+	switch (t)
+	{
+	case 0: r = c; g = x; b = 0; break;
+	case 1: r = x; g = c; b = 0; break;
+	case 2: r = 0; g = c; b = x; break;
+	case 3: r = 0; g = x; b = c; break;
+	case 4: r = x; g = 0; b = c; break;
+	case 5: r = c; g = 0; b = x; break;
+	default:	break;
+	}
+
+	rgb->R = (r + m) * 255;
+	rgb->G = (g + m) * 255;
+	rgb->B = (b + m) * 255;
+}
+
+
+
+void	rgb2hsv(PRGB rgb, PHSV hsv)
+{
+	assert(rgb && hsv);
+
+	/*
+	*	convent rgb from int to double
+	*/
+	double	r = rgb->R / (float)255,
+		g = rgb->G / (float)255,
+		b = rgb->B / (float)255;
+
+	double	mx = max3(r, g, b),
+			mn = min3(r, g, b),
+			md = mx-mn;
+
+	// compute the value
+	hsv->V = mx;
+
+	/*
+	*	compute  the saturation
+	*/
+	if (mx == mn)
+		hsv->S = 0.0;	// the color is gray
+	else	// color is chromatic
+	{
+		hsv->S = md / mx;
+
+		/*
+		*	compute the hue
+		*/
+		double tr, tg, tb;
+		tr = (mx - r) / (mx - mn);
+		tg = (mx - g) / (mx - mn);
+		tb = (mx - b) / (mx - mn);
+
+		if (r == mx)		hsv->H = tb - tg;
+		else if (g == mx)	hsv->H = 2 + tr - tb;
+		else if (b == mx)	hsv->H = 4 + tg - tr;
+
+		hsv->H *= 60;
+		if (hsv->H < 0.0)	hsv->H += 360;
+	}
+}
+void	hsv2rgb(PHSV hsv, PRGB rgb)
+{
+	assert(rgb && hsv);
+
+	double c, x, m;
+	int t = hsv->H / 60;
+
+	c = hsv->V / hsv->S;
+	x = c *(1 - abs(t % 2 - 1));
+	m = hsv->V- c;
 
 	double r, g, b;
 

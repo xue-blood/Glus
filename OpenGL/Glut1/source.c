@@ -127,10 +127,10 @@ void set()
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	
 	//RGB rgb = { 0, 255, 0 };
-	RGB rgb = { 0 };
-	HLS hls = { 120, 0.5, 1 };
-	//rgb2hls(&rgb, &hls);
-	hls2rgb(&hls, &rgb);
+	RGB rgb = { 0};
+	HSV hsv = { 120, 1, 1 };
+	//rgb2hsv(&rgb, &hsv);
+	hsv2rgb(&hsv, &rgb);
 }
 
 void edit(pvoid p)
