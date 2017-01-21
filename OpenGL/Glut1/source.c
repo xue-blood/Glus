@@ -43,12 +43,13 @@ void dispaly(void)
 	glColor3f(.1, .6, .3); glusDrawPlinesA(&p);
 	glColor3f(.6, .2, .8); glusBezier(&p, 100);
 	glColor3f(.4, .8, .8); glusBSpline(&p, 3, 100);
-
+	
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
 	glusTranslate(0, 1, 0);
 	glColor3f(.4, .8, .8); glusBSplineFunc(&p, 3, 100);
 
+	rgbSpace();
 
 	glutSwapBuffers();
 
@@ -126,11 +127,6 @@ void set()
 	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	
-	//RGB rgb = { 0, 255, 0 };
-	RGB rgb = { 0};
-	HSV hsv = { 120, 1, 1 };
-	//rgb2hsv(&rgb, &hsv);
-	hsv2rgb(&hsv, &rgb);
 }
 
 void edit(pvoid p)

@@ -415,3 +415,56 @@ void	hsv2rgb(PHSV hsv, PRGB rgb)
 	rgb->G = (g + m) * 255;
 	rgb->B = (b + m) * 255;
 }
+
+void	rgbSpace()
+{
+#define S(x,y,z) glColor3f(x, y, z); glVertex3f(x, y, z);
+	
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glBegin(GL_QUADS);
+
+	/*
+	*	z = 0
+	*/
+	S(0, 0, 0);		S(0, 1, 0);
+	S(1, 1, 0);		S(1, 0, 0); 
+
+	/*
+	 *	z = 1
+	 */
+	S(0, 0, 1);		S(0, 1, 1); 
+	S(1, 1, 1);		S(1, 0, 1); 
+
+	/*
+	*	x = 0
+	*/
+	S(0, 0, 0);		S(0, 0, 1);		
+	S(0, 1, 1);		S(0, 1, 0); 
+
+	/*
+	*	x = 1
+	*/
+	S(1, 0, 0);		S(1, 0, 1); 
+	S(1, 1, 1);		S(1, 1, 0); 
+
+	/*
+	*	y = 0
+	*/
+	S(0, 0, 0);		S(1, 0, 0); 
+	S(1, 0, 1);		S(0, 0, 1); 
+
+	/*
+	*	y = 1
+	*/
+	S(0, 1, 0);		S(1, 1, 0); 
+	S(1, 1, 1);		S(0, 1, 1);
+
+
+	glEnd();
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+
+#undef S
+}

@@ -90,6 +90,7 @@ void	rect2pix(PPixMap _map,PRectRegion _region,PRGBA	_fore,PRGBA	_back);
 void	pix2chain(PPixMap _map, PChain p, int x, int y);
 void	chainDraw(PChain p);
 
+
 int max3(int a, int b, int c);
 int min3(int a, int b, int c);
 
@@ -100,4 +101,7 @@ void	rgb2hsl(PRGB rgb, PHSL hls);
 void	hsl2rgb(PHSL hls, PRGB rgb);
 void	rgb2hsv(PRGB rgb, PHSV hsv);
 void	hsv2rgb(PHSV hsv, PRGB rgb);
+
+
+void	rgbSpace();
 #endif
