@@ -416,6 +416,10 @@ void	hsv2rgb(PHSV hsv, PRGB rgb)
 	rgb->B = (b + m) * 255;
 }
 
+/*
+ *	rgb space color cube
+ *	refer :http://www.swiftless.com/tutorials/opengl/vertex_colors.html
+ */
 void	rgbSpace()
 {
 #define S(x,y,z) glColor3f(x, y, z); glVertex3f(x, y, z);
