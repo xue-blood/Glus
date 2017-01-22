@@ -472,3 +472,91 @@ void	rgbSpace()
 
 #undef S
 }
+
+
+void	hslSpace()
+{
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glBegin(GL_TRIANGLE_FAN);
+
+#define SQRT32 0.866
+	/*
+	 *	top
+	 */
+	glColor3f(1, 1, 1); glVertex3f(0, 1, 0);			// white
+	
+	glColor3f(1, 0, 0); glVertex3f(1,		0, 0);			// red
+	glColor3f(1, 1, 0);	glVertex3f(0.5,		0, SQRT32);		// yellow
+	glColor3f(0, 1, 0); glVertex3f(-0.5,	0, SQRT32);	// green
+	glColor3f(0, 1, 1); glVertex3f(-1,		0, 0);			// cyan
+	glColor3f(0, 0, 1); glVertex3f(-0.5,	0, -SQRT32);	// blue
+	glColor3f(1, 0, 1); glVertex3f(0.5,		0, -SQRT32);	// magenta
+	glColor3f(1, 0, 0); glVertex3f(1,		0, 0);			// red
+
+	/*
+	*	bottom
+	*/
+	glEnd();
+
+	glBegin(GL_TRIANGLE_FAN);
+
+	glColor3f(0, 0, 0); glVertex3f(0, -1, 0);			// black
+
+	glColor3f(1, 0, 0); glVertex3f(1,		0, 0);			// red
+	glColor3f(1, 1, 0);	glVertex3f(0.5,		0, SQRT32);		// yellow
+	glColor3f(0, 1, 0); glVertex3f(-0.5,	0, SQRT32);	// green
+	glColor3f(0, 1, 1); glVertex3f(-1,		0, 0);			// cyan
+	glColor3f(0, 0, 1); glVertex3f(-0.5,	0, -SQRT32);	// blue
+	glColor3f(1, 0, 1); glVertex3f(0.5,		0, -SQRT32);	// magenta
+	glColor3f(1, 0, 0); glVertex3f(1,		0, 0);			// red
+
+	glEnd();
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+#undef SQRT32
+}
+void	hsvSpace()
+{
+
+#define SQRT32 0.866
+
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+
+	glBegin(GL_TRIANGLE_FAN);
+	/*
+	*	top
+	*/
+	glColor3f(1, 1, 1); glVertex3f(0, 1, 0);			// white
+
+	glColor3f(1, 0, 0); glVertex3f(1,		1, 0);			// red
+	glColor3f(1, 1, 0);	glVertex3f(0.5,		1, SQRT32);		// yellow
+	glColor3f(0, 1, 0); glVertex3f(-0.5,	1, SQRT32);		// green
+	glColor3f(0, 1, 1); glVertex3f(-1,		1, 0);			// cyan
+	glColor3f(0, 0, 1); glVertex3f(-0.5,	1, -SQRT32);	// blue
+	glColor3f(1, 0, 1); glVertex3f(0.5,		1, -SQRT32);	// magenta
+	glColor3f(1, 0, 0); glVertex3f(1,		1, 0);			// red
+	glEnd();
+
+	/*
+	*	bottom
+	*/
+	glBegin(GL_TRIANGLE_FAN);
+
+	glColor3f(0, 0, 0); glVertex3f(0, 0, 0);			// black
+
+	glColor3f(1, 0, 0); glVertex3f(1,		1, 0);			// red
+	glColor3f(1, 1, 0);	glVertex3f(0.5,		1, SQRT32);		// yellow
+	glColor3f(0, 1, 0); glVertex3f(-0.5,	1, SQRT32);		// green
+	glColor3f(0, 1, 1); glVertex3f(-1,		1, 0);			// cyan
+	glColor3f(0, 0, 1); glVertex3f(-0.5,	1, -SQRT32);	// blue
+	glColor3f(1, 0, 1); glVertex3f(0.5,		1, -SQRT32);	// magenta
+	glColor3f(1, 0, 0); glVertex3f(1,		1, 0);			// red
+
+	glEnd();
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+}

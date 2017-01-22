@@ -104,4 +104,6 @@ void	hsv2rgb(PHSV hsv, PRGB rgb);
 
 
 void	rgbSpace();
+void	hslSpace();
+void	hsvSpace();
 #endif
