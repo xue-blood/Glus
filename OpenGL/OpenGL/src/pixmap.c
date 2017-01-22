@@ -473,7 +473,9 @@ void	rgbSpace()
 #undef S
 }
 
-
+/*
+ *	refer:http://stackoverflow.com/questions/8043923/gl-triangle-fan-explanation
+ */
 void	hslSpace()
 {
 	glShadeModel(GL_SMOOTH);
