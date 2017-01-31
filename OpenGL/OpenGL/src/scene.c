@@ -167,13 +167,14 @@ _In_	PGlusScene	_scene)
 	//
 	// draw the shapes
 	//
-	PGlusShapes p = (PGlusShapes)_scene->Shapes.BLink;
-	while (!glusLinkIsHead(p,&_scene->Shapes))
+	for (glusLinkFirst(p, &_scene->Shapes);
+		!glusLinkIsHead(p, &_scene->Shapes);
+		glusLinkNext(p))
 	{	
 		// convert pointer to shape
-		PGlusShape s = (PGlusShape)glusLinkData(p);
+		PGlusShape s = glusLinkData(p);
 		// is need show it
-		if (s->IsHide) goto _scene_draw_end_;
+		if (s->IsHide) continue;
 		
 		if (glusGetShadeLevel() != Glus_Shade_Wire)
 		{
@@ -182,11 +183,6 @@ _In_	PGlusScene	_scene)
 		}
 
 		glusShapeDraw(s);
-
-
-_scene_draw_end_:
-		p = (PGlusShapes)p->Link.BLink;
-
 	}
 }
 
@@ -288,4 +284,93 @@ glusSceneReshape(
 _In_ PGlusScene	_scene, int w, int h)
 {
 	_scene->Projection.Persp.AspectRation = ((float)w) / h;
+}
+
+/*
+ *	get the first hit object
+ */
+void
+glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
+{
+	assert(_scene && _ray && _best);
+
+	GlusIntersect inter;
+	_best->numHits = 0;
+
+	for (glusLinkFirst(lk, &_scene->Shapes);
+		!glusLinkIsHead(lk, &_scene->Shapes);
+		glusLinkNext(lk))
+	{
+		PGlusShape shape = glusLinkData(lk);
+
+		if (!shape->Hit)	continue;
+		if (!shape->Hit(shape,_ray, &inter)) continue;
+
+		if (_best->numHits == 0 ||
+			inter.Hits[0].hitTime < _best->Hits[0].hitTime)
+			*_best = inter;	// set best
+	}
+
+}
+
+/*
+ *	shade with specify ray
+ */
+void
+glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
+{
+	assert(_scene && _ray && _clr);
+
+	GlusIntersect	best; 
+	// get the best hit
+	glusSceneHit(_scene, _ray, &best);
+	if (best.numHits == 0)
+	{
+		*_clr = _scene->Background; // if miss object
+		return;
+	}
+
+	/*
+	 *	set color
+	 */
+	PGlusShape obj = best.Hits[0].HitObject;
+	*_clr = obj->Emissive;			// emissive
+	rgbaAdd(_clr, &obj->Ambient);	// ambient
+	rgbaAdd(_clr, &obj->Diffuse);	// diffuse
+	rgbaAdd(_clr, &obj->Specular);	// specular
+}
+// window size ,extern from canvas.c
+extern int		_Window_Height, _Window_Width;
+
+void 
+glusSceneRayTrace(PGlusScene _scene, int _block_size)
+{
+	assert(_scene && _block_size >0 );
+
+	glusUIEnter();
+	glDisable(GL_LIGHTING);	// disable lighting
+
+	int nRows = _Window_Height, nCols = _Window_Width;
+	GlusRay		ray;		// ray
+	GlusColor	clr;		// color 
+
+	for (int row = 0; row < nRows;row++)
+	{
+		for (int col = 0; col < nCols;col++)
+		{
+			// set the ray
+			glusCameraRay(col, row, &ray,&_scene->Camera,&_scene->Projection);
+
+			// find color
+			glusSceneShade(_scene, &ray, &clr);
+			
+			/*
+			 *	draw block with current color
+			 */
+			glColor3d(clr.R, clr.G, clr.B);
+			glRecti(col, row, col + _block_size, row + _block_size);
+		}
+	}
+
+	glusUILeave();
 }

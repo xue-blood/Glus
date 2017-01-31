@@ -125,19 +125,32 @@ typedef struct _GlusColor
 	GLfloat	R, G, B, A;
 }GlusColor, *PGlusColor;
 
+typedef struct _GlusHitInfo		GlusHitInfo,	*PGlusHitInfo;	
+typedef struct _GlusIntersect	GlusIntersect,	*PGlusIntersect;
+
+typedef struct _GlusCube
+{
+	float	Left, Right, Top, Bottom, Near, Far;
+}GlusCube, *PGlusCube;
 
 // define a function for draw 
 // now it should use at the first
 typedef	struct _GlusShape
 {
-	//void(*Draw)(); // change to no paramete. [7/9/2016 tld]
+	/*
+	 *	function
+	 */
 	void(*Draw)(pvoid);
 	void(*Clear)(pvoid);	// add [8/31/2016 blue]
+	bool(*Hit)(PGlusShape,PGlusRay,PGlusIntersect);
+
 	pvoid Extern;	// a pointer to a struct
 
-	GlusColor		Diffuse, Specular, Ambient;
+	GlusColor		Diffuse, Specular, Ambient, Emissive;
 
 	GlusTransform	Transform;
+
+	GlusCube	Extent;	// the extent of shape
 
 	char	Name[64];	// add [12/26/2016 xue]
 	bool	IsHide;		// add [12/26/2016 xue]
@@ -331,5 +344,28 @@ typedef	struct _ChaosGameAffine
 	float		M11, M12, M21, M22, M13, M23;
 	uint		Pr;
 }ChaosGameAffine, *PChaosGameAffine;
+
+
+/*
+ *	for ray trace
+ */
+typedef struct _GlusHitInfo
+{
+	double		hitTime;		// the hit time
+	PGlusShape	HitObject;		// the hit object
+	
+	bool		isEnter;		// is the ray entering or exiting
+	int			FaceID;			// which face hit
+
+	GlusVector	HitPoint;		// the hit point
+	GlusVector	HitNormal;		// the normal at the hit point
+}GlusHitInfo, *PGlusHitInfo;
+
+typedef struct _GlusIntersect
+{
+	int			numHits;		// # of hits at positive hit time
+	GlusHitInfo	Hits[8];		// store hit info ,may need more than 8 later
+}GlusIntersect, *PGlusIntersect;
+
 #endif // !_GLUS_STRUCT_H
 #endif // !_glus_struct_h

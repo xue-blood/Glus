@@ -1,6 +1,6 @@
 #include"../inc/glus.h"
 
-GlusVector	Eye;
+GlusVector	_Eye;
 
 
 
@@ -41,7 +41,7 @@ _In_	PGlusCamera		_camera)
 		_camera->U.X, _camera->U.Y, _camera->U.Z,
 		_camera->V.X, _camera->V.Y, _camera->V.Z);
 
-	Eye = _camera->Eye;
+	_Eye = _camera->Eye;
 }
 /*
  *	set camera
@@ -351,5 +351,45 @@ _In_	GLdouble	_dz)
 PGlusVector
 glusGetEye()
 {
-	return &Eye;
+	return &_Eye;
+}
+
+
+// window size ,extern from canvas.c
+extern int		_Window_Height, _Window_Width;
+
+/*
+ *	get the specify ray 
+ */
+void
+glusCameraRay(
+int _x, int _y, 
+PGlusRay _ray,
+PGlusCamera _cam,
+PGlusProjection _proj)
+{
+	assert(_ray && _x && _y && _proj);
+
+	// position
+	_ray->Point = _Eye;
+
+	/*
+	 *	direction
+	 */
+	memset(&_ray->Direction, 0, sizeof(GlusVector));
+	// assume work in perspective projection
+	double h, w;
+	h = _proj->Near * tana(_proj->Persp.AngleView / 2 );
+	w = h * _proj->Persp.AspectRation;
+
+	double u, v;
+	u = w *(2 * _x / _Window_Width - 1);
+	v = h *(2 * _y / _Window_Height - 1);
+
+	// -N n
+	glusVAdd(&_ray->Direction, 1, &_cam->N, -_proj->Near, &_ray->Direction);
+	glusVAdd(&_ray->Direction, 1, &_cam->U, u, &_ray->Direction);
+	glusVAdd(&_ray->Direction, 1, &_cam->V, v, &_ray->Direction);
+
+	
 }

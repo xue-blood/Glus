@@ -315,7 +315,8 @@ _Inout_	PGlusVector	_normal)
 	while (!glusLinkIsHead(p,_head))
 	{
 		// get the pointer of next
-		glusLinkNext(_head, p, p_n);
+		glusLinkNext(p);
+		p_n = (void*)p->Link.BLink;
 
 		_normal->X += Express(Y, -)*Express(Z, +);
 		_normal->Y += Express(Z, -)*Express(X, +);

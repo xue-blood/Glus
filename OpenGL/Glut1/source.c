@@ -53,6 +53,7 @@ void
 mouse(int button,int state,int x,int y)
 {
 	glusMouseLoop(button, state, x, y);
+
 }
 void 
 keyboard(
@@ -72,7 +73,7 @@ int _x, int _y)
 	case 'q': glusCameraRoll(1, &Scene->Camera); break;
 	case 'e': glusCameraRoll(-1, &Scene->Camera); break;
 	case 'j': glusCameraYaw(-1, &Scene->Camera); break;
-	case 'l' : glusCameraYaw(1, &Scene->Camera); break;
+	case 'l': glusCameraYaw(1, &Scene->Camera); break;
 	case 'i': glusCameraPitch(-1, &Scene->Camera); break;
 	case 'k': glusCameraPitch(1, &Scene->Camera); break;
 	case '=': glusSetShadeLevel(Glus_Shade_Wire); break;
@@ -124,7 +125,7 @@ void edit(pvoid p)
 {
 	while (true)
 	{
-		putchar('>');
+		printf("\n>");
 		glusSDLex(Scene, fgetstdin());
 	}
 }
@@ -132,6 +133,11 @@ void edit(pvoid p)
 void move(int cx, int cy)
 {
 	x=cx, y= glusGetHeight() - cy;
+}
+
+void wrotate(int x, int y)
+{
+
 }
 
 void reshape(int w, int h)
@@ -147,11 +153,11 @@ void func()
 	glutKeyboardFunc(keyboard);
 	glutMouseFunc(mouse);
 	glutPassiveMotionFunc(move);
-	glutMotionFunc(move);
+	glutMotionFunc(wrotate);
 	glutCloseFunc(clear);
 	glutReshapeFunc(reshape);
 
-	glusHideCursor();
+	//glusHideCursor();
 	
 	glusFPS(30);
 

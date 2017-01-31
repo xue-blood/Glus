@@ -111,9 +111,9 @@ void inc(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 		 */
 		FILE * file_new;
 		fopen_s(&file_new, s_newfile, "r");
-		Check(file_new, glusLogex(Glus_Log_Error, "Error: ( %s ) file no found.\n", s_newfile), return);
+		Check(file_new, glusLogex(Glus_Log_Error, "\nError: ( %s ) file no found.", s_newfile), return);
 
-		glusLog("[sd] inc new file %s.\n", s_newfile);
+		glusLog("\n[sdl] inc new file %s.", s_newfile);
 
 		glusSDL(_scene, file_new);	// resolve the file with current scene
 		
@@ -536,7 +536,7 @@ int Keys_Get_id(FILE * file)
 	// get function name
 	//
 	n_get = glusScanf(file, "%s", func_name, _countof(func_name));
-	if (!n_get)	return-1;
+	if (!n_get)	return -1;
 	if (feof(file))	// add [9/4/2016 blue],fix for file end
 		return -1;
 
@@ -589,7 +589,7 @@ _In_	FILE*		_file)
 
 	GLdouble	func_param[30];	// max parameters
 
-	while (!feof(_file))
+	for (; !feof(_file); glusSkipSpace(_file))
 	{
 		/*
 		*	get key id
@@ -598,9 +598,13 @@ _In_	FILE*		_file)
 		if (id == Key_Unknown)
 			continue;
 
+		glusLog("\n[sdl] loading %s", Keys[id]);
+
 		int n = Keys_Get_param(_file, id, func_param);	// get parameters
 
 		Keys_func[id](_scene, func_param, n, _file);	// resolve the key
+
+		glusLog("\t\t successed.");
 	}
 }
 

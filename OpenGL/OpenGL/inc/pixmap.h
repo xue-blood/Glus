@@ -106,4 +106,9 @@ void	hsv2rgb(PHSV hsv, PRGB rgb);
 void	rgbSpace();
 void	hslSpace();
 void	hsvSpace();
+
+#define rgbaAdd(a,b)	(a)->R +=(b)->R,\
+						(a)->G +=(b)->G,\
+						(a)->B +=(b)->B,\
+						(a)->A +=(b)->A
 #endif

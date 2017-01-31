@@ -38,6 +38,7 @@
     <ClCompile Include="src\curve.c" />
     <ClCompile Include="src\file.c" />
     <ClCompile Include="src\fractal.c" />
+    <ClCompile Include="src\hit.c" />
     <ClCompile Include="src\link.c" />
     <ClCompile Include="src\mandelbrot_set.c" />
     <ClCompile Include="src\mesh.c" />

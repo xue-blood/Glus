@@ -1,10 +1,46 @@
-﻿Build started 1/22/2017 9:37:04 AM.
-     1>Project "D:\xue\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
+﻿Build started 1/31/2017 3:12:31 PM.
+     1>Project "D:\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\pixmap.c
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\anime.c src\array.c src\callback.c src\camera.c src\canvas.c src\chaos_game.c src\circle.c src\curve.c src\file.c src\fractal.c src\hit.c src\link.c src\mandelbrot_set.c src\mesh.c src\mouse.c src\peano.c src\pixmap.c "src\sdl-core.c" "src\sdl-core_def-use.c" "src\sdl-core_shape.c" src\shape.c src\plane.c src\points.c src\ray.c src\scene.c src\status.c src\surface.c src\texture.c src\transfrom.c src\tween.c src\vector.c src\point.c src\glus.c
+         glus.c
+         point.c
+         vector.c
+         tween.c
+         transfrom.c
+         texture.c
+         surface.c
+         status.c
+         scene.c
+         ray.c
+         points.c
+         plane.c
+         shape.c
+         sdl-core_shape.c
+         sdl-core_def-use.c
+         sdl-core.c
          pixmap.c
+         peano.c
+         mouse.c
+         mesh.c
+         Generating Code...
+         Compiling...
+         mandelbrot_set.c
+         link.c
+         hit.c
+         fractal.c
+         file.c
+         curve.c
+         circle.c
+         chaos_game.c
+         canvas.c
+         camera.c
+         callback.c
+         array.c
+         anime.c
+         Generating Code...
+     1>d:\project\opengl\opengl\opengl\src\hit.c(7): warning C4716: 'glusHitPlane' : must return a value
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\xue\project\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\anime.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\project\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\anime.obj
          Debug\array.obj
          Debug\callback.obj
          Debug\camera.obj
@@ -14,6 +50,7 @@
          Debug\curve.obj
          Debug\file.obj
          Debug\fractal.obj
+         Debug\hit.obj
          Debug\link.obj
          Debug\mandelbrot_set.obj
          Debug\mesh.obj
@@ -40,9 +77,9 @@
      1>sdl-core.obj : warning LNK4006: _def already defined in sdl-core_def-use.obj; second definition ignored
      1>sdl-core.obj : warning LNK4006: _use already defined in sdl-core_def-use.obj; second definition ignored
      1>sdl-core.obj : warning LNK4006: _def_clear already defined in sdl-core_def-use.obj; second definition ignored
-         OpenGL.vcxproj -> D:\xue\project\OpenGL\OpenGL\Debug\OpenGL.lib
-     1>Done Building Project "D:\xue\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" (Build target(s)).
+         OpenGL.vcxproj -> D:\project\OpenGL\OpenGL\Debug\OpenGL.lib
+     1>Done Building Project "D:\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.49
+Time Elapsed 00:00:06.22

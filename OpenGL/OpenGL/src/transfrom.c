@@ -65,3 +65,69 @@ _In_	PGlusTransform	_trans)
 	glRotated(_trans->Angle,_trans->Ax,_trans->Ay,_trans->Az);
 
 }
+
+/*
+ *	transform vertex and not send to pipeline
+ */
+void
+glusTransformVertex(PGlusTransform _trans,PGlusVector _v)
+{
+
+	glPushMatrix();
+	glLoadIdentity();
+	/*
+	*	build inverse transform matrix
+	*/
+	float m[4][4] = { 0 };
+	// apply inverse transform
+	glTranslated(_trans->Dx, _trans->Dy, _trans->Dz);
+	glScaled(_trans->Sx, _trans->Sy, _trans->Sz);
+	glRotated(_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
+
+	// mul vector
+	m[0][0] = _v->X; m[0][1] = _v->Y; m[0][2] = _v->Z;
+	glMultMatrixf((float *)m);
+
+	glGetFloatv(GL_MODELVIEW_MATRIX, (float *)m);
+
+	glPopMatrix();
+
+	/*
+	*	store the new vector
+	*/
+	_v->X = m[0][0]; _v->Y = m[0][1]; _v->Z = m[0][2];
+	_v->Z = 1;
+}
+
+/*
+*	inverse transform vertex and not send to pipeline
+*/
+void
+glusTransformInvVertex(PGlusTransform _trans, PGlusVector _v)
+{
+
+	glPushMatrix();
+	glLoadIdentity();
+	/*
+	 *	build inverse transform matrix
+	 */
+	float m[4][4] = { 0 };
+	// apply inverse transform
+	glTranslated(-_trans->Dx,-_trans->Dy,-_trans->Dz);
+	glScaled(1 / _trans->Sx, 1 / _trans->Sy, 1 / _trans->Sz);
+	glRotated(-_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
+	
+	// mul vector
+	m[0][0] = _v->X; m[0][1] = _v->Y; m[0][2] = _v->Z;
+	glMultMatrixf((float *)m);
+
+	glGetFloatv(GL_MODELVIEW_MATRIX, (float *)m);
+
+	glPopMatrix();
+
+	/*
+	 *	store the new vector
+	 */
+	_v->X = m[0][0]; _v->Y = m[0][1]; _v->Z = m[0][2];
+	_v->Z = 1;
+}

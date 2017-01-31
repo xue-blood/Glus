@@ -244,7 +244,6 @@ void glusMouseSelect(int button, int state, int x, int y, pvoid p);
 void	glusLinkInit(_Inout_ void* LinkHead);
 #define glusLinkIsEmpty(LinkHead) ((LinkHead)->FLink == (LinkHead))	// update [9/13/2016 blue] : fix bug for leave one
 #define glusLinkIsHead(point,head) ((PGlusLink)(point) == (PGlusLink)(head))
-#define glusLinkNext(head,current,next)	((pvoid)next)=((PGlusLink)current)->BLink;if(glusLinkIsHead((next),(head))) ((pvoid)next)=((PGlusLink)head)->BLink
 GLint	glusLinkLength(_In_	PGlusLink	_linkHead);
 void	glusLinkInsertHead(_Inout_ pvoid LinkHead, _Inout_ pvoid LinkNode);
 void	glusLinkInsertTail(_Inout_ void* _linkHead, _Inout_ void* _linkNode);
@@ -252,8 +251,10 @@ pvoid	glusLinkRemoveHead(_Inout_ pvoid _linkHead);
 pvoid	glusLinkRemoveTail(_Inout_ pvoid _linkHead);
 bool	glusLinkRemoveEntry(_Inout_ pvoid _linkEntry);
 void	glusLinkClear(_Inout_	PGlusLink	_link_head);
-#define glusLinkData(pointer)	(char*)((char*)pointer+sizeof(GlusLink))						// get the date field pointer 
+#define glusLinkData(pointer)	(void*)((char*)pointer+sizeof(GlusLink))						// get the date field pointer 
 #define glusEntry(link_pointer,type,member) ((type*)((char*)pointer)-&((type*)0)->member))	// get the struct pointer from a member
+#define glusLinkFirst(name,ptr)		PGlusLink name = (void*)((PGlusLink)ptr)->BLink
+#define glusLinkNext(ptr)			ptr = (void*)((PGlusLink)ptr)->BLink
 
 // singly link
 #define glusSink(Name) GlusSink Name = null;
@@ -267,6 +268,8 @@ void	glusSinkClear(_Inout_	PGlusSink	_sink_head);
 
 // transformations
 void	glusTransform(_In_	PGlusTransform	_trans);
+void	glusTransformVertex(PGlusTransform _trans, PGlusVector _v);
+void	glusTransformInvVertex(PGlusTransform _trans, PGlusVector _v);
 void	glusScale(_In_	GLdouble	_sx,_In_		GLdouble	_sy,_In_	GLdouble	_sz);
 void	glusTranslate(_In_ GLdouble	_dx,_In_		GLdouble	_dy,_In_	GLdouble	_dz);
 void	glusRotate(_In_	GLdouble	_angle,_In_		GLdouble	_x, _In_	GLdouble	_y,_In_	GLdouble	_z);
@@ -306,6 +309,9 @@ void	glusSceneDraw(_In_	PGlusScene	_scene);
 void	glusSceneLight(_In_	PGlusScene	_scene);
 
 void	glusSceneReshape(_In_ PGlusScene	_scene, int w, int h);
+void	glusSceneHit(PGlusScene _scene, PGlusRay _ray, PGlusIntersect _inter);
+void	glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr);
+void	glusSceneRayTrace(PGlusScene _scene, int _block_size);
 
 #define glusSceneGetLastShape(p_scene)	(PGlusShape)glusLinkData((p_scene)->Shapes.FLink)
 PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
@@ -405,6 +411,7 @@ void	glusPerspective(_In_	GLdouble	_angle,_In_	GLdouble	_ration,_In_	GLdouble	_n
 void	glusOrtho(_In_	GLdouble	_left,_In_	GLdouble	_right,_In_	GLdouble	_top,_In_	GLdouble	_bottom,_In_	GLdouble	_near,_In_	GLdouble	_far,_Inout_	PGlusProjection	_projection);
 void	glusOblique(_In_	GLdouble	_dx,_In_	GLdouble	_dy,_In_	GLdouble	_dz,_Inout_	PGlusProjection	_projection);
 
+void	glusCameraRay(int _x, int _y, PGlusRay _ray,PGlusCamera _cam,PGlusProjection _proj);
 
 /*
  *	status
