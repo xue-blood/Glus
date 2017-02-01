@@ -78,27 +78,27 @@ _Out_	PGlusVector _p)
 
 	// compute the perpendicular vector
 	GlusVector vdn, vbn;
-	glusVNormal(&vb, &vbn);
-	glusVNormal(&vd, &vdn);
+	glusNormal(&vb, &vbn);
+	glusNormal(&vd, &vdn);
 	//
 	// compute the parameter and the vector
 	//
 	GLdouble	r, s, t;
-	r = glusVDotPro((&vb), (&vdn));
+	r = glusDotPro((&vb), (&vdn));
 
 	// are lines be parallel
 	if (r == 0)
 		return Intersect_Parallel;
 
-	t = glusVDotPro((&vc), (&vdn)) / r;
+	t = glusDotPro((&vc), (&vdn)) / r;
 
 	//
 	// compute s 
 	// 
 	glusVOpposite(&vc);
-	s = glusVDotPro(&vc, &vbn) / glusVDotPro(&vd, &vbn);
+	s = glusDotPro(&vc, &vbn) / glusDotPro(&vd, &vbn);
 
-	glusVAdd(_laa, 1, (&vb), t, _p);
+	glusAdd(_laa, 1, (&vb), t, _p);
 	_p->V = 1;
 
 	// is the intersection exsit

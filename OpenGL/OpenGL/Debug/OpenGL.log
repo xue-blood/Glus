@@ -1,32 +1,32 @@
-﻿Build started 1/31/2017 3:12:31 PM.
+﻿Build started 2/1/2017 8:25:26 AM.
      1>Project "D:\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\anime.c src\array.c src\callback.c src\camera.c src\canvas.c src\chaos_game.c src\circle.c src\curve.c src\file.c src\fractal.c src\hit.c src\link.c src\mandelbrot_set.c src\mesh.c src\mouse.c src\peano.c src\pixmap.c "src\sdl-core.c" "src\sdl-core_def-use.c" "src\sdl-core_shape.c" src\shape.c src\plane.c src\points.c src\ray.c src\scene.c src\status.c src\surface.c src\texture.c src\transfrom.c src\tween.c src\vector.c src\point.c src\glus.c
-         glus.c
-         point.c
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\anime.c src\array.c src\callback.c src\camera.c src\canvas.c src\chaos_game.c src\circle.c src\curve.c src\file.c src\fractal.c src\glus.c src\hit.c src\link.c src\mandelbrot_set.c src\mesh.c src\mouse.c src\peano.c src\pixmap.c src\plane.c src\point.c src\points.c src\ray.c src\scene.c "src\sdl-core.c" "src\sdl-core_def-use.c" "src\sdl-core_shape.c" src\shape.c src\status.c src\surface.c src\texture.c src\transfrom.c src\tween.c src\vector.c
          vector.c
          tween.c
          transfrom.c
          texture.c
          surface.c
          status.c
-         scene.c
-         ray.c
-         points.c
-         plane.c
          shape.c
          sdl-core_shape.c
          sdl-core_def-use.c
          sdl-core.c
+         scene.c
+         ray.c
+         points.c
+         point.c
+         plane.c
          pixmap.c
          peano.c
          mouse.c
          mesh.c
+         mandelbrot_set.c
          Generating Code...
          Compiling...
-         mandelbrot_set.c
          link.c
          hit.c
+         glus.c
          fractal.c
          file.c
          curve.c
@@ -82,4 +82,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.22
+Time Elapsed 00:00:06.72

@@ -110,19 +110,19 @@ bool	glusPIsInPolygon(_In_	PGlusVector		_point, _In_	PGlusLink		_polygon);
 //
 // see vector.c
 //
-void	glusVAdd(_In_	GlusVector *_va, _In_	GLdouble	_pa, _In_	GlusVector *_vb, _In_	GLdouble	_pb, _Out_	GlusVector *_vo);
-#define glusVFromPoint(PointA,PointB,Vector) glusVAdd((PointA),-1,(PointB),1,(Vector))
-#define glusPAddV(p_point,p_vector,p_point_out) glusVAdd( (p_point) ,1, (p_vector),1, (p_point_out))
-void	glusVUnit(_Inout_ PGlusVector _v);
-void	glusVNormal(_In_ GlusVector *_in, _Inout_ GlusVector *_out);
-void	glusVNormalize(_Inout_ PGlusVector _v);
+void	glusAdd(_In_	GlusVector *_va, _In_	GLdouble	_pa, _In_	GlusVector *_vb, _In_	GLdouble	_pb, _Out_	GlusVector *_vo);
+#define glusVFromPoint(PointA,PointB,Vector) glusAdd((PointA),-1,(PointB),1,(Vector))
+#define glusPAddV(p_point,p_vector,p_point_out) glusAdd( (p_point) ,1, (p_vector),1, (p_point_out))
+void	glusUnit(_Inout_ PGlusVector _v);
+void	glusNormal(_In_ GlusVector *_in, _Inout_ GlusVector *_out);
+void	glusNormalize(_Inout_ PGlusVector _v);
 #define glusVExtern(Vector,parameter) (Vector)->X = parameter*(Vector)->X,(Vector)->Y = parameter*(Vector)->Y,(Vector)->Z = parameter*(Vector)->Z;
 #define glusVOpposite(Vector)	glusVExtern(Vector,-1)
-GLdouble	glusVDotPro(_In_ GlusVector *_va, _In_ GlusVector *_vb);
-GLdouble	glusVLength(_In_ GlusVector *_v);
-GLdouble	glusPDistanceSq(_In_ GlusVector *_pa, _In_ GlusVector *_pb);
-#define		glusPDistance(a,b) sqrt(glusPDistanceSq(a,b))
-void	glusVCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _vo);
+GLdouble	glusDotPro(_In_ GlusVector *_va, _In_ GlusVector *_vb);
+GLdouble	glusLength(_In_ GlusVector *_v);
+GLdouble	glusDistanceSq(_In_ GlusVector *_pa, _In_ GlusVector *_pb);
+#define		glusDistance(a,b) sqrt(glusDistanceSq(a,b))
+void	glusCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _vo);
 
 #define glusVLengthSq(v)
 
@@ -138,7 +138,7 @@ void	glusVCroPro(_In_ PGlusVector _va, _In_ PGlusVector _vb, _Out_ PGlusVector _
 void	glusDrawCoord();
 void	glusLDraw(_In_ PGlusLine _pLine);
 Glus_Intersect	glusLIntersect(_In_ PGlusVector _laa, _In_	PGlusVector	_lab, _In_ PGlusVector _lba, _In_	PGlusVector	_lbb, _Inout_ PGlusVector _p);
-#define	glusLMiddle(PointA,PointB,PointM) glusVAdd(PointA,0.5,PointB,0.5,PointM)
+#define	glusLMiddle(PointA,PointB,PointM) glusAdd(PointA,0.5,PointB,0.5,PointM)
 #define glusLFormPToR()
 #define glusLFormPToN()
 #define glusLFormRToP(linev,linep) (linep)->A = (linev)->Position,glusVAdd(&(linev)->Position,1,&(linev)->Direction,1,&(linep)->B);

@@ -115,9 +115,9 @@ _In_ PGlusVector _pc)
 	GlusVector	va, vb, van;
 	glusVFromPoint(_pa, _pb, &vb);
 	glusVFromPoint(_pc, _pa, &va);
-	glusVNormal(&va, &van);
+	glusNormal(&va, &van);
 
-	if (glusVDotPro(&vb, &van) == 0)
+	if (glusDotPro(&vb, &van) == 0)
 		return true;
 	return false;
 }
@@ -150,12 +150,12 @@ _In_	PGlusLink		_polygon)
 
 		// compute the normal vector
 		glusVFromPoint(&pa->Point, &pb->Point, &vt);
-		glusVNormal(&vt, &vn);
+		glusNormal(&vt, &vn);
 
 		// compute the vector for point
 		glusVFromPoint(&pb->Point, _point, &vp);
 
-		if (glusVDotPro(&vn, &vp) > 0)
+		if (glusDotPro(&vn, &vp) > 0)
 			return false;
 
 		pa = (PGlusPoints)pa->Link.BLink;
@@ -191,12 +191,12 @@ _In_	PGlusSink		_polygon)
 
 		// compute the normal vector
 		glusVFromPoint(&pa->Point, &pb->Point, &vt);
-		glusVNormal(&vt, &vn);
+		glusNormal(&vt, &vn);
 
 		// compute the vector for point
 		glusVFromPoint(&pb->Point, _point, &vp);
 
-		if (glusVDotPro(&vn, &vp) > 0)
+		if (glusDotPro(&vn, &vp) > 0)
 			return false;
 
 		pa = (PGlusPointsS)pa->Sink.Next;

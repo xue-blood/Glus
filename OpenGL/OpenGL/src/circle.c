@@ -26,19 +26,19 @@ _Out_	PGlusCircle _c)
 	//
 	// check is the three point at one line
 	//
-	r = glusVDotPro(&va, &vbn);
+	r = glusDotPro(&va, &vbn);
 	if (r == 0)
 		return false;
 	//
 	// compute the parameter
 	//
-	t = glusVDotPro(&vc, &va) / r / 2;
+	t = glusDotPro(&vc, &va) / r / 2;
 
 	_c->Center.X = _pa->X + vb.X / 2 + vbn.X*t;
 	_c->Center.Y = _pa->Y + vb.Y / 2 + vbn.Y*t;
 	_c->Center.Z = _pa->Z + vb.Z / 2 + vbn.Z*t;
 	_c->Center.V = 1;
-	_c->Radius = glusPDistance(&_c->Center, _pa);
+	_c->Radius = glusDistance(&_c->Center, _pa);
 
 	return true;
 
@@ -72,9 +72,9 @@ _Out_	PGlusVector	_pt)
 	// compute the vector length
 	// 
 	GLdouble		val, vbl, vcl;
-	val = glusVLength(&va);
-	vbl = glusVLength(&vb);
-	vcl = glusVLength(&vc);
+	val = glusLength(&va);
+	vbl = glusLength(&vb);
+	vcl = glusLength(&vc);
 
 	// 
 	// compute the Point distance
@@ -86,9 +86,9 @@ _Out_	PGlusVector	_pt)
 	// 
 	// now we can get the three tangent points
 	// 
-	glusVAdd(_pc, 1, &va, c / val, _pr); _pr->V = 1;
-	glusVAdd(_pc, 1, &vc, -c / vcl, _ps); _ps->V = 1;
-	glusVAdd(_pa, 1, &vb, a / vbl, _pt); _pt->V = 1;
+	glusAdd(_pc, 1, &va, c / val, _pr); _pr->V = 1;
+	glusAdd(_pc, 1, &vc, -c / vcl, _ps); _ps->V = 1;
+	glusAdd(_pa, 1, &vb, a / vbl, _pt); _pt->V = 1;
 	
 	return true;
 }
@@ -141,18 +141,18 @@ _Out_	PGlusVector	_pt)
 	glusVFromPoint(_pa, _pb, &vb);
 	glusVFromPoint(_pb, _pc, &vc);
 	glusVFromPoint(_pc, _pa, &va);
-	glusVNormal(&va, &van);
-	glusVNormal(&vb, &vbn);
-	glusVNormal(&vc, &vcn);
+	glusNormal(&va, &van);
+	glusNormal(&vb, &vbn);
+	glusNormal(&vc, &vcn);
 
 	// 
 	// second
 	// we get point on each altitude
 	// 
 	GlusVector		prr, pss, ptt;
-	glusVAdd(_pc, 1, &vbn, 1, &prr);
-	glusVAdd(_pa, 1, &vcn, 1, &pss);
-	glusVAdd(_pb, 1, &van, 1, &ptt);
+	glusAdd(_pc, 1, &vbn, 1, &prr);
+	glusAdd(_pa, 1, &vcn, 1, &pss);
+	glusAdd(_pb, 1, &van, 1, &ptt);
 
 	// 
 	// so we can compute the feet of the three altitudes

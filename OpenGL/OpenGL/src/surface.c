@@ -62,7 +62,7 @@ _Out_	PGlusVector	_o)
 	_o->Z = sin(_v);
 	_o->V = 1;
 
-	glusVNormalize(_o);
+	glusNormalize(_o);
 }
 
 /*
@@ -83,5 +83,5 @@ _Out_	PGlusVector	_o)
 	_f_a(_u, &a);
 	_f_b(_u, &b);
 
-	glusVAdd(&a, 1 - _v, &b, _v, _o);
+	glusAdd(&a, 1 - _v, &b, _v, _o);
 }

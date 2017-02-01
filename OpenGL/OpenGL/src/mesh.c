@@ -876,7 +876,7 @@ _In_	PGlusVector	_v)
 
 	GlusVector	v_eye; glusVFromPoint(_eye, _p, &v_eye);
 
-	if (glusVDotPro(&v_eye, _v) > 0)
+	if (glusDotPro(&v_eye, _v) > 0)
 		return true;
 	else
 		return false;

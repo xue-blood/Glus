@@ -16,7 +16,7 @@
 // for some float isn't correct sometimes
 // 
 void
-glusVNormalize(
+glusNormalize(
 _Inout_ PGlusVector _v)
 {
 	normalize(&_v->X);
@@ -29,7 +29,7 @@ _Inout_ PGlusVector _v)
 // get the perpentical vector
 // 
 void	
-glusVNormal(
+glusNormal(
 _In_	GlusVector *_in,
 _Out_	GlusVector *_out)
 {
@@ -42,30 +42,30 @@ _Out_	GlusVector *_out)
 	_out->Z = _in->Z;
 	_out->V = 0;
 
-	glusVNormalize(_out);
+	glusNormalize(_out);
 }
 
 //
 // convert vector to unit and normalize
 // 
 void
-glusVUnit(
+glusUnit(
 _Inout_ PGlusVector _v)
 {
 	assertp(_v);
 
-	GLdouble	vl = glusVLength(_v);
+	GLdouble	vl = glusLength(_v);
 
 	_v->X /= vl;
 	_v->Y /= vl;
 	_v->Z /= vl;
 
-	glusVNormalize(_v);
+	glusNormalize(_v);
 }
 
 
 void
-glusVAdd(
+glusAdd(
 _In_	GlusVector *_va,
 _In_	GLdouble	_pa,
 _In_	GlusVector *_vb,
@@ -79,12 +79,12 @@ _Out_	GlusVector *_vo)
 	_vo->Z = _pa * _va->Z + _pb * _vb->Z;
 	_vo->V = _pa * _va->V + _pb * _vb->V;
 
-	glusVNormalize(_vo);
+	glusNormalize(_vo);
 }
 
 
 GLdouble
-glusVLength(
+glusLength(
 _In_	GlusVector *_v)
 {
 
@@ -96,7 +96,7 @@ _In_	GlusVector *_v)
 }
 
 double 
-glusPDistanceSq(
+glusDistanceSq(
 _In_	PGlusVector	_a,
 _In_	PGlusVector	_b)
 {
@@ -107,7 +107,7 @@ _In_	PGlusVector	_b)
 	return (x*x + y*y + z*z);
 }
 GLdouble 
-glusVDotPro(
+glusDotPro(
 _In_	GlusVector *_va,
 _In_	GlusVector *_vb)
 {
@@ -120,7 +120,7 @@ _In_	GlusVector *_vb)
 }
 
 void
-glusVCroPro(
+glusCroPro(
 _In_	PGlusVector _va,
 _In_	PGlusVector _vb,
 _Out_	PGlusVector _vo)
@@ -132,7 +132,7 @@ _Out_	PGlusVector _vo)
 	_vo->Z = _va->X * _vb->Y - _va->Y * _vb->X;
 	_vb->V = 0;
 
-	glusVNormalize(_vo);
+	glusNormalize(_vo);
 }
 
 

@@ -15,7 +15,7 @@ _In_	int			_seed)
 	/*
 	 *	is fract end
 	 */
-	double d = glusPDistanceSq(_a, _b);
+	double d = glusDistanceSq(_a, _b);
 	if (d< _min_len_sq)
 	{
 		glusLineTo(_b->X, _b->Y, _b->Z);

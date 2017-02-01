@@ -197,8 +197,8 @@ _Out_	PGlusLink	_po)
 				//
 				// get the least point distance from paa
 				// 
-				if (glusPDistance(&paa->Point, &pi) >
-					glusPDistance(&paa->Point, &pt))
+				if (glusDistance(&paa->Point, &pi) >
+					glusDistance(&paa->Point, &pt))
 					pi = pt, pnext = pta;
 			}
 			pta = (PGlusPoints)pta->Link.BLink;
@@ -291,7 +291,7 @@ _Inout_	PGlusVector	_normal)
 
 #undef Express
 	// normalize the normal
-	glusVNormalize(_normal);	
+	glusNormalize(_normal);	
 }
 
 /*
@@ -326,7 +326,7 @@ _Inout_	PGlusVector	_normal)
 	}
 #undef Express
 
-	glusVNormalize(_normal);
+	glusNormalize(_normal);
 }
 
 /*

@@ -23,7 +23,7 @@ _In_	GLdouble	_t)
 		GlusVector	p;
 		while (pa != (PGlusPoints)_pa)
 		{
-			glusVAdd(&pa->Point, 1 - _t, &pb->Point, _t, &p);
+			glusAdd(&pa->Point, 1 - _t, &pb->Point, _t, &p);
 
 			glVertex3dv((GLdouble*)&p);
 		}
@@ -50,7 +50,7 @@ _In_	GLdouble		_t)
 
 		while(a)
 		{
-			glusVAdd(&a->Point, 1 - _t, &b->Point, _t, &p);
+			glusAdd(&a->Point, 1 - _t, &b->Point, _t, &p);
 
 			glVertex3dv((GLdouble*)&p);
 			 

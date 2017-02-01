@@ -16,7 +16,7 @@ _In_	PGlusRay	_pRay)
 	assertp(_pRay);
 
 	GlusVector p;
-	glusVAdd(&_pRay->Point, 1, &_pRay->Direction, 1, &p);
+	glusAdd(&_pRay->Point, 1, &_pRay->Direction, 1, &p);
 	p.V = 1;
 
 	glBegin(GL_LINES);
@@ -41,7 +41,7 @@ _In_	PGlusVector	_p)
 	assertp(_r && _n && _p);
 
 	GLdouble	r;
-	r = glusVDotPro(_n, &_r->Direction);
+	r = glusDotPro(_n, &_r->Direction);
 
 	// if parallel
 	// then return infinity
@@ -52,7 +52,7 @@ _In_	PGlusVector	_p)
 	GlusVector	vb;
 	glusVFromPoint(&_r->Point, _p, &vb);
 
-	return	glusVDotPro(_n, &vb) / r;
+	return	glusDotPro(_n, &vb) / r;
 }
 
 //
@@ -72,7 +72,7 @@ _In_	PGlusVector	_pb)
 	// 
 	GlusVector	v, vn;
 	glusVFromPoint(_pa, _pb, &v);
-	glusVNormal(&v, &vn);
+	glusNormal(&v, &vn);
 
 
 	//	get the hit time of the ray
@@ -81,11 +81,11 @@ _In_	PGlusVector	_pb)
 	//
 	//  is the point is  exist or valid
 	// 
-	GLdouble	length = glusPDistance(_pa, _pb);	//  [8/5/2016 Tld]: the length of the 
-	glusVAdd(&_r->Point, 1, &_r->Direction, t, &v);	//  [8/5/2016 Tld]: the hit point
+	GLdouble	length = glusDistance(_pa, _pb);	//  [8/5/2016 Tld]: the length of the 
+	glusAdd(&_r->Point, 1, &_r->Direction, t, &v);	//  [8/5/2016 Tld]: the hit point
 	GLdouble	la, lb;	//  [8/5/2016 Tld]: the distance of the hit point between two end point
-	la = glusPDistance(_pa, &v);
-	lb = glusPDistance(_pb, &v);
+	la = glusDistance(_pa, &v);
+	lb = glusDistance(_pb, &v);
 	//  [8/5/2016 Tld]: if the point is valid,the distance must smaller than total length
 	if (la > length || lb > length)
 		return INFINITY;
@@ -106,7 +106,7 @@ _Out_	PGlusVector	_direction)
 
 	GlusVector	n = *_normal;
 
-	GLdouble	dot = glusVDotPro(&n, &_ray->Direction);
+	GLdouble	dot = glusDotPro(&n, &_ray->Direction);
 
 	if (dot == 0)						// is parallel
 		*_direction = _ray->Direction;	// so the direction don't change
@@ -114,15 +114,15 @@ _Out_	PGlusVector	_direction)
 		glusVOpposite(&n);	// we use the opposite normal
 
 	// normalize the normal
-	glusVUnit(&n);
+	glusUnit(&n);
 
 	//
 	// now we can compute the direction after reflection 
 	// 
-	glusVAdd(	&_ray->Direction, 1, 
-				&n, -2 * glusVDotPro(&_ray->Direction, &n), 
+	glusAdd(	&_ray->Direction, 1, 
+				&n, -2 * glusDotPro(&_ray->Direction, &n), 
 				_direction);
-	glusVNormalize(_direction);
+	glusNormalize(_direction);
 
 }
 
@@ -164,7 +164,7 @@ _Out_	PGlusRay	_nRay)
 		return tHit;
 
 	// the new ray point
-	glusVAdd(&_ray->Point, 1, &_ray->Direction, tHit, &_nRay->Point);
+	glusAdd(&_ray->Point, 1, &_ray->Direction, tHit, &_nRay->Point);
 	_nRay->Point.V = 1;
 
 	pa = (PGlusPoints)_head->BLink;
@@ -192,7 +192,7 @@ _Out_	PGlusRay	_nRay)
 		pb = (PGlusPoints)_head->BLink;
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
-	glusVNormal(&v, &vn);
+	glusNormal(&v, &vn);
 	glusRReflecte(_ray, &vn, &_nRay->Direction);
 
 	return tHit;
@@ -272,7 +272,7 @@ _Out_	PGlusRay	_nRay)
 		return tHit;
 
 	// the new ray point
-	glusVAdd(&_ray->Point, 1, &_ray->Direction, tHit, &_nRay->Point);
+	glusAdd(&_ray->Point, 1, &_ray->Direction, tHit, &_nRay->Point);
 	_nRay->Point.V = 1;
 	
 	pa = (PGlusPointsS)_head->Next;
@@ -300,7 +300,7 @@ _Out_	PGlusRay	_nRay)
 		pb = (PGlusPointsS)_head->Next;
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
-	glusVNormal(&v, &vn);
+	glusNormal(&v, &vn);
 	glusRReflecte(_ray, &vn, &_nRay->Direction);
 
 	return tHit;
@@ -381,7 +381,7 @@ _In_	PGlusSink		_head)
 	glusRReflecte(_ray, &p->Data.Normal, &nRay.Direction);
 
 	// and the point
-	glusVAdd(&_ray->Point, 1, &_ray->Direction, tHit, &nRay.Point);
+	glusAdd(&_ray->Point, 1, &_ray->Direction, tHit, &nRay.Point);
 	nRay.Point.V = 1;
 
 	*_ray = nRay;

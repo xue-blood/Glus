@@ -15,7 +15,7 @@ double		t)
 		 *	compute interpolation between two point
 		 */
 		GlusVector	p;
-		glusVAdd(points, 1 - t, points + 1, t, &p);
+		glusAdd(points, 1 - t, points + 1, t, &p);
 		return p;
 	}
 
