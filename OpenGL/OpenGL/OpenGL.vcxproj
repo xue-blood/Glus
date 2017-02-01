@@ -41,6 +41,7 @@
     <ClCompile Include="src\hit.c" />
     <ClCompile Include="src\link.c" />
     <ClCompile Include="src\mandelbrot_set.c" />
+    <ClCompile Include="src\math.c" />
     <ClCompile Include="src\mesh.c" />
     <ClCompile Include="src\mouse.c" />
     <ClCompile Include="src\peano.c" />
@@ -61,6 +62,7 @@
     <ClCompile Include="src\vector.c" />
     <ClCompile Include="src\point.c" />
     <ClCompile Include="src\glus.c" />
+    <ClCompile Include="src\win.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7B33727B-2BA8-427C-A7F6-9AC5A5F65BAD}</ProjectGuid>

@@ -166,6 +166,7 @@ void	bresenham(int ax, int ay, int bx, int by);
 //
 // see ray.c
 // 
+#define glusRayPos(ray,t,p_o) glusAdd(&(ray)->Point,1,&(ray)->Direction,t,(p_o))
 void	glusRDraw(_In_ PGlusRay _pRay);
 GLdouble	glusRHit(_In_ PGlusRay _r, _In_ PGlusVector _n, _In_ PGlusVector _p);
 void	glusRReflecte(_Inout_	PGlusRay	_ray, _In_	PGlusVector	_normal, _Inout_	PGlusVector	_direction);
@@ -228,7 +229,6 @@ GlusTweenHandle glusTweenInitS(_In_ PGlusPoints _pa, _In_ PGlusPoints _pb, _In_ 
 //
 // see mouse.c
 //
-void	glusWinToWorld(_In_ int _x, _In_ int _y,_Inout_	PGlusVector _world);
 void	glusMouseLoop(_In_	int _button, _In_ int _state, _In_	int	_x, _In_	int	_y);
 void	glusMouseInsert(_In_	pvoid	_p_function,_In_	pvoid	_p_data);
 void	glusMouseRemove(_In_	pvoid	_p_function);
@@ -268,8 +268,8 @@ void	glusSinkClear(_Inout_	PGlusSink	_sink_head);
 
 // transformations
 void	glusTransform(_In_	PGlusTransform	_trans);
-void	glusTransformVertex(PGlusTransform _trans, PGlusVector _v);
-void	glusTransformInvVertex(PGlusTransform _trans, PGlusVector _v);
+void	glusTransformVector(PGlusTransform _trans, PGlusVector _v,PGlusVector _o);
+void	glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o);
 void	glusScale(_In_	GLdouble	_sx,_In_		GLdouble	_sy,_In_	GLdouble	_sz);
 void	glusTranslate(_In_ GLdouble	_dx,_In_		GLdouble	_dy,_In_	GLdouble	_dz);
 void	glusRotate(_In_	GLdouble	_angle,_In_		GLdouble	_x, _In_	GLdouble	_y,_In_	GLdouble	_z);
@@ -296,6 +296,8 @@ void	glusTeapot(pvoid _pointer);
 void	glusGrid(pvoid _ptr);
 void	glusShapeDefault(_Inout_ PGlusShape _shape);
 void	glusShapeDraw(_In_	PGlusShape	_p);
+
+void	glusSquare(pvoid p);
 
 void	glusKoch(double dir, double len, int n);
 void	glusKochSnow(pvoid ptr);
@@ -471,6 +473,33 @@ GlusVector	bezier(PGlusVector points, int n, double t);
 void	glusBezier(PGlusPointsA points, int num);
 void	glusBSpline(PGlusPointsA pa, int m, int num);
 void	glusBSplineFunc(PGlusPointsA pa, int m, int num);
+
+/*
+ *	function handle window
+ */
+void	glusWinToWorld(_In_ int _x, _In_ int _y, _Inout_	PGlusVector _world);
+void	glusWinToWorldex(_In_ int _x, _In_ int _y, int _z,_Inout_	PGlusVector _world);
+int		glusWinTitleHeight();
+
+/*
+ *	matrix
+ */
+// identity matrix 4 x 4
+#define glusMatrixIdentity(m) m[0][0] = 1; m[1][1]=1; m[2][2]=1; m[3][3]=1
+
+// identity matrix 3 x 3
+#define glusMatrix3Identity(m) m[0][0] = 1; m[1][1]=1; m[2][2]=1; 
+
+// identity matrix 2 x 2
+#define glusMatrix2Identity(m) m[0][0] = 1; m[1][1]=1; 
+
+/*
+ *	hit object
+ */
+
+bool	glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
+
+bool	glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

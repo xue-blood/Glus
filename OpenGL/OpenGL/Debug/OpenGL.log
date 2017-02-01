@@ -1,44 +1,8 @@
-﻿Build started 2/1/2017 8:25:26 AM.
+﻿Build started 2/1/2017 2:15:20 PM.
      1>Project "D:\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\anime.c src\array.c src\callback.c src\camera.c src\canvas.c src\chaos_game.c src\circle.c src\curve.c src\file.c src\fractal.c src\glus.c src\hit.c src\link.c src\mandelbrot_set.c src\mesh.c src\mouse.c src\peano.c src\pixmap.c src\plane.c src\point.c src\points.c src\ray.c src\scene.c "src\sdl-core.c" "src\sdl-core_def-use.c" "src\sdl-core_shape.c" src\shape.c src\status.c src\surface.c src\texture.c src\transfrom.c src\tween.c src\vector.c
-         vector.c
-         tween.c
-         transfrom.c
-         texture.c
-         surface.c
-         status.c
-         shape.c
-         sdl-core_shape.c
-         sdl-core_def-use.c
-         sdl-core.c
-         scene.c
-         ray.c
-         points.c
-         point.c
-         plane.c
-         pixmap.c
-         peano.c
-         mouse.c
-         mesh.c
-         mandelbrot_set.c
-         Generating Code...
-         Compiling...
-         link.c
-         hit.c
-         glus.c
-         fractal.c
-         file.c
-         curve.c
-         circle.c
-         chaos_game.c
-         canvas.c
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\camera.c
          camera.c
-         callback.c
-         array.c
-         anime.c
-         Generating Code...
-     1>d:\project\opengl\opengl\opengl\src\hit.c(7): warning C4716: 'glusHitPlane' : must return a value
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\project\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\anime.obj
          Debug\array.obj
@@ -53,6 +17,7 @@
          Debug\hit.obj
          Debug\link.obj
          Debug\mandelbrot_set.obj
+         Debug\math.obj
          Debug\mesh.obj
          Debug\mouse.obj
          Debug\peano.obj
@@ -73,6 +38,7 @@
          Debug\vector.obj
          Debug\point.obj
          Debug\glus.obj
+         Debug\win.obj
      1>sdl-core.obj : warning LNK4006: _shape already defined in sdl-core_shape.obj; second definition ignored
      1>sdl-core.obj : warning LNK4006: _def already defined in sdl-core_def-use.obj; second definition ignored
      1>sdl-core.obj : warning LNK4006: _use already defined in sdl-core_def-use.obj; second definition ignored
@@ -82,4 +48,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.72
+Time Elapsed 00:00:00.53

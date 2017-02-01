@@ -315,3 +315,22 @@ _In_	PGlusShape	_p)
 
 	glPopMatrix();
 }
+
+void glusSquare(pvoid p)
+{
+	glPushMatrix();
+
+	if (glusGetShadeLevel() == Glus_Shade_Wire)
+		glBegin(GL_LINE_LOOP);
+	else
+		glBegin(GL_QUADS);
+
+	glNormal3f(0, 0, 1);
+	glVertex2f(-1, -1);
+	glVertex2f(1, -1);
+	glVertex2f(1, 1);
+	glVertex2f(-1, 1);
+
+	glEnd();
+	glPopMatrix();
+}

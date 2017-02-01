@@ -375,7 +375,7 @@ PGlusProjection _proj)
 
 	/*
 	 *	direction
-	 */
+	 
 	memset(&_ray->Direction, 0, sizeof(GlusVector));
 	// assume work in perspective projection
 	double h, w;
@@ -390,6 +390,9 @@ PGlusProjection _proj)
 	glusAdd(&_ray->Direction, 1, &_cam->N, -_proj->Near, &_ray->Direction);
 	glusAdd(&_ray->Direction, 1, &_cam->U, u, &_ray->Direction);
 	glusAdd(&_ray->Direction, 1, &_cam->V, v, &_ray->Direction);
-
+	*/
+	GlusVector p;
+	glusWinToWorldex(_x, _y,0,&p); // get point of world coord ,in near clip plane
+	glusVFromPoint(&_ray->Point, &p, &_ray->Direction);
 	
 }

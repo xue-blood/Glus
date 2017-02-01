@@ -2,8 +2,7 @@
 def sp
 {
 	shape sphere		diffuse		.3 .3 1 1		ambient		.2 .2 .2 1		specular 1 0 0 1
- 			translate	3 5 1		scale		3 3 3
-
+ 			translate	1 1 1		scale		3 3 3
 }
 
 def ms {

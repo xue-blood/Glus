@@ -54,3 +54,8 @@ use cas2
 	scale 0.2 0.2 0.2
 	diffuse 0 0 0
 	hide
+
+
+shape square diffuse .3 .4 .8
+
+shape sphere diffuse .8 .2 .7 translate 2 0 0

@@ -14,33 +14,50 @@ PixMap	pi;
 int x, y;
 
 RectRegion region;
+GlusVector p_hit[2] = { 0 };
 
-void dispaly(void)
+void ui(void)
 {
-
-	//glusSceneLight(Scene);
-
-	snow->Level = level;
-	
-
-	glusSceneDraw(Scene);	
-
 	glusUIEnter();
 
 	//glEnable(GL_COLOR_LOGIC_OP);
 	glLogicOp(GL_XOR);
 
-	glRasterPos2i(x-16, y+8);
+	glRasterPos2i(x - 16, y + 8);
 
 	glPixelZoom(0.5, -0.5);
 	glusDissolve(pic[0], pic[2]);
 
 	//pixBlend(pic[0]);
-	
+
 	glDisable(GL_COLOR_LOGIC_OP);
 	glusUILeave();
+
+}
+
+void dispaly(void)
+{
 	
-	hsvSpace();
+	//glusSceneLight(Scene);
+
+	snow->Level = level;
+	
+	
+
+	glusSceneDraw(Scene);	
+	
+	//hsvSpace();
+
+	glDisable(GL_DEPTH_TEST);
+	glColor3f(1, 0, 0);
+	glPointSize(3);
+	glBegin(GL_POINTS); 
+		glVertex3d(p_hit[0].X, p_hit[0].Y, p_hit[0].Z);
+		//glVertex3d(p_hit[1].X, p_hit[1].Y, p_hit[1].Z);
+	glEnd();
+	glColor3f(1, 1, 1);
+
+	//ui();
 
 	glutSwapBuffers();
 
@@ -54,6 +71,17 @@ mouse(int button,int state,int x,int y)
 {
 	glusMouseLoop(button, state, x, y);
 
+	GlusRay ray;
+	glusCameraRay(x, y, &ray, &Scene->Camera, &Scene->Projection);
+
+	GlusIntersect inter;
+	glusSceneHit(Scene, &ray, &inter);
+	if (inter.numHits > 0)
+	{
+		p_hit[0] = inter.Hits[0].HitPoint;
+		p_hit[1] = inter.Hits[1].HitPoint;
+		
+	}
 }
 void 
 keyboard(

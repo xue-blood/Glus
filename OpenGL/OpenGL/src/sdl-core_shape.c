@@ -4,16 +4,21 @@
 *	shapes
 */
 
-#define Shapes_count 6
+#define Shapes_count 7
 
 static str  Shapes_name[Shapes_count] =
 {
-	"axis", "sphere", "cube", "teapot", "grid", "snow"
+	"axis", "sphere", "cube", "teapot", "grid", "snow", "square",
 };
 
 static void(*Shapes_func[Shapes_count])(pvoid) =
 {
-	glusAxis3D, glusSphere, glusCube, glusTeapot, glusGrid, glusKochSnow
+	glusAxis3D, glusSphere, glusCube, glusTeapot, glusGrid, glusKochSnow,glusSquare,
+};
+
+static bool(*Shapes_func_hit[Shapes_count])(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter) = 
+{
+	NULL, glusHitSphere, NULL, NULL, NULL, NULL,glusHitSquare,
 };
 
 void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
@@ -41,6 +46,9 @@ void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 
 	// set the draw function
 	p->Draw = Shapes_func[i];
+
+	// hit function
+	p->Hit = Shapes_func_hit[i];
 
 	/*
 	*	try get some parameter

@@ -25,6 +25,9 @@
     <Filter Include="源文件\ray_trace">
       <UniqueIdentifier>{ca891c2a-9e64-49e4-a84a-220c543ed8b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\math">
+      <UniqueIdentifier>{6ce9e200-8a26-48b9-9b1d-4638bda618f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\glus.h">
@@ -50,16 +53,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\vector.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\glus.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\circle.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\point.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\plane.c">
@@ -87,9 +84,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\file.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\points.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\surface.c">
@@ -148,6 +142,21 @@
     </ClCompile>
     <ClCompile Include="src\hit.c">
       <Filter>源文件\ray_trace</Filter>
+    </ClCompile>
+    <ClCompile Include="src\point.c">
+      <Filter>源文件\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\points.c">
+      <Filter>源文件\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vector.c">
+      <Filter>源文件\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math.c">
+      <Filter>源文件\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win.c">
+      <Filter>源文件\view</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
