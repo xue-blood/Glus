@@ -19,11 +19,11 @@ glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	*/
 	GlusRay  ray = *_r;
 	glusTransformInvVector(&_s->Transform, &_r->Point, &ray.Point);
-	glusTransformInvVector(&_s->Transform, &_r->Direction, &ray.Direction);
+	//glusTransformInvVector(&_s->Transform, &_r->Direction, &ray.Direction);
 
 	/*
 	 *	is ray parallel to plane
-	 */
+	 */ 
 	double denom = ray.Direction.Z;
 	if (fabs(denom) < Glus_Zero) return false; // miss
 
@@ -41,8 +41,11 @@ glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	_inter->Hits[0].isEnter = true;
 	_inter->Hits[0].FaceID = 0;
 	glusP(hx, hy, 0, &_inter->Hits[0].HitPoint);// point
+	// transform hit point to true coord
+	glusTransformVector(&_s->Transform, &_inter->Hits[0].HitPoint, &_inter->Hits[0].HitPoint);
 	glusV(0, 0, 1, &_inter->Hits[0].HitNormal);// normal
 
+	glusLog("\nSquare hit.");
 	return true; // ray hit
 
 }
@@ -60,7 +63,7 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	 */
 	GlusRay  ray = *_r;
 	glusTransformInvVector(&_s->Transform, &_r->Point, &ray.Point);
-	glusTransformInvVector(&_s->Transform, &_r->Direction, &ray.Direction);
+	//glusTransformInvVector(&_s->Transform, &_r->Direction, &ray.Direction);
 
 	/*
 	 *	compute discrim
@@ -87,11 +90,12 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		_inter->Hits[num].isEnter = true;
 		_inter->Hits[num].FaceID = 0;	// for shpere , only one face 
 	
-		// hit point 
+		// hit point and normal
 		GlusVector v;
-		glusRayPos(&ray, t1, &v);
+		glusRayPos(_r, t1, &v);
 		_inter->Hits[num].HitPoint = v;
-		_inter->Hits[num].HitNormal = v;
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint, &_inter->Hits[num].HitPoint);
+		_inter->Hits[num].HitNormal = v; _inter->Hits[num].HitNormal.V = 0;
 		
 		num = 1; // have a hit
 	}
@@ -107,16 +111,19 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		_inter->Hits[num].isEnter = false;
 		_inter->Hits[num].FaceID = 0;	// for shpere , only one face 
 
-		// hit point 
+		// hit point and normal
 		GlusVector v;
 		glusRayPos(&ray, t2, &v);
 		_inter->Hits[num].HitPoint = v;
-		_inter->Hits[num].HitNormal = v;
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint, &_inter->Hits[num].HitPoint);
+		_inter->Hits[num].HitNormal = v; _inter->Hits[num].HitNormal.V = 0;
 
 		num++; // another hit
 	}
 
 	_inter->numHits = num;
+
+	glusLog("\nSphere hit.");
 	return true;
 }
 

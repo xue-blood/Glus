@@ -56,6 +56,6 @@ use cas2
 	hide
 
 
-shape square diffuse .3 .4 .8
+shape square diffuse .3 .4 .8  scale 2 2 1
 
-shape sphere diffuse .8 .2 .7 translate 2 0 0
+//shape sphere diffuse .8 .2 .7 
