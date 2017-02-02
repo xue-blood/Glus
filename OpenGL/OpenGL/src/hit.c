@@ -19,7 +19,7 @@ glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	*/
 	GlusRay  ray = *_r;
 	glusTransformInvVector(&_s->Transform, &_r->Point, &ray.Point);
-	//glusTransformInvVector(&_s->Transform, &_r->Direction, &ray.Direction);
+	glusTransformInvVector(&_s->Transform, &_r->Direction, &ray.Direction);
 
 	/*
 	 *	is ray parallel to plane
@@ -44,6 +44,7 @@ glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	// transform hit point to true coord
 	glusTransformVector(&_s->Transform, &_inter->Hits[0].HitPoint, &_inter->Hits[0].HitPoint);
 	glusV(0, 0, 1, &_inter->Hits[0].HitNormal);// normal
+	glusTransformVector(&_s->Transform, &_inter->Hits[0].HitNormal, &_inter->Hits[0].HitNormal);
 
 	glusLog("\nSquare hit.");
 	return true; // ray hit

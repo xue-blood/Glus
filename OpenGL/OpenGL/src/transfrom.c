@@ -73,19 +73,15 @@ void
 glusTransformVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 {
 
-	
-	
+
+
 	glPushMatrix();
 	glLoadIdentity();
 	/*
 	*	build inverse transform matrix
 	*/
-	float m[4][4] = { 0 };
-	glusMatrixIdentity(m);
-	m[3][0] = _v->X; m[3][1] = _v->Y; m[3][2] = _v->Z;
-	glLoadMatrixf(m);
 
-	// apply inverse transform
+	// apply  transform
 	glTranslated(_trans->Dx, _trans->Dy, _trans->Dz);
 	glScaled(_trans->Sx, _trans->Sy, _trans->Sz);
 	glRotated(_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
@@ -93,8 +89,11 @@ glusTransformVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 
 
 	// mul vector
-
-	//glMultMatrixf((float *)m);
+	float m[4][4] = { 0 };
+	glusMatrixIdentity(m);
+	m[0][0] = _v->X; m[0][1] = _v->Y; m[0][2] = _v->Z; m[0][3] = _v->V;
+	//glLoadMatrixf(m);
+	glMultMatrixf((float *)m);
 
 	glGetFloatv(GL_MODELVIEW_MATRIX, (float *)m);
 
@@ -103,7 +102,7 @@ glusTransformVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	/*
 	*	store the new vector
 	*/
-	_o->X = m[3][0]; _o->Y = m[3][1]; _o->Z = m[3][2];
+	_o->X = m[0][0]; _o->Y = m[0][1]; _o->Z = m[0][2];
 	_o->V = _v->V;
 }
 
@@ -119,11 +118,7 @@ glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	/*
 	 *	build inverse transform matrix
 	 */
-	float m[4][4] = { 0 };
-	glusMatrixIdentity(m);
-	m[3][0] = _v->X; m[3][1] = _v->Y; m[3][2] = _v->Z;
-	glLoadMatrixf(m);
-
+	
 	// apply inverse transform
 	glTranslated(-_trans->Dx,-_trans->Dy,-_trans->Dz);
 	glScaled(1 / _trans->Sx, 1 / _trans->Sy, 1 / _trans->Sz);
@@ -132,8 +127,11 @@ glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 
 
 	// mul vector
-	
-	//glMultMatrixf((float *)m);
+	float m[4][4] = { 0 };
+	glusMatrixIdentity(m);
+	m[0][0] = _v->X; m[0][1] = _v->Y; m[0][2] = _v->Z; m[0][3] = _v->V;
+	//glLoadMatrixf(m);
+	glMultMatrixf((float *)m);
 
 	glGetFloatv(GL_MODELVIEW_MATRIX, (float *)m);
 	
@@ -142,6 +140,6 @@ glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	/*
 	 *	store the new vector
 	 */
-	_o->X = m[3][0]; _o->Y = m[3][1]; _o->Z = m[3][2];
+	_o->X = m[0][0]; _o->Y = m[0][1]; _o->Z = m[0][2];
 	_o->V = _v->V;
 }
