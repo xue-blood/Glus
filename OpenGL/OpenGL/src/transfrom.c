@@ -80,12 +80,12 @@ glusTransformVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	/*
 	*	build inverse transform matrix
 	*/
-
+	float t[4][4] = { 0 };
 	// apply  transform
 	glTranslated(_trans->Dx, _trans->Dy, _trans->Dz);
 	glScaled(_trans->Sx, _trans->Sy, _trans->Sz);
 	glRotated(_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
-	//glGetFloatv(GL_MODELVIEW_MATRIX, (float *)m);
+	glGetFloatv(GL_MODELVIEW_MATRIX, (float *)t);
 
 
 	// mul vector
@@ -119,11 +119,14 @@ glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	 *	build inverse transform matrix
 	 */
 	
+	float t[4][4] = { 0 };
 	// apply inverse transform
-	glTranslated(-_trans->Dx,-_trans->Dy,-_trans->Dz);
-	glScaled(1 / _trans->Sx, 1 / _trans->Sy, 1 / _trans->Sz);
+	// ! for inverse transform ,we need inverse call order
 	glRotated(-_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
-	//glGetFloatv(GL_MODELVIEW_MATRIX, (float *)m);
+	glScaled(1 / _trans->Sx, 1 / _trans->Sy, 1 / _trans->Sz);
+	glTranslated(-_trans->Dx,-_trans->Dy,-_trans->Dz);
+	
+	glGetFloatv(GL_MODELVIEW_MATRIX, (float *)t);
 
 
 	// mul vector
