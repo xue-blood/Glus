@@ -54,15 +54,19 @@ _In_	PGlusTransform	_trans)
 }
 
 // add [12/26/2016 xue]
+/*
+ *	use the order T * R * S
+	refer:http://gamedev.stackexchange.com/questions/16719/what-is-the-correct-order-to-multiply-scale-rotation-and-translation-matrices-f
+ */
 void
 glusTransform(
 _In_	PGlusTransform	_trans)
 {
 	glMatrixMode(GL_MODELVIEW);
-	
 	glTranslated(_trans->Dx, _trans->Dy, _trans->Dz);
+	glRotated(_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
+
 	glScaled(_trans->Sx, _trans->Sy, _trans->Sz);
-	glRotated(_trans->Angle,_trans->Ax,_trans->Ay,_trans->Az);
 
 }
 
@@ -83,8 +87,8 @@ glusTransformVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	float t[4][4] = { 0 };
 	// apply  transform
 	glTranslated(_trans->Dx, _trans->Dy, _trans->Dz);
-	glScaled(_trans->Sx, _trans->Sy, _trans->Sz);
 	glRotated(_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
+	glScaled(_trans->Sx, _trans->Sy, _trans->Sz);
 	glGetFloatv(GL_MODELVIEW_MATRIX, (float *)t);
 
 
@@ -122,10 +126,10 @@ glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	float t[4][4] = { 0 };
 	// apply inverse transform
 	// ! for inverse transform ,we need inverse call order
-	glRotated(-_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
 	glScaled(1 / _trans->Sx, 1 / _trans->Sy, 1 / _trans->Sz);
-	glTranslated(-_trans->Dx,-_trans->Dy,-_trans->Dz);
-	
+	glRotated(-_trans->Angle, _trans->Ax, _trans->Ay, _trans->Az);
+	glTranslated(-_trans->Dx, -_trans->Dy, -_trans->Dz);
+
 	glGetFloatv(GL_MODELVIEW_MATRIX, (float *)t);
 
 
