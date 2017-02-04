@@ -64,7 +64,7 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	 */
 	GlusRay  ray = *_r;
 	glusTransformInvVector(&_s->Transform, &_r->Point, &ray.Point);
-	//glusTransformInvVector(&_s->Transform, &_r->Direction, &ray.Direction);
+	glusTransformInvVector(&_s->Transform, &_r->Direction, &ray.Direction);
 
 	/*
 	 *	compute discrim
@@ -93,7 +93,7 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	
 		// hit point and normal
 		GlusVector v;
-		glusRayPos(_r, t1, &v);
+		glusRayPos(&ray, t1, &v);
 		_inter->Hits[num].HitPoint = v;
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint, &_inter->Hits[num].HitPoint);
 		_inter->Hits[num].HitNormal = v; _inter->Hits[num].HitNormal.V = 0;
