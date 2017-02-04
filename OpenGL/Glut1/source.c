@@ -57,6 +57,8 @@ void dispaly(void)
 	glEnd();
 	glColor3f(1, 1, 1);
 
+	glusSceneRayTrace(Scene, 0);
+
 	//ui();
 
 	glutSwapBuffers();
@@ -72,7 +74,7 @@ mouse(int button,int state,int x,int y)
 	glusMouseLoop(button, state, x, y);
 
 	GlusRay ray;
-	glusCameraRay(x, y, &ray, &Scene->Camera, &Scene->Projection);
+	glusCameraRay(x, y, &ray);
 
 	GlusIntersect inter;
 	glusSceneHit(Scene, &ray, &inter);

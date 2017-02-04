@@ -342,24 +342,29 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 // window size ,extern from canvas.c
 extern int		_Window_Height, _Window_Width;
 
+/*
+ *	if block size == 0 ,disable ray trace
+ */
 void 
 glusSceneRayTrace(PGlusScene _scene, int _block_size)
 {
-	assert(_scene && _block_size >0 );
+	if (_block_size <= 0)return;
 
-	glusUIEnter();
+	assert(_scene);
+
+	
 	glDisable(GL_LIGHTING);	// disable lighting
 
 	int nRows = _Window_Height, nCols = _Window_Width;
 	GlusRay		ray;		// ray
 	GlusColor	clr;		// color 
 
-	for (int row = 0; row < nRows;row++)
+	for (int row = 0; row < nRows;row+=_block_size)
 	{
-		for (int col = 0; col < nCols;col++)
+		for (int col = 0; col < nCols; col += _block_size)
 		{
 			// set the ray
-			glusCameraRay(col, row, &ray,&_scene->Camera,&_scene->Projection);
+			glusCameraRay(col,nRows-row, &ray);
 
 			// find color
 			glusSceneShade(_scene, &ray, &clr);
@@ -367,10 +372,11 @@ glusSceneRayTrace(PGlusScene _scene, int _block_size)
 			/*
 			 *	draw block with current color
 			 */
+			glusUIEnter();
 			glColor3d(clr.R, clr.G, clr.B);
 			glRecti(col, row, col + _block_size, row + _block_size);
+			glusUILeave();
 		}
 	}
 
-	glusUILeave();
 }

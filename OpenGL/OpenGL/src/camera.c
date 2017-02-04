@@ -364,18 +364,35 @@ extern int		_Window_Height, _Window_Width;
 void
 glusCameraRay(
 int _x, int _y, 
-PGlusRay _ray,
-PGlusCamera _cam,
-PGlusProjection _proj)
+PGlusRay _ray)
 {
-	assert(_ray && _x && _y && _proj);
+	assert(_ray);
 
 	// position
 	_ray->Point = _Eye;
 
 	/*
 	 *	direction
-	 
+	 */
+	GlusVector p;
+	glusWinToWorldex(_x, _y,0,&p); // get point of world coord ,in near clip plane
+	glusVFromPoint(&_ray->Point, &p, &_ray->Direction);
+	
+}
+
+void
+glusCameraRayex(
+int _x, int _y,
+PGlusRay _ray,
+PGlusCamera _cam,
+PGlusProjection _proj)
+{
+	// position
+	_ray->Point = _Eye;
+
+	/*
+	*	direction
+	*/
 	memset(&_ray->Direction, 0, sizeof(GlusVector));
 	// assume work in perspective projection
 	double h, w;
@@ -390,9 +407,4 @@ PGlusProjection _proj)
 	glusAdd(&_ray->Direction, 1, &_cam->N, -_proj->Near, &_ray->Direction);
 	glusAdd(&_ray->Direction, 1, &_cam->U, u, &_ray->Direction);
 	glusAdd(&_ray->Direction, 1, &_cam->V, v, &_ray->Direction);
-	*/
-	GlusVector p;
-	glusWinToWorldex(_x, _y,0,&p); // get point of world coord ,in near clip plane
-	glusVFromPoint(&_ray->Point, &p, &_ray->Direction);
-	
 }

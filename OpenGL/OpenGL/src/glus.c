@@ -93,6 +93,8 @@ void timer(int a) {
 
 void glusFPS(int fps)
 {
+	if (fps == 0)	// needn't not auto refresh
+		return;
 	redisplay_interval = 1000 / fps;
 	glutTimerFunc(redisplay_interval, timer, 0);
 }

@@ -51,7 +51,7 @@ _Inout_	PGlusVector _world)
 	_y = r_viewport[3] - _y + 2;	// convert the y for mouse to window
 	_y -= glusWinTitleHeight();		// the title bar height
 	// unproject the window coordinate to world 
-	gluUnProject(_x, _y, 0, m_modelview, m_projection, r_viewport, &_world->X, &_world->Y, &_world->Z);
+	gluUnProject(_x, _y, _z, m_modelview, m_projection, r_viewport, &_world->X, &_world->Y, &_world->Z);
 	_world->V = 1;
 
 	glusLog("\nwin: (%d,%d) <--> world: (%.2lf,%.2lf,%.2lf)", _x, _y, _world->X, _world->Y, _world->Z);

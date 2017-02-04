@@ -413,7 +413,7 @@ void	glusPerspective(_In_	GLdouble	_angle,_In_	GLdouble	_ration,_In_	GLdouble	_n
 void	glusOrtho(_In_	GLdouble	_left,_In_	GLdouble	_right,_In_	GLdouble	_top,_In_	GLdouble	_bottom,_In_	GLdouble	_near,_In_	GLdouble	_far,_Inout_	PGlusProjection	_projection);
 void	glusOblique(_In_	GLdouble	_dx,_In_	GLdouble	_dy,_In_	GLdouble	_dz,_Inout_	PGlusProjection	_projection);
 
-void	glusCameraRay(int _x, int _y, PGlusRay _ray,PGlusCamera _cam,PGlusProjection _proj);
+void	glusCameraRay(int _x, int _y, PGlusRay _ray);
 
 /*
  *	status
