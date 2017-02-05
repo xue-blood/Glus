@@ -141,7 +141,7 @@ glusSceneDefault()
 // add [7/9/2016 tld]
 //
 // draw a scene
-//	default enable: lighting,depth-test
+//	default enable: lighting,depth-test, smooth-shade
 //
 void
 glusSceneDraw(

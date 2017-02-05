@@ -56,5 +56,6 @@ use cas2
 	hide
 
 
-shape sphere diffuse .3 .4 .8   
+shape sphere diffuse .3 .4 .8
+shape cube	translate 1 0 0    
 shape cylinder diffuse .1 .6 .4	translate -1 0 0  //rotate 30 0 0 1 scale 2  1 1

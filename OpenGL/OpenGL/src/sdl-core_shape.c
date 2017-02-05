@@ -18,7 +18,7 @@ static void(*Shapes_func[Shapes_count])(pvoid) =
 
 static bool(*Shapes_func_hit[Shapes_count])(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter) = 
 {
-	NULL, glusHitSphere, NULL, NULL, NULL, NULL,glusHitSquare,glusHitCylinder,glusHitCone
+	NULL, glusHitSphere, glusHitCube, NULL, NULL, NULL,glusHitSquare,glusHitCylinder,glusHitCone
 };
 
 void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)

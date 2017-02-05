@@ -505,6 +505,7 @@ void	glusTapperedCylinderS(real s);
 bool	glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
 bool	glusHitCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
 bool	glusHitCone(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
+bool	glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
 
 /*
  *	light

@@ -111,11 +111,12 @@ glusCube(pvoid _pointer)
 	glPushMatrix();
 
 	glShadeModel(GL_FLAT);
-	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireCube(1);
-	else											glutSolidCube(1);
-	glColor3f(0, 0, 0);
-	glutWireCube(1);
-
+	if (glusGetShadeLevel() == Glus_Shade_Wire)		
+		glutWireCube(2);
+	else											
+		glutSolidCube(2);
+	
+	glShadeModel(GL_SMOOTH);
 	glPopMatrix();
 }
 

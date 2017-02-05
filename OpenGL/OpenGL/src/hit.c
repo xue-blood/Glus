@@ -6,6 +6,21 @@
  glusHit(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
  {
 	assert(_s && _r && _inter);
+
+	_inter->numHits = 0;
+
+	//get the generic ray
+	
+	GlusRay  ray = *_r;
+	glusTransformInvVector(&_s->Transform, &ray.Point);
+	glusTransformInvVector(&_s->Transform, &ray.Direction);
+
+
+	#define RD(field) (ray.Direction.field)	// shortcut for ray direction
+	#define RP(field) (ray.Point.field)		// shortcut for ray point
+
+	#undef RP
+	#undef RD
  }
  */
 
@@ -312,4 +327,126 @@ glusHitCone(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 
 	Tappered_Cylinder_S = 0;
 	return glusHitTapperedCylinder(_s, _r, _inter);
+}
+
+void cube_normal(int i,PGlusVector n)
+{
+	switch (i)
+	{
+	case 0:glusV(0, 1, 0, n); break;
+	case 1:glusV(0, -1,0, n); break;
+	case 2:glusV(1, 0, 0, n); break;
+	case 3:glusV(-1,0, 0, n); break;
+	case 4:glusV(0, 0, 1, n); break;
+	case 5:glusV(0, 0,-1, n); break;
+	default:
+		break;
+	}
+}
+bool
+glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
+{
+	assert(_s && _r && _inter);
+
+	/*
+	 *	get the generic ray
+	 */
+	GlusRay ray = *_r;
+	glusTransformInvVector(&_s->Transform, &ray.Point);
+	glusTransformInvVector(&_s->Transform, &ray.Direction);
+
+#define RD(field) (ray.Direction.field)	// shortcut for ray direction
+#define RP(field) (ray.Point.field)		// shortcut for ray point
+
+	real	denom, numer;
+	real	t_hit, t_in = -100000.0, t_out = 100000;
+	int		fa_in, fa_out;
+
+	for (int i = 0; i < 6;i++)
+	{
+		/*
+		 *	compute denom,numer
+		 */
+		switch (i)
+		{
+		case 0:numer = 1 - RP(Y); denom = RD(Y);	break;
+		case 1:numer = 1 + RP(Y); denom = -RD(Y);	break;
+		case 2:numer = 1 - RP(X); denom = RD(X);	break;
+		case 3:numer = 1 + RP(X); denom = -RD(X);	break;
+		case 4:numer = 1 - RP(Z); denom = RD(Z);	break;
+		case 5:numer = 1 + RP(Z); denom = -RD(Z);	break;
+		}
+
+		/*
+		 *	compute hit-time
+		 */
+		if (fabs(denom) < Glus_Zero)	// ray is parallel
+		{
+			if (numer < 0)	return false;	// ray is out
+			else;							// inside, needn't change
+		}
+		else
+		{
+			t_hit = numer / denom;
+			if (denom > 0)	// leave
+			{
+				if (t_hit < t_out)	// a new earlier leave
+				{
+					t_out = t_hit;	fa_out = i;
+				}
+			}
+			else // enter
+			{
+				if (t_hit > t_in) // a new later enter
+				{
+					t_in = t_hit; fa_in = i;
+				}
+			}
+		}
+
+		if (t_in >= t_out) return false;	// miss
+	}
+
+	int num = 0;
+	if (t_in > Glus_Zero)	// is first hit in front eye
+	{
+		_inter->Hits[num].hitTime = t_in;
+		_inter->Hits[num].FaceID  = fa_in;
+		_inter->Hits[num].isEnter = true;
+		// point
+		glusRayPos(&ray, t_in, &_inter->Hits[num].HitPoint);
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint);
+		// normal
+		cube_normal(fa_in, &_inter->Hits[num].HitNormal);
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+
+		num++;
+	}
+	if (t_out > Glus_Zero)	// is first hit in front eye
+	{
+		_inter->Hits[num].hitTime = t_out;
+		_inter->Hits[num].FaceID = fa_out;
+		_inter->Hits[num].isEnter = false;
+		// point
+		glusRayPos(&ray, t_out, &_inter->Hits[num].HitPoint);
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint);
+		// normal
+		cube_normal(fa_out, &_inter->Hits[num].HitNormal);
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+
+		num++;
+	}
+	_inter->HitObject = _s;
+	_inter->numHits = num;
+
+	glusLog("\nCube hit.");
+	return (num > 0);
+#undef RP
+#undef RD
+}
+
+bool
+glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
+{
+	assert(_s && _r && _inter);
 }
