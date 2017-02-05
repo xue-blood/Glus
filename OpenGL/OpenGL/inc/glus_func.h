@@ -268,8 +268,8 @@ void	glusSinkClear(_Inout_	PGlusSink	_sink_head);
 
 // transformations
 void	glusTransform(_In_	PGlusTransform	_trans);
-void	glusTransformVector(PGlusTransform _trans, PGlusVector _v,PGlusVector _o);
-void	glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o);
+void	glusTransformVector(PGlusTransform _trans, PGlusVector _v);
+void	glusTransformInvVector(PGlusTransform _trans, PGlusVector _v);
 void	glusScale(_In_	GLdouble	_sx,_In_		GLdouble	_sy,_In_	GLdouble	_sz);
 void	glusTranslate(_In_ GLdouble	_dx,_In_		GLdouble	_dy,_In_	GLdouble	_dz);
 void	glusRotate(_In_	GLdouble	_angle,_In_		GLdouble	_x, _In_	GLdouble	_y,_In_	GLdouble	_z);
@@ -298,7 +298,8 @@ void	glusShapeDefault(_Inout_ PGlusShape _shape);
 void	glusShapeDraw(_In_	PGlusShape	_p);
 
 void	glusSquare(pvoid p);
-
+void	glusCylinder(pvoid _pointer);
+void	glusCone(pvoid _pointer);
 void	glusKoch(double dir, double len, int n);
 void	glusKochSnow(pvoid ptr);
 

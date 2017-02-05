@@ -4,21 +4,21 @@
 *	shapes
 */
 
-#define Shapes_count 7
+#define Shapes_count 9
 
 static str  Shapes_name[Shapes_count] =
 {
-	"axis", "sphere", "cube", "teapot", "grid", "snow", "square",
+	"axis", "sphere", "cube", "teapot", "grid", "snow", "square", "cylinder", "cone"
 };
 
 static void(*Shapes_func[Shapes_count])(pvoid) =
 {
-	glusAxis3D, glusSphere, glusCube, glusTeapot, glusGrid, glusKochSnow,glusSquare,
+	glusAxis3D, glusSphere, glusCube, glusTeapot, glusGrid, glusKochSnow,glusSquare,glusCylinder,glusCone
 };
 
 static bool(*Shapes_func_hit[Shapes_count])(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter) = 
 {
-	NULL, glusHitSphere, NULL, NULL, NULL, NULL,glusHitSquare,
+	NULL, glusHitSphere, NULL, NULL, NULL, NULL,glusHitSquare,glusHitCylinder,glusHitCone
 };
 
 void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
@@ -39,7 +39,7 @@ void shape(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 		if (strequ(name, Shapes_name[i]))
 			break;
 	}
-	if (i == Shapes_count) { glusLog("Shape name not found.\n"); return; }
+	if (i == Shapes_count) { glusLog("\nShape name not found."); return; }
 
 	// create a new shape and add to scene
 	PGlusShape p = glusSceneCreateNewShape(_scene);

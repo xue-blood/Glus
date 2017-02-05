@@ -74,7 +74,7 @@ _In_	PGlusTransform	_trans)
  *	transform vertex and not send to pipeline
  */
 void
-glusTransformVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
+glusTransformVector(PGlusTransform _trans, PGlusVector _v)
 {
 
 
@@ -106,15 +106,14 @@ glusTransformVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	/*
 	*	store the new vector
 	*/
-	_o->X = m[0][0]; _o->Y = m[0][1]; _o->Z = m[0][2];
-	_o->V = _v->V;
+	_v->X = m[0][0]; _v->Y = m[0][1]; _v->Z = m[0][2];
 }
 
 /*
 *	inverse transform vertex and not send to pipeline
 */
 void
-glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
+glusTransformInvVector(PGlusTransform _trans, PGlusVector _v)
 {
 
 	glPushMatrix();
@@ -147,6 +146,5 @@ glusTransformInvVector(PGlusTransform _trans, PGlusVector _v, PGlusVector _o)
 	/*
 	 *	store the new vector
 	 */
-	_o->X = m[0][0]; _o->Y = m[0][1]; _o->Z = m[0][2];
-	_o->V = _v->V;
+	_v->X = m[0][0]; _v->Y = m[0][1]; _v->Z = m[0][2];
 }

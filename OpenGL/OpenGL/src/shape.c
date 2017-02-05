@@ -88,8 +88,8 @@ glusSphere(pvoid _pointer)
 {
 	glPushMatrix();
 
-	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireSphere(0.5, 24, 16);
-	else											glutSolidSphere(0.5, 24, 16);
+	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireSphere(1, 24, 16);
+	else											glutSolidSphere(1, 24, 16);
 
 	glPopMatrix();
 }
@@ -99,8 +99,8 @@ glusTeapot(pvoid _pointer)
 {
 	glPushMatrix();
 
-	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireTeapot(0.5);
-	else											glutSolidTeapot(0.5);
+	if (glusGetShadeLevel() == Glus_Shade_Wire)		glutWireTeapot(1);
+	else											glutSolidTeapot(1);
 
 	glPopMatrix();
 }
@@ -269,5 +269,31 @@ void glusSquare(pvoid p)
 	glVertex2f(-1, 1);
 
 	glEnd();
+	glPopMatrix();
+}
+
+void
+glusCylinder(pvoid _pointer)
+{
+	glPushMatrix();
+
+	if (glusGetShadeLevel() == Glus_Shade_Wire)		
+		glutWireCylinder(1,1, 24, 16);
+	else											
+		glutSolidCylinder(1,1, 24, 16);
+
+	glPopMatrix();
+}
+
+void
+glusCone(pvoid _pointer)
+{
+	glPushMatrix();
+
+	if (glusGetShadeLevel() == Glus_Shade_Wire)
+		glutWireCone(1, 1, 24, 16);
+	else
+		glutSolidCone(1, 1, 24, 16);
+
 	glPopMatrix();
 }

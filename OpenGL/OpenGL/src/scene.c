@@ -154,6 +154,11 @@ _In_	PGlusScene	_scene)
 	//
 	glusProjection(&_scene->Projection);
 
+	/*
+	*	light
+	*/
+	glusSceneLight(_scene);
+
 	//
 	// set the camera
 	//	
@@ -164,10 +169,6 @@ _In_	PGlusScene	_scene)
 	//
 	glClearColor((GLclampf)_scene->Background.R, (GLclampf)_scene->Background.G, (GLclampf)_scene->Background.B, (GLclampf)_scene->Background.A);
 
-	/*
-	 *	light
-	 */
-	glusSceneLight(_scene);
 	
 	//
 	// draw the shapes
