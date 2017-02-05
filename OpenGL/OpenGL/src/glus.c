@@ -86,7 +86,11 @@ _In_	GLenum	_mode)
 */
 static int redisplay_interval;
 
-void timer(int a) {
+void timer(int a) 
+{
+	if (redisplay_interval == 0)	// needn't not auto refresh
+		return;
+
 	glutPostRedisplay();
 	glutTimerFunc(redisplay_interval, timer, 0);
 }

@@ -37,30 +37,26 @@ void ui(void)
 
 void dispaly(void)
 {
-	
-	//glusSceneLight(Scene);
-
-	snow->Level = level;
-	
-	
-
 	glusSceneDraw(Scene);	
 	
-	//hsvSpace();
+	
+	glEnable(GL_LIGHTING);
+	glColor3f(1, 1, 1);
+	glutSolidCylinder(0.5, 1, 12, 8);
 
 	glDisable(GL_DEPTH_TEST);
 	glColor3f(1, 0, 0);
-	glPointSize(3);
+	glPointSize(9);
 	glBegin(GL_POINTS); 
-		glVertex3d(p_hit[0].X, p_hit[0].Y, p_hit[0].Z);
+		glVertex3d(p_hit[0].X, p_hit[0].Y, p_hit[0].Z - 0.01);
 		//glVertex3d(p_hit[1].X, p_hit[1].Y, p_hit[1].Z);
 	glEnd();
-	glColor3f(1, 1, 1);
+	
 
 	glusSceneRayTrace(Scene, 0);
 
 	//ui();
-
+	
 	glutSwapBuffers();
 
 	glClearColor(.3, .3, .3, 1);
@@ -78,6 +74,10 @@ mouse(int button,int state,int x,int y)
 
 	GlusIntersect inter;
 	glusSceneHit(Scene, &ray, &inter);
+	GlusShape s;
+	glusTransformDefault(&s.Transform);
+	glusHitCylinder(&s, &ray, &inter);
+
 	if (inter.numHits > 0)
 	{
 		p_hit[0] = inter.Hits[0].HitPoint;

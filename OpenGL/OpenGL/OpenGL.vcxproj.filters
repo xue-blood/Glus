@@ -161,5 +161,8 @@
     <ClCompile Include="src\win.c">
       <Filter>源文件\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\light.c">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

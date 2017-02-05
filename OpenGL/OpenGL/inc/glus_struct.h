@@ -352,7 +352,6 @@ typedef	struct _ChaosGameAffine
 typedef struct _GlusHitInfo
 {
 	double		hitTime;		// the hit time
-	PGlusShape	HitObject;		// the hit object
 	
 	bool		isEnter;		// is the ray entering or exiting
 	int			FaceID;			// which face hit
@@ -364,6 +363,7 @@ typedef struct _GlusHitInfo
 typedef struct _GlusIntersect
 {
 	int			numHits;		// # of hits at positive hit time
+	PGlusShape	HitObject;		// the hit object
 	GlusHitInfo	Hits[8];		// store hit info ,may need more than 8 later
 }GlusIntersect, *PGlusIntersect;
 

@@ -25,8 +25,8 @@
 #define tanaf(a)	tanf(a*Glus_Rad)
 #define tana(a)		tan(a*Glus_Rad)
 
-#define absf(f) ((f)>0?(f):-(f))
-
+#define absf(f)		((f)>0?(f):-(f))
+#define sqr(equ)	(equ)*(equ)	
 #define strlower(str) for(int i=0;str[i];i++) str[i]=tolower(str[i])
 
 #define strequ(a,b)	(strcmp(a,b)==0)
@@ -43,13 +43,26 @@ typedef	unsigned	short		uword,	*puword;
 typedef	unsigned	int			uint,	*puint;
 typedef	unsigned	long int	ulong,	*pulong;
 
-#define assertp(p)	assert(p != NULL)
 
-#define Glus_Zero		0.00000000000001	// for double
+#define Glus_Zerod		0.00000000000001	// for double
 //  [8/5/2016 Tld]: change 0.000000001 to 0.00000000000001 
 #define Glus_Zerof		0.000001			// for float
 //  [8/5/2016 Tld]: add
 #define Glus_Inf		10000000000000
+
+
+#ifdef Glus_Double_Precise
+/**	use double precise*/
+typedef double		real, *preal;
+#define Glus_Zero	Glus_Zerod
+#else
+typedef float		real, *preal;
+#define Glus_Zero	Glus_Zerof
+#endif
+
+#define assertp(p)	assert(p != NULL)
+
+
 
 #define null		{ 0 }	
 

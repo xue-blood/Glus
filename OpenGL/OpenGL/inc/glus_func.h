@@ -500,6 +500,15 @@ int		glusWinTitleHeight();
 bool	glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
 
 bool	glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
+void	glusTapperedCylinderS(real s);
+bool	glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
+bool	glusHitCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
+bool	glusHitCone(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
+
+/*
+ *	light
+ */
+void glusLightDefault();
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

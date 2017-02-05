@@ -427,6 +427,8 @@ void	rgbSpace()
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
+	glDisable(GL_CULL_FACE);
+
 	glBegin(GL_QUADS);
 
 	/*
@@ -482,6 +484,7 @@ void	hslSpace()
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glBegin(GL_TRIANGLE_FAN);
+	glDisable(GL_CULL_FACE);
 
 #define SQRT32 0.866
 	/*
@@ -527,6 +530,7 @@ void	hsvSpace()
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
+	glDisable(GL_CULL_FACE);
 
 	glBegin(GL_TRIANGLE_FAN);
 	/*

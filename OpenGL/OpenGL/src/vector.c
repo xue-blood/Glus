@@ -90,9 +90,7 @@ _In_	GlusVector *_v)
 
 	assertp(_v);
 
-	return sqrt(_v->X*_v->X +
-		_v->Y*_v->Y +
-		_v->Z*_v->Z);
+	return sqrt(sqr(_v->X) +sqr(_v->Y) +sqr(_v->Z));
 }
 
 double 

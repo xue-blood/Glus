@@ -141,6 +141,7 @@ glusSceneDefault()
 // add [7/9/2016 tld]
 //
 // draw a scene
+//	default enable: lighting,depth-test
 //
 void
 glusSceneDraw(
@@ -163,6 +164,10 @@ _In_	PGlusScene	_scene)
 	//
 	glClearColor((GLclampf)_scene->Background.R, (GLclampf)_scene->Background.G, (GLclampf)_scene->Background.B, (GLclampf)_scene->Background.A);
 
+	/*
+	 *	light
+	 */
+	glusSceneLight(_scene);
 	
 	//
 	// draw the shapes
@@ -176,11 +181,11 @@ _In_	PGlusScene	_scene)
 		// is need show it
 		if (s->IsHide) continue;
 		
-		if (glusGetShadeLevel() != Glus_Shade_Wire)
-		{
-			if (_scene->IsLight) glEnable(GL_LIGHTING);
-			else				glDisable(GL_LIGHTING);
-		}
+// 		if (glusGetShadeLevel() != Glus_Shade_Wire)
+// 		{
+// 			if (_scene->IsLight) glEnable(GL_LIGHTING);
+// 			else				glDisable(GL_LIGHTING);
+// 		}
 
 		glusShapeDraw(s);
 	}
@@ -196,6 +201,15 @@ _In_	PGlusScene	_scene)
 {
 	assert(_scene);
 
+	//
+	// is require use light
+	//
+	if (glusLinkIsEmpty(&_scene->Lights))
+	{
+		glusLightDefault(); // set a default light
+		return;
+	}
+
 	/*
 	 *	global ambient
 	 */
@@ -204,11 +218,7 @@ _In_	PGlusScene	_scene)
 	glEnable(GL_LIGHTING);	// enable light
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
 
-	//
-	// is require use light
-	//
-	if (glusLinkIsEmpty(&_scene->Lights))
-		return;
+	
 
 	/*
 	 *	other light
@@ -333,7 +343,7 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 	/*
 	 *	set color
 	 */
-	PGlusShape obj = best.Hits[0].HitObject;
+	PGlusShape obj = best.HitObject;
 	*_clr = obj->Emissive;			// emissive
 	rgbaAdd(_clr, &obj->Ambient);	// ambient
 	rgbaAdd(_clr, &obj->Diffuse);	// diffuse
