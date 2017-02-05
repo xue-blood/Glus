@@ -164,5 +164,8 @@
     <ClCompile Include="src\light.c">
       <Filter>源文件\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\extent.c">
+      <Filter>源文件\extra\ray_trace</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

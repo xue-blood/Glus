@@ -20,7 +20,7 @@ _In_	GLdouble	_length)
 	glPushMatrix();
 
 	glLineWidth(2);
-	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);
 
 	//
 	// draw z-axis
@@ -43,6 +43,8 @@ _In_	GLdouble	_length)
 	else										glutSolidCone(0.04, 0.2, 12, 9);
 
 	glPopMatrix();
+	glEnable(GL_DEPTH_TEST);
+
 }
 
 //

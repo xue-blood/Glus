@@ -69,6 +69,7 @@ _Inout_	PGlusMesh	_mesh)
 	glusAllocex(_mesh->Textures, GlusVector, _mesh->PointNum, return false);
 	for (Glusnum i = 0; i < _mesh->PointNum;i++)
 	{
+		glusSkipSpace(_file);
 		glusScanf(_file, "(%lf,%lf)", &_mesh->Textures[i].X, &_mesh->Textures[i].Y);
 	}
 

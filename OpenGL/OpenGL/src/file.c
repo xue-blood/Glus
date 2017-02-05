@@ -30,6 +30,7 @@ _In_	Glussize	_max_size)
 		if (feof(_file))
 			break;
 
+		glusSkipSpace(_file);
 		glusPointLoad(_file, "(%lf,%lf,%lf)", _buffer + i);
 	}
 
@@ -64,6 +65,7 @@ _In_	Glussize	_max_size)
 		
 
 		// get data
+		glusSkipSpace(_file);
 		glusPointLoad(_file, "(%lf,%lf,%lf)", &p_entry->Point);
 
 		// add to link list
@@ -99,6 +101,7 @@ _In_	Glussize	_max_size)
 		if (feof(_file))
 			break;
 
+		glusSkipSpace(_file);
 		glusVectorLoad(_file, "<%lf,%lf,%lf>", _buffer + i);
 	}
 
@@ -133,6 +136,7 @@ _In_	Glussize	_max_size)
 		glusAlloc(p_entry, GlusPoints);
 		
 		// get data
+		glusSkipSpace(_file);
 		glusVectorLoad(_file, "<%lf,%lf,%lf>", &p_entry->Point);
 
 		// add to link list

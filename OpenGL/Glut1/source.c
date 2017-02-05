@@ -38,9 +38,8 @@ void ui(void)
 void dispaly(void)
 {
 	glusSceneDraw(Scene);	
+
 	
-	
-	glDisable(GL_DEPTH_TEST);
 	glColor3f(1, 0, 0);
 	glPointSize(9);
 	glBegin(GL_POINTS); 
@@ -52,7 +51,6 @@ void dispaly(void)
 	glusSceneRayTrace(Scene, 0);
 
 	//ui();
-	
 	glutSwapBuffers();
 
 	glClearColor(.3, .3, .3, 1);

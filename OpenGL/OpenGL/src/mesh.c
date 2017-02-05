@@ -9,14 +9,14 @@ _In_	PGlusMesh	_mesh)
 
 	for (Glusnum i = 0; i < _mesh->FaceNum;i++)	// draw each face
 	{
-		glusLog("\nface:\t%d\n", i);
+		glusLogex(Glus_Log_Info,"\nface:\t%d\n", i);
 
 		/*
 		 *	is require light source
 		 */
-		if (_mesh->Normals)
-			glEnable(GL_LIGHTING);
-		glDisable(GL_LIGHTING);
+		//if (_mesh->Normals)
+		//	glEnable(GL_LIGHTING);
+		//glDisable(GL_LIGHTING);
 
 		/*
 		*	is require texture
@@ -30,8 +30,10 @@ _In_	PGlusMesh	_mesh)
 		}
 		
 
-		if (glusGetShadeLevel()== Glus_Shade_Wire)	glBegin(GL_LINE_LOOP);
-		else										glBegin(GL_POLYGON);
+		if (glusGetShadeLevel()== Glus_Shade_Wire)	
+			glBegin(GL_LINE_LOOP);
+		else										
+			glBegin(GL_POLYGON);
 		/*
 		 *	send coordinate to pipeline
 		 */
@@ -52,9 +54,8 @@ _In_	PGlusMesh	_mesh)
 				glNormal3dv((pdouble)(_mesh->Normals+id_normal));	// normal
 			glVertex3dv((pdouble)(_mesh->Points+id_point));		// point	// change [9/1/2016 blue] : add a (), and now work fine
 			
-			//glusDebug("point,normal:\t%d,%d\n", id_point, id_normal);
-			glusLog("point:\t%d\t", id_point);
-			glusLog("normal:\t%d\n", id_normal);
+			glusLogex(Glus_Log_Info, "point:\t%d\t", id_point);
+			glusLogex(Glus_Log_Info, "normal:\t%d\n", id_normal);
 		}
 
 _mesh_end:
@@ -83,9 +84,13 @@ _Inout_	PGlusMesh	*_mesh)
 	/*
 	 *	first: get the point,normal,texture and face number
 	 */
+	glusSkipSpace(_file);
 	glusScanf(_file, "%d", &p_mesh->PointNum);
+	glusSkipSpace(_file);
 	glusScanf(_file, "%d", &p_mesh->NormalNum);
+	glusSkipSpace(_file);
 	glusScanf(_file, "%d", &p_mesh->TextureNum);
+	glusSkipSpace(_file);
 	glusScanf(_file, "%d", &p_mesh->FaceNum);
 
 	/*
@@ -121,20 +126,26 @@ _Inout_	PGlusMesh	*_mesh)
 		/*
 		 *	read the number of id for current face
 		 */
+		glusSkipSpace(_file);
 		glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDNum);
 
 		glusAllocex(p_mesh->Faces[i].FaceIDs, GlusFaceIndex, p_mesh->Faces[i].FaceIDNum,goto _mesh_load_failed_);
 		
 
 		// for point
-		for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)	
+		for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
+		{
+			glusSkipSpace(_file);
 			glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].PointID);
-
+		}
 		// for normal
 		if (p_mesh->NormalNum > 0)
 		{
 			for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
+			{
+				glusSkipSpace(_file);
 				glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].NormalID);
+			}
 		}
 
 		/*
@@ -143,7 +154,10 @@ _Inout_	PGlusMesh	*_mesh)
 		if (p_mesh->TextureNum > 0)
 		{
 			for (Glusnum j = 0; j < p_mesh->Faces[i].FaceIDNum; j++)
+			{
+				glusSkipSpace(_file);
 				glusScanf(_file, "%d", &p_mesh->Faces[i].FaceIDs[j].TextureID);
+			}
 		}
 	}
 	glusCheck(p_mesh);
@@ -211,6 +225,8 @@ _Inout_	PGlusScene	_scene)
 	p_shape->Draw = glusMeshDraw;
 	
 	p_shape->Clear = glusMeshClear;	// clear function
+
+	p_shape->Hit = glusHitMesh;
 
 	// set the data
 	p_shape->Extern = _mesh;

@@ -449,4 +449,105 @@ bool
 glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 {
 	assert(_s && _r && _inter);
+
+	_inter->numHits = 0;
+
+	//get the generic ray
+
+	GlusRay  ray = *_r;
+	glusTransformInvVector(&_s->Transform, &ray.Point);
+	glusTransformInvVector(&_s->Transform, &ray.Direction);
+
+
+#define RD(field) (ray.Direction.field)	// shortcut for ray direction
+#define RP(field) (ray.Point.field)		// shortcut for ray point
+
+	real	denom, numer;
+	real	t_hit, t_in = -100000.0, t_out = 100000;
+	int		fa_in, fa_out;
+
+	PGlusMesh mesh = _s->Extern;
+
+	for (int f = 0; f < (int)mesh->FaceNum;f++)
+	{
+		/*
+		 *	compute normal, point
+		 */
+		GlusVector diff, *normal, *point;
+		normal = &mesh->Normals[mesh->Faces[f].FaceIDs->NormalID];
+		point = &mesh->Points[mesh->Faces[f].FaceIDs->PointID];
+		glusAdd(point, 1, &ray.Point, -1, &diff);
+
+		/*
+		*	compute denom,numer
+		*/
+		numer = glusDotPro(normal, &diff);
+		denom = glusDotPro(normal, &ray.Direction);
+
+		/*
+		*	compute hit-time
+		*/
+		if (fabs(denom) < Glus_Zero)	// ray is parallel
+		{
+			if (numer < 0)	return false;	// ray is out
+			else;							// inside, needn't change
+		}
+		else
+		{
+			t_hit = numer / denom;
+			if (denom > 0)	// leave
+			{
+				if (t_hit < t_out)	// a new earlier leave
+				{
+					t_out = t_hit;	fa_out = f;
+				}
+			}
+			else // enter
+			{
+				if (t_hit > t_in) // a new later enter
+				{
+					t_in = t_hit; fa_in = f;
+				}
+			}
+		}
+
+		if (t_in >= t_out) return false;	// miss
+	}
+
+	int num = 0;
+	if (t_in > Glus_Zero)	// is first hit in front eye
+	{
+		_inter->Hits[num].hitTime = t_in;
+		_inter->Hits[num].FaceID = fa_in;
+		_inter->Hits[num].isEnter = true;
+		// point
+		glusRayPos(&ray, t_in, &_inter->Hits[num].HitPoint);
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint);
+		// normal
+		_inter->Hits[num].HitNormal = mesh->Normals[mesh->Faces[fa_in].FaceIDs->NormalID];
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+
+		num++;
+	}
+	if (t_out > Glus_Zero && t_out <50000.0)	// is first hit in front eye
+	{
+		_inter->Hits[num].hitTime = t_out;
+		_inter->Hits[num].FaceID = fa_out;
+		_inter->Hits[num].isEnter = false;
+		// point
+		glusRayPos(&ray, t_out, &_inter->Hits[num].HitPoint);
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint);
+		// normal
+		_inter->Hits[num].HitNormal = mesh->Normals[mesh->Faces[fa_in].FaceIDs->NormalID];
+		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+
+		num++;
+	}
+	_inter->HitObject = _s;
+	_inter->numHits = num;
+
+	glusLog("\nMesh hit.");
+	return (num > 0);
+#undef RP
+#undef RD
 }
