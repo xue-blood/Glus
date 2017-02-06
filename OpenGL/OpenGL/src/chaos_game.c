@@ -38,6 +38,8 @@ _In_	PChaosGame	_p)
 
 	GlusVector	point = { 0 };
 
+	glPointSize(1);
+	glEnable(GL_LIGHTING);
 	glBegin(GL_POINTS);
 	for (uint i = 0; i < _p->MaxLoop;i++)
 	{

@@ -16,6 +16,7 @@ void def(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	/*
 	 *	get the def name
 	 */
+	glusSkipSpace(file);
 	glusScanf(file, "%s", p->Name, Def_Name_Length);
 
 	/*
@@ -65,6 +66,7 @@ void use(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	 *	get use name
 	 */
 	char	name[Def_Name_Length];
+	glusSkipSpace(file);
 	glusScanf(file, "%s", name, Def_Name_Length);
 	if (!name[0])	return;
 
