@@ -40,6 +40,7 @@ void dispaly(void)
 	glusSceneDraw(Scene);	
 
 	
+	glDisable(GL_DEPTH_TEST);
 	glColor3f(1, 0, 0);
 	glPointSize(9);
 	glBegin(GL_POINTS); 

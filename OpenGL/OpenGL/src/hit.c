@@ -543,6 +543,10 @@ glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 
 		num++;
 	}
+
+	/*
+	 *	check for no closed mesh
+	 */
 	_inter->HitObject = _s;
 	_inter->numHits = num;
 
