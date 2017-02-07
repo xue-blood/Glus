@@ -85,8 +85,11 @@ _Out_	PGlusPlane	_o)
 	_o->C.V = 1;
 }
 
+/*
+ *	valid float point
+ */
 void
-normalize(
+valid(
 pGLdouble	data)
 {
 	GLdouble temp;

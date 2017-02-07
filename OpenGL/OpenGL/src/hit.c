@@ -62,6 +62,7 @@ glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	glusTransformVector(&_s->Transform, &_inter->Hits[0].HitPoint);
 	glusV(0, 0, 1, &_inter->Hits[0].HitNormal);// normal
 	glusTransformVector(&_s->Transform, &_inter->Hits[0].HitNormal);
+	glusNormalize(&_inter->Hits[0].HitNormal);
 
 	_inter->HitObject = _s;
 	glusLog("\nSquare hit.");
@@ -115,6 +116,7 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint);
 		_inter->Hits[num].HitNormal = v; _inter->Hits[num].HitNormal.V = 0;
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+		glusNormalize(&_inter->Hits[num].HitNormal);
 
 		num = 1; // have a hit
 	}
@@ -136,6 +138,7 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitPoint);
 		_inter->Hits[num].HitNormal = v; _inter->Hits[num].HitNormal.V = 0;
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+		glusNormalize(&_inter->Hits[num].HitNormal);
 
 		num++; // another hit
 	}
@@ -295,6 +298,7 @@ glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		else
 			glusV(0,0,1, &_inter->Hits[i].HitNormal);
 		glusTransformVector(&_s->Transform, &_inter->Hits[i].HitNormal);
+		glusNormalize(&_inter->Hits[num].HitNormal);
 
 
 	}
@@ -419,6 +423,7 @@ glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		// normal
 		cube_normal(fa_in, &_inter->Hits[num].HitNormal);
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+		glusNormalize(&_inter->Hits[num].HitNormal);
 
 		num++;
 	}
@@ -433,6 +438,7 @@ glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		// normal
 		cube_normal(fa_out, &_inter->Hits[num].HitNormal);
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+		glusNormalize(&_inter->Hits[num].HitNormal);
 
 		num++;
 	}
@@ -526,6 +532,7 @@ glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		// normal
 		_inter->Hits[num].HitNormal = mesh->Normals[mesh->Faces[fa_in].FaceIDs->NormalID];
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+		glusNormalize(&_inter->Hits[num].HitNormal);
 
 		num++;
 	}
@@ -540,6 +547,7 @@ glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		// normal
 		_inter->Hits[num].HitNormal = mesh->Normals[mesh->Faces[fa_in].FaceIDs->NormalID];
 		glusTransformVector(&_s->Transform, &_inter->Hits[num].HitNormal);
+		glusNormalize(&_inter->Hits[num].HitNormal);
 
 		num++;
 	}

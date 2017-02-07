@@ -62,7 +62,7 @@ _Out_	PGlusVector	_o)
 	_o->Z = sin(_v);
 	_o->V = 1;
 
-	glusNormalize(_o);
+	glusValid(_o);
 }
 
 /*

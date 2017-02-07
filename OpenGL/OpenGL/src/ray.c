@@ -114,7 +114,7 @@ _Out_	PGlusVector	_direction)
 		glusVOpposite(&n);	// we use the opposite normal
 
 	// normalize the normal
-	glusUnit(&n);
+	glusNormalize(&n);
 
 	//
 	// now we can compute the direction after reflection 
@@ -122,7 +122,7 @@ _Out_	PGlusVector	_direction)
 	glusAdd(	&_ray->Direction, 1, 
 				&n, -2 * glusDotPro(&_ray->Direction, &n), 
 				_direction);
-	glusNormalize(_direction);
+	glusValid(_direction);
 
 }
 

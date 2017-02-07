@@ -12,16 +12,16 @@
 /************************************************************************/
 
 //
-// normalize the vector 
+// valid the vector 
 // for some float isn't correct sometimes
 // 
 void
-glusNormalize(
+glusValid(
 _Inout_ PGlusVector _v)
 {
-	normalize(&_v->X);
-	normalize(&_v->Y);
-	normalize(&_v->Z);
+	valid(&_v->X);
+	valid(&_v->Y);
+	valid(&_v->Z);
 	_v->V = (_v->V)?1:0;
 }
 
@@ -42,14 +42,14 @@ _Out_	GlusVector *_out)
 	_out->Z = _in->Z;
 	_out->V = 0;
 
-	glusNormalize(_out);
+	glusValid(_out);
 }
 
 //
 // convert vector to unit and normalize
 // 
 void
-glusUnit(
+glusNormalize(
 _Inout_ PGlusVector _v)
 {
 	assertp(_v);
@@ -60,7 +60,7 @@ _Inout_ PGlusVector _v)
 	_v->Y /= vl;
 	_v->Z /= vl;
 
-	glusNormalize(_v);
+	glusValid(_v);
 }
 
 
@@ -79,7 +79,7 @@ _Out_	GlusVector *_vo)
 	_vo->Z = _pa * _va->Z + _pb * _vb->Z;
 	_vo->V = _pa * _va->V + _pb * _vb->V;
 
-	glusNormalize(_vo);
+	glusValid(_vo);
 }
 
 
@@ -130,7 +130,7 @@ _Out_	PGlusVector _vo)
 	_vo->Z = _va->X * _vb->Y - _va->Y * _vb->X;
 	_vb->V = 0;
 
-	glusNormalize(_vo);
+	glusValid(_vo);
 }
 
 

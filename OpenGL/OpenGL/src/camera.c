@@ -61,15 +61,15 @@ _Inout_	PGlusCamera	_camera)
 	glusP3d(_eyex, _eyey, _eyez, &_camera->Eye); 
 	// make n
 	glusV3d(_eyex - _lookx, _eyey - _looky, _eyez - _lookz, &_camera->N);	
-	glusUnit(&_camera->N);
+	glusNormalize(&_camera->N);
 
 	// make u
-	GlusVector up;	glusV3d(_upx, _upy, _upz, &up); glusUnit(&up);
-	glusCroPro(&up, &_camera->N,&_camera->U);		glusUnit(&_camera->U);
+	GlusVector up;	glusV3d(_upx, _upy, _upz, &up); glusNormalize(&up);
+	glusCroPro(&up, &_camera->N,&_camera->U);		glusNormalize(&_camera->U);
 
 	// make v
 	glusCroPro(&_camera->N, &_camera->U, &_camera->V);
-	glusUnit(&_camera->V);
+	glusNormalize(&_camera->V);
 
 	// set camera
 	glusCamera(_camera);
@@ -114,8 +114,8 @@ _Inout_	PGlusCamera	_camera)
 	GlusVector  t = _camera->U;
 #undef v
 #define v _camera->V
-	glusAdd(&t, c,		&_camera->V, s,		&_camera->U); glusUnit(&_camera->U);
-	glusAdd(&t, -s,	&_camera->V, c,		&_camera->V); glusUnit(&_camera->V);
+	glusAdd(&t, c,		&_camera->V, s,		&_camera->U); glusNormalize(&_camera->U);
+	glusAdd(&t, -s,	&_camera->V, c,		&_camera->V); glusNormalize(&_camera->V);
 
 #undef v
 	glusCamera(_camera);
@@ -139,8 +139,8 @@ _Inout_	PGlusCamera	_camera)
 	 */
 	GlusVector n = _camera->N, u = _camera->U;
 
-	glusAdd(&n, c, &u, -s, &_camera->N);	glusUnit(&_camera->N);
-	glusAdd(&n, s, &u, c,  &_camera->U);	glusUnit(&_camera->U);
+	glusAdd(&n, c, &u, -s, &_camera->N);	glusNormalize(&_camera->N);
+	glusAdd(&n, s, &u, c,  &_camera->U);	glusNormalize(&_camera->U);
 
 	glusCamera(_camera);
 }
@@ -162,8 +162,8 @@ _Inout_	PGlusCamera	_camera)
 	*	compute the new vector
 	*/
 	GlusVector n = _camera->N, v = _camera->V;
-	glusAdd(&n, c,		&v, s, &_camera->N);	glusUnit(&_camera->N);
-	glusAdd(&n, -s,	&v, c, &_camera->V);	glusUnit(&_camera->V);
+	glusAdd(&n, c,		&v, s, &_camera->N);	glusNormalize(&_camera->N);
+	glusAdd(&n, -s,	&v, c, &_camera->V);	glusNormalize(&_camera->V);
 
 	glusCamera(_camera);
 }

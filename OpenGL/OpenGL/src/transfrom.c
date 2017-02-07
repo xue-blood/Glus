@@ -107,6 +107,7 @@ glusTransformVector(PGlusTransform _trans, PGlusVector _v)
 	*	store the new vector
 	*/
 	_v->X = m[0][0]; _v->Y = m[0][1]; _v->Z = m[0][2];
+	glusValid(_v);
 }
 
 /*
@@ -147,4 +148,6 @@ glusTransformInvVector(PGlusTransform _trans, PGlusVector _v)
 	 *	store the new vector
 	 */
 	_v->X = m[0][0]; _v->Y = m[0][1]; _v->Z = m[0][2];
+	glusValid(_v);
+
 }

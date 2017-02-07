@@ -23,7 +23,7 @@ void	glusFPS(int fps);
 
 void	glusInitWin(GLint	_left, _In_ GLint	_top, _In_ GLint	_width, _In_ GLint	_height, _In_ str _name, _In_ GLenum _mode);
 
-void	normalize(pGLdouble data);
+void	valid(pGLdouble data);
 // point
 void	glusP(_In_	GLdouble	x, _In_		GLdouble	y, _In_		GLdouble	z, _Out_	PGlusVector		o);
 #define glusP3d		glusP
@@ -113,9 +113,9 @@ bool	glusPIsInPolygon(_In_	PGlusVector		_point, _In_	PGlusLink		_polygon);
 void	glusAdd(_In_	GlusVector *_va, _In_	GLdouble	_pa, _In_	GlusVector *_vb, _In_	GLdouble	_pb, _Out_	GlusVector *_vo);
 #define glusVFromPoint(PointA,PointB,Vector) glusAdd((PointA),-1,(PointB),1,(Vector))
 #define glusPAddV(p_point,p_vector,p_point_out) glusAdd( (p_point) ,1, (p_vector),1, (p_point_out))
-void	glusUnit(_Inout_ PGlusVector _v);
-void	glusNormal(_In_ GlusVector *_in, _Inout_ GlusVector *_out);
 void	glusNormalize(_Inout_ PGlusVector _v);
+void	glusNormal(_In_ GlusVector *_in, _Inout_ GlusVector *_out);
+void	glusValid(_Inout_ PGlusVector _v);
 #define glusVExtern(Vector,parameter) (Vector)->X = parameter*(Vector)->X,(Vector)->Y = parameter*(Vector)->Y,(Vector)->Z = parameter*(Vector)->Z;
 #define glusVOpposite(Vector)	glusVExtern(Vector,-1)
 GLdouble	glusDotPro(_In_ GlusVector *_va, _In_ GlusVector *_vb);

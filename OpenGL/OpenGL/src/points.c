@@ -291,7 +291,7 @@ _Inout_	PGlusVector	_normal)
 
 #undef Express
 	// normalize the normal
-	glusNormalize(_normal);	
+	glusValid(_normal);	
 }
 
 /*
@@ -326,7 +326,7 @@ _Inout_	PGlusVector	_normal)
 	}
 #undef Express
 
-	glusNormalize(_normal);
+	glusValid(_normal);
 }
 
 /*

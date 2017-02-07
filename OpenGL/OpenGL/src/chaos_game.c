@@ -23,8 +23,8 @@ chaos_affine(PChaosGame	_p,PGlusVector _point)
 	double x = _point->X, y = _point->Y;
 #define P(n) _point->n
 #define A(n) affine->n
-	P(X) = A(M11)* x + A(M12)* y + A(M13); normalize(&_point->X);
-	P(Y) = A(M21)* x + A(M22)* y + A(M23); normalize(&_point->Y);
+	P(X) = A(M11)* x + A(M12)* y + A(M13); valid(&_point->X);
+	P(Y) = A(M21)* x + A(M22)* y + A(M23); valid(&_point->Y);
 #undef A
 #undef P
 
