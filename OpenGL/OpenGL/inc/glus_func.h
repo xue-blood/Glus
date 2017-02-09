@@ -513,6 +513,7 @@ bool	glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
  *	light
  */
 void glusLightDefault();
+void glusLightGetDefault();
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

@@ -6,4 +6,4 @@ shape axis		scale	9	9	9
 
 shadelevel	1
 
-globalambient 1 1 1 1
+globalambient .3 .3 .3 .3

@@ -207,7 +207,11 @@ _In_	PGlusScene	_scene)
 	//
 	if (glusLinkIsEmpty(&_scene->Lights))
 	{
-		glusLightDefault(); return;
+		//glusLightDefault(); return;
+		PGlusLights l;
+		glusAllocex(l, GlusLights, 1, return);
+		glusLinkInsertTail(&_scene->Lights, l);
+		glusLightGetDefault(&l->Light);
 	}
 
 	/*
@@ -337,14 +341,6 @@ glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
 
 
 /*
- *	data of default light  extern from light.c
- */
-extern const GLfloat light_ambient[] ;
-extern const GLfloat light_diffuse[] ;
-extern const GLfloat light_specular[] ;
-extern const GLfloat light_position[] ;
-
-/*
  *	shade with specify ray
  */
 void
@@ -366,55 +362,6 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 	GlusVector	s, h, lp;
 	GlusColor	diffuse = null, spec = null;
 	real		lambert, phong;
-	// is use default light
-	if (glusLinkIsEmpty(&_scene->Lights))
-	{
-		// is in shadow
-		
-		/*
-		 * ambient
-		 */
-		rgbaPro((PGlusColor)light_ambient, 1, &obj->Ambient,1, _clr);
-
-		/*
-		 *	emissive
-		 */
-		rgbaAdd(_clr, &obj->Emissive);
-
-		/*
-		 *	diffuse
-		 */
-		// vector from hit point to source
-		glusFtoDv(light_position, (double*)&lp);
-		glusVFromPoint(&best.Hits[0].HitPoint, &lp,&s);
-		glusNormalize(&s);
-
-		// compute lambert
-		lambert = glusDotPro(&s, &best.Hits[0].HitNormal);
-		if (lambert > 0)	// hit point is turned toward the light
-		{
-			rgbaPro((PGlusColor)light_diffuse, lambert, &obj->Diffuse, 1, &diffuse);
-			rgbaAdd(_clr, &diffuse); // add diffuse part
-		}
-
-		/*
-		 *	specular,use phong model
-		 */
-		// halfway vector
-		glusAdd(&s, 1, &_ray->Direction, -1, &h);
-		glusNormalize(&h);
-
-		phong = glusDotPro(&h, &best.Hits[0].HitNormal);
-		if (phong > 0)
-		{
-			phong = pow(phong, obj->Shininess);
-			rgbaPro((PGlusColor)light_specular, phong, &obj->Specular, 1, &spec);
-			rgbaAdd(_clr, &spec);
-		}
-
-		return;
-	}
-
 	/*
 	 *	set color
 	 */
@@ -429,18 +376,18 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		/*
 		* ambient
 		*/
-		rgbaPro(&l->Ambient, 1, &obj->Ambient, 1, _clr);
+		rgbPro(&l->Ambient, 1, &obj->Ambient, 1, _clr);
 
 		/*
 		*	emissive
 		*/
-		rgbaAdd(_clr, &obj->Emissive);
+		rgbAdd(_clr, &obj->Emissive);
 
 		/*
 		*	diffuse
 		*/
 		// vector from hit point to source
-		glusFtoDv(&l->Position, (double*)&lp);
+		glusFtoDv((float*)&l->Position, (double*)&lp);
 		glusVFromPoint(&best.Hits[0].HitPoint, &lp, &s);
 		glusNormalize(&s);
 
@@ -448,8 +395,8 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		lambert = glusDotPro(&s, &best.Hits[0].HitNormal);
 		if (lambert > 0)	// hit point is turned toward the light
 		{
-			rgbaPro(&l->Diffuse, lambert, &obj->Diffuse, 1, &diffuse);
-			rgbaAdd(_clr, &diffuse); // add diffuse part
+			rgbPro(&l->Diffuse, lambert, &obj->Diffuse, 1, &diffuse);
+			rgbAdd(_clr, &diffuse); // add diffuse part
 		}
 
 		/*
@@ -463,8 +410,8 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		if (phong > 0)
 		{
 			phong = pow(phong, obj->Shininess);
-			rgbaPro(&l->Specular, phong, &obj->Specular, 1, &spec);
-			rgbaAdd(_clr, &spec);
+			rgbPro(&l->Specular, phong, &obj->Specular, 1, &spec);
+			rgbAdd(_clr, &spec);
 		}
 
 	}

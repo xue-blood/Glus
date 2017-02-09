@@ -6,7 +6,7 @@ inc			( back.sdl camera.sdl obj.sdl )
 texture		100		CHECKBOARD
 
 islight		0
-//light		0	2 5 5  .3 .8 .5 1
+light		0	2 5 5  .3 .8 .5 1
 
 def snow
 {

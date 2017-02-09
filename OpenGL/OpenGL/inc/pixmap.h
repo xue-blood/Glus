@@ -111,16 +111,29 @@ void	hsvSpace();
 						(clr)->G =g,\
 						(clr)->B =b,\
 						(clr)->A =a
+#define rgbSet(clr,r,g,b,a)	(clr)->R =r,\
+						(clr)->G = g,\
+						(clr)->B = b,\
+						(clr)->A = 1
 
 #define rgbaAdd(a,b)	(a)->R +=(b)->R,\
 						(a)->G +=(b)->G,\
 						(a)->B +=(b)->B,\
 						(a)->A +=(b)->A
+#define rgbAdd(a,b)		(a)->R +=(b)->R,\
+						(a)->G +=(b)->G,\
+						(a)->B +=(b)->B,\
+						(a)->A = 1
 
 
 #define rgbaPro(a,ia,b,ib,r)	(r)->R = ia * (a)->R * ib * (b)->R,\
 								(r)->G = ia * (a)->G * ib * (b)->G,\
 								(r)->B = ia * (a)->B * ib * (b)->B,\
 								(r)->A = ia * (a)->A * ib * (b)->A
+
+#define rgbPro(a,ia,b,ib,r)	(r)->R = ia * (a)->R * ib * (b)->R,\
+								(r)->G = ia * (a)->G * ib * (b)->G,\
+								(r)->B = ia * (a)->B * ib * (b)->B,\
+								(r)->A = 1
 
 #endif

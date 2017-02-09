@@ -37,3 +37,15 @@ void glusLightDefault()
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 	glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 }
+
+
+void glusLightGetDefault(PGlusLight _l)
+{
+	assert(_l);
+
+	_l->Type = GL_LIGHT0;
+	_l->Position = *(PGlusColor)light_position;
+	_l->Ambient = *(PGlusColor)light_ambient;
+	_l->Diffuse = *(PGlusColor)light_diffuse;
+	_l->Specular = *(PGlusColor)light_specular;
+}
