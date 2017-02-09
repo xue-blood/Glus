@@ -130,7 +130,7 @@ _Inout_	PGlusLink	_link_head)
 	while (!glusLinkIsEmpty(_link_head))
 	{
 		PGlusLink p = glusLinkRemoveHead(_link_head);
-		glusFree(p);
+ 		glusFree(p);
 	}
 	//glusFree(_link_head);  // we needn't free head
 }

@@ -31,6 +31,11 @@ typedef struct _GlusVector
 	GLdouble	X, Y, Z, V;
 }GlusVector, *PGlusVector;
 
+typedef struct _GlusVectorf
+{
+	GLfloat		X, Y, Z, V;
+}GlusVectorf, *PGlusVectorf;
+
 
 typedef	struct _GlusLine
 {
@@ -147,6 +152,7 @@ typedef	struct _GlusShape
 	pvoid Extern;	// a pointer to a struct
 
 	GlusColor		Diffuse, Specular, Ambient, Emissive;
+	real			Shininess;
 
 	GlusTransform	Transform;
 
@@ -164,8 +170,8 @@ typedef struct _GlusShapes
 
 typedef struct _GlusLight
 {
-	GlusVector	Position;
-	GlusColor	Diffuse;
+	// gllightfv need float
+	GlusColor	Diffuse, Ambient, Specular, Position;
 	GLenum		Type;
 }GlusLight, *PGlusLight;
 

@@ -48,8 +48,8 @@ void dispaly(void)
 		//glVertex3d(p_hit[1].X, p_hit[1].Y, p_hit[1].Z);
 	glEnd();
 	
-
-	glusSceneRayTrace(Scene, 0);
+	
+	glusSceneRayTrace(Scene, 2);
 
 	//ui();
 	glutSwapBuffers();
@@ -181,7 +181,7 @@ void func()
 
 	//glusHideCursor();
 	
-	glusFPS(30);
+	glusFPS(0);
 
 }
 void glusInit()

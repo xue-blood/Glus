@@ -203,36 +203,47 @@ _In_	PGlusScene	_scene)
 	assert(_scene);
 
 	//
-	// is require use light
+	// is no light
 	//
 	if (glusLinkIsEmpty(&_scene->Lights))
 	{
-		glusLightDefault(); // set a default light
-		return;
+		glusLightDefault(); return;
 	}
 
 	/*
 	 *	global ambient
-	 */
-	if (_scene->GlobalAmbient.A <= 0)
-		return;
-	glEnable(GL_LIGHTING);	// enable light
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
+	 
+	if (_scene->GlobalAmbient.A > 0)
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
+		*/
 
-	
 
 	/*
-	 *	other light
-	 */
-	glEnable(GL_DEPTH_TEST);// enabLe depth test
-	glEnable(GL_NORMALIZE); // enable normalize vector
+	 *	set light
+	*/ 
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+
+	glEnable(GL_LIGHT0);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_LIGHTING);
+
 	
 	PGlusLights l = (PGlusLights)_scene->Lights.BLink;
 	while (!glusLinkIsHead(l,&_scene->Lights))
 	{
 		glEnable(l->Light.Type);
-		glLightfv(l->Light.Type, GL_POSITION, (GLfloat*)&l->Light.Position);
+	
 		glLightfv(l->Light.Type, GL_DIFFUSE, (GLfloat*)&l->Light.Diffuse);
+		glLightfv(l->Light.Type, GL_AMBIENT, (GLfloat*)&l->Light.Ambient);
+		glLightfv(l->Light.Type, GL_SPECULAR, (GLfloat*)&l->Light.Specular);
+		glLightfv(l->Light.Type, GL_POSITION, (GLfloat*)&l->Light.Position);
+		
+
 
 		l = (PGlusLights)l->Link.BLink;
 	}
@@ -324,6 +335,15 @@ glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
 
 }
 
+
+/*
+ *	data of default light  extern from light.c
+ */
+extern const GLfloat light_ambient[] ;
+extern const GLfloat light_diffuse[] ;
+extern const GLfloat light_specular[] ;
+extern const GLfloat light_position[] ;
+
 /*
  *	shade with specify ray
  */
@@ -341,14 +361,113 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		return;
 	}
 
+	PGlusShape  obj = best.HitObject;
+
+	GlusVector	s, h, lp;
+	GlusColor	diffuse = null, spec = null;
+	real		lambert, phong;
+	// is use default light
+	if (glusLinkIsEmpty(&_scene->Lights))
+	{
+		// is in shadow
+		
+		/*
+		 * ambient
+		 */
+		rgbaPro((PGlusColor)light_ambient, 1, &obj->Ambient,1, _clr);
+
+		/*
+		 *	emissive
+		 */
+		rgbaAdd(_clr, &obj->Emissive);
+
+		/*
+		 *	diffuse
+		 */
+		// vector from hit point to source
+		glusFtoDv(light_position, (double*)&lp);
+		glusVFromPoint(&best.Hits[0].HitPoint, &lp,&s);
+		glusNormalize(&s);
+
+		// compute lambert
+		lambert = glusDotPro(&s, &best.Hits[0].HitNormal);
+		if (lambert > 0)	// hit point is turned toward the light
+		{
+			rgbaPro((PGlusColor)light_diffuse, lambert, &obj->Diffuse, 1, &diffuse);
+			rgbaAdd(_clr, &diffuse); // add diffuse part
+		}
+
+		/*
+		 *	specular,use phong model
+		 */
+		// halfway vector
+		glusAdd(&s, 1, &_ray->Direction, -1, &h);
+		glusNormalize(&h);
+
+		phong = glusDotPro(&h, &best.Hits[0].HitNormal);
+		if (phong > 0)
+		{
+			phong = pow(phong, obj->Shininess);
+			rgbaPro((PGlusColor)light_specular, phong, &obj->Specular, 1, &spec);
+			rgbaAdd(_clr, &spec);
+		}
+
+		return;
+	}
+
 	/*
 	 *	set color
 	 */
-	PGlusShape obj = best.HitObject;
-	*_clr = obj->Emissive;			// emissive
-	rgbaAdd(_clr, &obj->Ambient);	// ambient
-	rgbaAdd(_clr, &obj->Diffuse);	// diffuse
-	rgbaAdd(_clr, &obj->Specular);	// specular
+	for (glusLinkFirst(lk, &_scene->Lights);
+		!glusLinkIsHead(lk, &_scene->Lights);
+		glusLinkNext(lk))
+	{
+		// is in shadow
+
+		PGlusLight l = glusLinkData(lk);
+
+		/*
+		* ambient
+		*/
+		rgbaPro(&l->Ambient, 1, &obj->Ambient, 1, _clr);
+
+		/*
+		*	emissive
+		*/
+		rgbaAdd(_clr, &obj->Emissive);
+
+		/*
+		*	diffuse
+		*/
+		// vector from hit point to source
+		glusFtoDv(&l->Position, (double*)&lp);
+		glusVFromPoint(&best.Hits[0].HitPoint, &lp, &s);
+		glusNormalize(&s);
+
+		// compute lambert
+		lambert = glusDotPro(&s, &best.Hits[0].HitNormal);
+		if (lambert > 0)	// hit point is turned toward the light
+		{
+			rgbaPro(&l->Diffuse, lambert, &obj->Diffuse, 1, &diffuse);
+			rgbaAdd(_clr, &diffuse); // add diffuse part
+		}
+
+		/*
+		*	specular,use phong model
+		*/
+		// halfway vector
+		glusAdd(&s, 1, &_ray->Direction, -1, &h);
+		glusNormalize(&h);
+
+		phong = glusDotPro(&h, &best.Hits[0].HitNormal);
+		if (phong > 0)
+		{
+			phong = pow(phong, obj->Shininess);
+			rgbaPro(&l->Specular, phong, &obj->Specular, 1, &spec);
+			rgbaAdd(_clr, &spec);
+		}
+
+	}
 }
 // window size ,extern from canvas.c
 extern int		_Window_Height, _Window_Width;

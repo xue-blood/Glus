@@ -111,7 +111,8 @@ bool	glusPIsInPolygon(_In_	PGlusVector		_point, _In_	PGlusLink		_polygon);
 // see vector.c
 //
 void	glusAdd(_In_	GlusVector *_va, _In_	GLdouble	_pa, _In_	GlusVector *_vb, _In_	GLdouble	_pb, _Out_	GlusVector *_vo);
-#define glusVFromPoint(PointA,PointB,Vector) glusAdd((PointA),-1,(PointB),1,(Vector))
+#define glusVFromPoint(PointA,PointB,Vector) glusAdd((PointA),-1,(PointB),1,(Vector)) // v = A->B
+void	glusFtoDv(float *f, double *d);
 #define glusPAddV(p_point,p_vector,p_point_out) glusAdd( (p_point) ,1, (p_vector),1, (p_point_out))
 void	glusNormalize(_Inout_ PGlusVector _v);
 void	glusNormal(_In_ GlusVector *_in, _Inout_ GlusVector *_out);

@@ -246,6 +246,7 @@ _In_	PGlusShape	_p)
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, (GLfloat*)&_p->Diffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (GLfloat*)&_p->Specular);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, (GLfloat*)&_p->Ambient);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, (GLfloat*)&_p->Shininess);
 
 	glEnable(GL_DEPTH_TEST);
 	//

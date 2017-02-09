@@ -107,8 +107,20 @@ void	rgbSpace();
 void	hslSpace();
 void	hsvSpace();
 
+#define rgbaSet(clr,r,g,b,a)	(clr)->R =r,\
+						(clr)->G =g,\
+						(clr)->B =b,\
+						(clr)->A =a
+
 #define rgbaAdd(a,b)	(a)->R +=(b)->R,\
 						(a)->G +=(b)->G,\
 						(a)->B +=(b)->B,\
 						(a)->A +=(b)->A
+
+
+#define rgbaPro(a,ia,b,ib,r)	(r)->R = ia * (a)->R * ib * (b)->R,\
+								(r)->G = ia * (a)->G * ib * (b)->G,\
+								(r)->B = ia * (a)->B * ib * (b)->B,\
+								(r)->A = ia * (a)->A * ib * (b)->A
+
 #endif

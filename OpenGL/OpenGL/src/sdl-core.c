@@ -372,9 +372,10 @@ void light(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 
 	p_light->Light.Type = GL_LIGHT0 + (int)param[0];
 
-	p_light->Light.Position.X = param[1];
-	p_light->Light.Position.Y = param[2];
-	p_light->Light.Position.Z = param[3];
+	// need use float ,so we use color for vector
+	p_light->Light.Position.R = param[1];
+	p_light->Light.Position.G = param[2];
+	p_light->Light.Position.B = param[3];
 
 	p_light->Light.Diffuse.R = param[4];
 	p_light->Light.Diffuse.G = param[5];
