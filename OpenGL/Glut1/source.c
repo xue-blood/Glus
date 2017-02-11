@@ -45,11 +45,11 @@ void dispaly(void)
 	glPointSize(9);
 	glBegin(GL_POINTS); 
 		glVertex3d(p_hit[0].X, p_hit[0].Y, p_hit[0].Z);
-		//glVertex3d(p_hit[1].X, p_hit[1].Y, p_hit[1].Z);
+		glVertex3d(p_hit[1].X, p_hit[1].Y, p_hit[1].Z);
 	glEnd();
 	
 	
-	glusSceneRayTrace(Scene,4);
+	glusSceneRayTrace(Scene,0);
 
 	//ui();
 	glutSwapBuffers();
@@ -73,8 +73,10 @@ mouse(int button,int state,int x,int y)
 	if (inter.numHits > 0)
 	{
 		p_hit[0] = inter.Hits[0].HitPoint;
+		glusTransformVector(&inter.HitObject->Transform, &p_hit[0]);
 		p_hit[1] = inter.Hits[1].HitPoint;
-		
+		glusTransformVector(&inter.HitObject->Transform, &p_hit[1]);
+
 	}
 }
 void 
@@ -181,7 +183,7 @@ void func()
 
 	//glusHideCursor();
 	
-	glusFPS(0);
+	glusFPS(30);
 
 }
 void glusInit()

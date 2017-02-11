@@ -322,6 +322,7 @@ glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
 
 	GlusIntersect inter;
 	_best->numHits = 0;
+	GlusRay		ray;	// ray in generic coordinate
 
 	for (glusLinkFirst(lk, &_scene->Shapes);
 		!glusLinkIsHead(lk, &_scene->Shapes);
@@ -330,7 +331,11 @@ glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
 		PGlusShape shape = glusLinkData(lk);
 
 		if (!shape->Hit)	continue;
-		if (!shape->Hit(shape,_ray, &inter)) continue;
+
+		ray = *_ray;
+		glusTransformInvVector(&shape->Transform, &ray.Point);
+		glusTransformInvVector(&shape->Transform, &ray.Direction);
+		if (!shape->Hit(shape,&ray, &inter)) continue;
 
 		if (_best->numHits == 0 ||
 			inter.Hits[0].hitTime < _best->Hits[0].hitTime)
