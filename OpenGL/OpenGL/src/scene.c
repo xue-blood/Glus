@@ -347,8 +347,9 @@ glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
 
 /*
  *	shade with specify ray
+ *	return false when color is background
  */
-void
+bool
 glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 {
 	assert(_scene && _ray && _clr);
@@ -359,7 +360,7 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 	if (best.numHits == 0)
 	{
 		*_clr = _scene->Background; // if miss object
-		return;
+		return false;
 	}
 
 	PGlusShape  obj = best.HitObject;
@@ -420,6 +421,8 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		}
 
 	}
+
+	return true;
 }
 // window size ,extern from canvas.c
 extern int		_Window_Height, _Window_Width;
@@ -443,6 +446,8 @@ glusSceneRayTrace(PGlusScene _scene, int _block_size)
 
 	int old = glusLogLevel(Glus_Log_Warning);
 
+	int y = glusWinTitleHeight();
+	int x = glusWinBorderWidth();
 	clock_t t = clock();
 	glusLogex(Glus_Log_Important, "\nRay tarce is processing,please wait...");
 	/*
@@ -456,14 +461,17 @@ glusSceneRayTrace(PGlusScene _scene, int _block_size)
 			glusCameraRay(col,nRows-row, &ray);
 
 			// find color
-			glusSceneShade(_scene, &ray, &clr);
+			if(!glusSceneShade(_scene, &ray, &clr))
+				continue;
 			
 			/*
 			 *	draw block with current color
 			 */
 			glusUIEnter();
 			glColor3d(clr.R, clr.G, clr.B);
-			glRecti(col, row, col + _block_size, row + _block_size);
+			//glRecti(col, row, col + _block_size, row + _block_size);
+			//glRecti(col - _block_size, row - _block_size - y, col, row - y);
+			glRecti(col - x , row - y, col - x + _block_size, row - y + _block_size);
 			glusUILeave();
 
 

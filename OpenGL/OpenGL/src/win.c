@@ -10,6 +10,17 @@ glusWinTitleHeight()
 #endif
 }
 
+int
+glusWinBorderWidth()
+{
+#ifdef WIN32
+	return GetSystemMetrics(SM_CXSIZEFRAME)/2;
+#else
+	return 0;
+#endif // WIN32
+
+}
+
 /*
 *	convert the mouse input to world point
 *	it will auto handle inveres y and title bar height
@@ -54,5 +65,5 @@ _Inout_	PGlusVector _world)
 	gluUnProject(_x, _y, _z, m_modelview, m_projection, r_viewport, &_world->X, &_world->Y, &_world->Z);
 	_world->V = 1;
 
-	glusLog("\nwin: (%d,%d) <--> world: (%.2lf,%.2lf,%.2lf)", _x, _y, _world->X, _world->Y, _world->Z);
+	glusLog("\nwin: (%d,%d,%d) <--> world: (%.2lf,%.2lf,%.2lf)", _x, _y,_z, _world->X, _world->Y, _world->Z);
 }

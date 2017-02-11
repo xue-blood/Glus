@@ -314,7 +314,7 @@ void	glusSceneLight(_In_	PGlusScene	_scene);
 
 void	glusSceneReshape(_In_ PGlusScene	_scene, int w, int h);
 void	glusSceneHit(PGlusScene _scene, PGlusRay _ray, PGlusIntersect _inter);
-void	glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr);
+bool	glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr);
 void	glusSceneRayTrace(PGlusScene _scene, int _block_size);
 
 #define glusSceneGetLastShape(p_scene)	(PGlusShape)glusLinkData((p_scene)->Shapes.FLink)
@@ -482,6 +482,8 @@ void	glusBSplineFunc(PGlusPointsA pa, int m, int num);
 void	glusWinToWorld(_In_ int _x, _In_ int _y, _Inout_	PGlusVector _world);
 void	glusWinToWorldex(_In_ int _x, _In_ int _y, int _z,_Inout_	PGlusVector _world);
 int		glusWinTitleHeight();
+
+int		glusWinBorderWidth();
 
 /*
  *	matrix
