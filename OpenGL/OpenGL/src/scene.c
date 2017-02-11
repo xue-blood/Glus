@@ -1,6 +1,6 @@
 #include "..\inc\glus.h"
 #include <strsafe.h>
-
+#include <time.h>
 
 
 PGlusScene
@@ -436,6 +436,13 @@ glusSceneRayTrace(PGlusScene _scene, int _block_size)
 	GlusRay		ray;		// ray
 	GlusColor	clr;		// color 
 
+	int old = glusLogLevel(Glus_Log_Warning);
+
+	clock_t t = clock();
+	glusLogex(Glus_Log_Important, "\nRay tarce is processing,please wait...");
+	/*
+	 *	exec ray trace
+	 */
 	for (int row = 0; row < nRows;row+=_block_size)
 	{
 		for (int col = 0; col < nCols; col += _block_size)
@@ -453,7 +460,13 @@ glusSceneRayTrace(PGlusScene _scene, int _block_size)
 			glColor3d(clr.R, clr.G, clr.B);
 			glRecti(col, row, col + _block_size, row + _block_size);
 			glusUILeave();
+
+
 		}
 	}
+	
+	t = clock() - t;
+	glusLogex(Glus_Log_Important, "use %.2f ms.", (float)t);
+	glusLogLevel(old);
 
 }

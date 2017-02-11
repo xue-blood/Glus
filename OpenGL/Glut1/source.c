@@ -49,7 +49,7 @@ void dispaly(void)
 	glEnd();
 	
 	
-	glusSceneRayTrace(Scene, 8);
+	glusSceneRayTrace(Scene,4);
 
 	//ui();
 	glutSwapBuffers();

@@ -14,7 +14,7 @@
 // user should define the function by themself
 void	glusInit();
 // 
-void	glusLogLevel(_In_	int		_level);
+int	glusLogLevel(_In_	int		_level);
 #define glusLogex(level,msg,...)		fprintf_s(_Glus_Logs[level],msg,__VA_ARGS__)
 #define glusLog(msg,...)				fprintf_s(_Glus_Logs[Glus_Log_Normal],msg,__VA_ARGS__)
 

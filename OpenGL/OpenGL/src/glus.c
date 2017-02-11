@@ -4,6 +4,7 @@
 // enable debug ,global
 FILE	*_Glus_Std_Null;
 FILE	*_Glus_Logs[5] = { 0 };
+int		_Glus_Log_level = Glus_Log_Normal;
 
 extern FILE * _F_In;
 extern GlusSink	_CurrentState;
@@ -46,7 +47,7 @@ void main(int argc,char **argv)
 	glutMainLoop();
 }
 
-void
+int
 glusLogLevel(
 _In_	int		_level)
 {
@@ -55,6 +56,11 @@ _In_	int		_level)
 		_Glus_Logs[i] = stdout;
 	for (; i <= Glus_Log_Info;		i++)
 		_Glus_Logs[i] = _Glus_Std_Null;
+
+	int old = _Glus_Log_level;
+	_Glus_Log_level = _level;
+
+	return old;
 }
 
 
