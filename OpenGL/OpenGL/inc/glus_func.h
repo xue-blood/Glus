@@ -516,6 +516,16 @@ bool	glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
  */
 void glusLightDefault();
 void glusLightGetDefault();
+
+/*
+ *	noise
+ */
+
+void	glusNoiseInit(PGlusNoise _p);
+
+float	glusNoise(PGlusNoise _p, float _scale, float _x, float _y, float _z);
+float	glusNoiseTurb(PGlusNoise _p, float _scale, float _x, float _y, float _z, int M);
+float	glusNoiseMarble(PGlusNoise _p,float _x, float _y, float _z, int A);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

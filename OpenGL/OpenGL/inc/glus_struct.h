@@ -373,5 +373,13 @@ typedef struct _GlusIntersect
 	GlusHitInfo	Hits[8];		// store hit info ,may need more than 8 later
 }GlusIntersect, *PGlusIntersect;
 
+/*
+ *	noise
+ */
+typedef struct _GlusNoise
+{
+	float			NoiseTable[256];
+	unsigned char	Indexs[256];
+}GlusNoise, *PGlusNoise;
 #endif // !_GLUS_STRUCT_H
 #endif // !_glus_struct_h

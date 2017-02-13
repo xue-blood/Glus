@@ -46,6 +46,7 @@
     <ClCompile Include="src\math.c" />
     <ClCompile Include="src\mesh.c" />
     <ClCompile Include="src\mouse.c" />
+    <ClCompile Include="src\noise.c" />
     <ClCompile Include="src\peano.c" />
     <ClCompile Include="src\pixmap.c" />
     <ClCompile Include="src\sdl-core.c" />

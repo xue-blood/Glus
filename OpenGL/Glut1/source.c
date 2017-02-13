@@ -31,6 +31,24 @@ void ui(void)
 	//pixBlend(pic[0]);
 
 	glDisable(GL_COLOR_LOGIC_OP);
+
+	GlusNoise noise;
+	glusNoiseInit(&noise);
+	float y = -1;
+	for (int i = 0; i < 100; i++)
+	{
+		float x = -1;
+		for (int k = 0; k < 100; k++)
+		{
+			float s = glusNoiseMarble(&noise,x, y, y,4);
+			//float s = glusNoise(&noise, 2, x, y, 0);
+			glColor3f(s, s, s);
+			drawPoint(i,k);
+			x += 0.02;
+		}
+		putchar('\n');
+		y += 0.01;
+	}
 	glusUILeave();
 
 }
@@ -49,9 +67,9 @@ void dispaly(void)
 	glEnd();
 	
 	
-	glusSceneRayTrace(Scene,1);
+	glusSceneRayTrace(Scene,0);
 
-	//ui();
+	ui();
 	glutSwapBuffers();
 
 	glClearColor(.3, .3, .3, 1);

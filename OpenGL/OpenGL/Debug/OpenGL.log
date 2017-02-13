@@ -1,10 +1,8 @@
-﻿Build started 2/12/2017 12:14:36 AM.
+﻿Build started 2/13/2017 8:28:43 PM.
      1>Project "D:\project\OpenGL\OpenGL\OpenGL\OpenGL.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\scene.c src\win.c
-         win.c
-         scene.c
-         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt src\noise.c
+         noise.c
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\project\OpenGL\OpenGL\Debug\OpenGL.lib" /NOLOGO Debug\anime.obj
          Debug\array.obj
@@ -24,6 +22,7 @@
          Debug\math.obj
          Debug\mesh.obj
          Debug\mouse.obj
+         Debug\noise.obj
          Debug\peano.obj
          Debug\pixmap.obj
          "Debug\sdl-core.obj"
@@ -52,4 +51,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.71
+Time Elapsed 00:00:00.52
