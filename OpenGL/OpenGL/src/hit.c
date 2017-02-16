@@ -2,10 +2,12 @@
 
 /*
  *	proto type
+ *  compute his-info for object
+    if( _inter == NULL) return if and only if t in [0,1]
  bool
  glusHit(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
  {
-	assert(_s && _r && _inter);
+	assert(_s && _r);
 
 	_inter->numHits = 0;
 
@@ -23,7 +25,7 @@
 bool
 glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 {
-	assert(_s && _r && _inter);
+	assert(_s && _r);
 
 	/*
 	 *	is ray parallel to plane
@@ -34,11 +36,19 @@ glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	double t = -_r->Point.Z / denom;
 	if (t <= 0.0) return false;	// behind the eye
 
+	if (!_inter)
+	{
+		if (t<=1)	return true;	// we needn't compute hit-info
+									// and t must in [0,1]
+		else		return false;
+	}
+
 	double hx = _r->Point.X + _r->Direction.X * t;	// hit x
 	if (hx > 1.0 || hx < -1.0)	return false;		// miss
 	double hy = _r->Point.Y + _r->Direction.Y * t;	// hit y
 	if (hy > 1.0 || hy < -1.0)	return false;		// miss
 
+	
 	_inter->numHits = 1;	// one hit 
 	_inter->Hits[0].hitTime = t;
 	_inter->Hits[0].isEnter = true;
@@ -59,7 +69,7 @@ glusHitSquare(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 bool
 glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 {
-	assert(_s && _r && _inter);
+	assert(_s && _r);
 
 	/*
 	 *	compute discrim
@@ -79,8 +89,16 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	 *	t1 
 	 */
 	double t1 = (-B - dis_root) / A;
+	
 	if (t1 > Glus_Zero) // is hit in front of eye
 	{
+		if (!_inter)
+		{
+			if (t1 <= 1)	return true;	// we needn't compute hit-info
+			// and t must in [0,1]
+			else		return false;
+		}
+
 		_inter->Hits[num].hitTime = t1;
 		_inter->Hits[num].isEnter = true;
 		_inter->Hits[num].FaceID = 0;	// for shpere , only one face 
@@ -101,9 +119,15 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	double t2 = (-B + dis_root) / A;
 	if (t2 > Glus_Zero) // is hit in front of eye
 	{
+		if (!_inter)
+		{
+			if (t2 <= 1)	return true;	// we needn't compute hit-info
+			// and t must in [0,1]
+			else		return false;
+		}
 		_inter->Hits[num].hitTime = t2;
 		_inter->Hits[num].isEnter = false;
-		_inter->Hits[num].FaceID = 0;	// for shpere , only one face 
+		_inter->Hits[num].FaceID = 0;	// for sphere , only one face 
 
 		// hit point and normal
 		GlusVector v;
@@ -114,6 +138,7 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 
 		num++; // another hit
 	}
+	if (!_inter) return false;
 
 	_inter->numHits = num;
 	_inter->HitObject = _s;
@@ -133,7 +158,7 @@ void glusTapperedCylinderS(real s)
 bool
 glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 {
-	assert(_s && _r && _inter);
+	assert(_s && _r);
 
 	_inter->numHits = 0;
 
@@ -168,6 +193,13 @@ glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		z_hit = RP(Z) + RD(Z) * t1;
 		if (t1 > Glus_Zero && z_hit <= 1.0 && z_hit >= 0.0)
 		{
+			if (!_inter)
+			{
+				if (t1 <= 1)	return true;	// we needn't compute hit-info
+				// and t must in [0,1]
+				else		return false;
+			}
+
 			_inter->Hits[num].hitTime = t1;
 			_inter->Hits[num++].FaceID = 0;	// hit at wall
 		}
@@ -179,6 +211,13 @@ glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 		z_hit = RP(Z) + RD(Z) * t2;
 		if (t2 > Glus_Zero && z_hit <= 1.0 && z_hit >= 0.0)
 		{
+			if (!_inter)
+			{
+				if (t2 <= 1)	return true;	// we needn't compute hit-info
+				// and t must in [0,1]
+				else		return false;
+			}
+
 			_inter->Hits[num].hitTime = t2;
 			_inter->Hits[num++].FaceID = 0;	// hit at wall
 		}
@@ -192,6 +231,13 @@ glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	real sq = sqr(x) + sqr(y);
 	if (tb > Glus_Zero && sq < 1)
 	{
+		if (!_inter)
+		{
+			if (tb <= 1)	return true;	// we needn't compute hit-info
+			// and t must in [0,1]
+			else		return false;
+		}
+
 		_inter->Hits[num].hitTime = tb;
 		_inter->Hits[num++].FaceID = 1;	// hit at base
 	}
@@ -202,6 +248,13 @@ glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	real tc = (1-RP(Z)) / RD(Z);
 	if (tc > Glus_Zero && sqr(RP(X) + RD(X)*tc) + sqr(RP(Y) + RD(Y)*tc) < sqr(S))
 	{
+		if (!_inter)
+		{
+			if (tc <= 1)	return true;	// we needn't compute hit-info
+			// and t must in [0,1]
+			else		return false;
+		}
+
 		_inter->Hits[num].hitTime = tc;
 		_inter->Hits[num++].FaceID = 2;	// hit at cap
 	}
@@ -267,6 +320,9 @@ glusHitTapperedCylinder(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 #undef S
 #undef RP
 #undef RD
+	if (!_inter) return false;
+
+
 	_inter->HitObject = _s;
 	_inter->numHits = num;
 
@@ -312,7 +368,7 @@ void cube_normal(int i,PGlusVector n)
 bool
 glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 {
-	assert(_s && _r && _inter);
+	assert(_s && _r);
 
 
 #define RD(field) (_r->Direction.field)	// shortcut for ray direction
@@ -370,6 +426,13 @@ glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	int num = 0;
 	if (t_in > Glus_Zero)	// is first hit in front eye
 	{
+		if (!_inter)
+		{
+			if (t_in <= 1)	return true;	// we needn't compute hit-info
+			// and t must in [0,1]
+			else		return false;
+		}
+
 		_inter->Hits[num].hitTime = t_in;
 		_inter->Hits[num].FaceID  = fa_in;
 		_inter->Hits[num].isEnter = true;
@@ -383,6 +446,13 @@ glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	}
 	if (t_out > Glus_Zero)	// is first hit in front eye
 	{
+		if (!_inter)
+		{
+			if (t_out <= 1)	return true;	// we needn't compute hit-info
+			// and t must in [0,1]
+			else		return false;
+		}
+
 		_inter->Hits[num].hitTime = t_out;
 		_inter->Hits[num].FaceID = fa_out;
 		_inter->Hits[num].isEnter = false;
@@ -394,6 +464,8 @@ glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 
 		num++;
 	}
+	if (!_inter) return false;
+
 	_inter->HitObject = _s;
 	_inter->numHits = num;
 
@@ -406,7 +478,7 @@ glusHitCube(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 bool
 glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 {
-	assert(_s && _r && _inter);
+	assert(_s && _r);
 
 	_inter->numHits = 0;
 
@@ -468,6 +540,13 @@ glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	int num = 0;
 	if (t_in > Glus_Zero)	// is first hit in front eye
 	{
+		if (!_inter)
+		{
+			if (t_in <= 1)	return true;	// we needn't compute hit-info
+			// and t must in [0,1]
+			else		return false;
+		}
+
 		_inter->Hits[num].hitTime = t_in;
 		_inter->Hits[num].FaceID = fa_in;
 		_inter->Hits[num].isEnter = true;
@@ -481,6 +560,13 @@ glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	}
 	if (t_out > Glus_Zero && t_out <50000.0)	// is first hit in front eye
 	{
+		if (!_inter)
+		{
+			if (t_out <= 1)	return true;	// we needn't compute hit-info
+			// and t must in [0,1]
+			else		return false;
+		}
+
 		_inter->Hits[num].hitTime = t_out;
 		_inter->Hits[num].FaceID = fa_out;
 		_inter->Hits[num].isEnter = false;
@@ -492,6 +578,8 @@ glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 
 		num++;
 	}
+
+	if (!_inter) return false;
 
 	/*
 	 *	check for no closed mesh

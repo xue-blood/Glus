@@ -1,6 +1,8 @@
 #include "Header.h"
 #include <process.h>
 
+#define FPS 0
+#define RAY 1
 
 PGlusScene Scene =NULL;
 
@@ -67,9 +69,9 @@ void dispaly(void)
 	glEnd();
 	
 	
-	glusSceneRayTrace(Scene,0);
+	glusSceneRayTrace(Scene,RAY);
 
-	ui();
+	//ui();
 	glutSwapBuffers();
 
 	glClearColor(.3, .3, .3, 1);
@@ -201,7 +203,7 @@ void func()
 
 	//glusHideCursor();
 	
-	glusFPS(30);
+	glusFPS(FPS);
 
 }
 void glusInit()

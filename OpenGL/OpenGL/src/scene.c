@@ -344,6 +344,31 @@ glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
 
 }
 
+bool isInShadow(PGlusRay ray,PGlusLink obj)
+{
+	assert(ray && obj);
+
+	for (glusLinkFirst(lk, obj);
+		!glusLinkIsHead(lk, obj);
+		glusLinkNext(lk))
+	{
+		PGlusShape shape = glusLinkData(lk);
+
+		if (!shape->Hit)	continue;
+
+		/*
+		 *	convent ray in generic coordinate
+		 */
+		GlusRay gen_ray = *ray;
+		glusTransformInvVector(&shape->Transform, &gen_ray.Point);
+		glusTransformInvVector(&shape->Transform, &gen_ray.Direction);
+		
+		if (shape->Hit(shape, &gen_ray, NULL)) return true;
+
+	}
+
+	return false;
+}
 
 /*
  *	shade with specify ray
@@ -368,6 +393,12 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 	GlusVector	s, h, lp;
 	GlusColor	diffuse = null, spec = null;
 	real		lambert, phong;
+
+	GlusRay		feeler;	// ray for compute shadow
+	GlusVector	hit_point = best.Hits[0].HitPoint;
+	glusTransformVector(&obj->Transform, &hit_point); // get the hit point int world coordinate
+	glusAdd(&hit_point, 1, &_ray->Direction, 0.000001, &feeler.Point); // feeler point
+
 	/*
 	 *	set color
 	 */
@@ -375,14 +406,19 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		!glusLinkIsHead(lk, &_scene->Lights);
 		glusLinkNext(lk))
 	{
-		// is in shadow
-
+		
 		PGlusLight l = glusLinkData(lk);
 
 		/*
 		* ambient
 		*/
 		rgbPro(&l->Ambient, 1, &obj->Ambient, 1, _clr);
+
+		// is in shadow
+		GlusVector l_pos;
+		glusFtoDv((float*)&l->Position, (double*)&l_pos);
+		glusAdd(&l_pos, 1, &hit_point, -1, &feeler.Direction);// feeler direction
+		if (isInShadow(&feeler,&_scene->Shapes))	continue;
 
 		/*
 		*	emissive
