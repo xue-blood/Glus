@@ -216,10 +216,12 @@ _In_	PGlusScene	_scene)
 
 	/*
 	 *	global ambient
-	 
+		refer http://www.cnblogs.com/yihai-0494/articles/2124326.html
+	 */
 	if (_scene->GlobalAmbient.A > 0)
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
-		*/
+	else
+		rgbSet(&_scene->GlobalAmbient, 0.2, 0.2, 0.2);
 
 
 	/*
@@ -391,7 +393,7 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 	PGlusShape  obj = best.HitObject;
 
 	GlusVector	s, h, lp;
-	GlusColor	diffuse = null, spec = null;
+	GlusColor	diffuse = null, spec = null, ambient = null;
 	real		lambert, phong;
 
 	GlusRay		feeler;	// ray for compute shadow
@@ -410,9 +412,15 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		PGlusLight l = glusLinkData(lk);
 
 		/*
+		 *	global ambient
+		 */
+		*_clr = _scene->GlobalAmbient;
+
+		/*
 		* ambient
 		*/
-		rgbPro(&l->Ambient, 1, &obj->Ambient, 1, _clr);
+		rgbPro(&l->Ambient, 1, &obj->Ambient, 1, &ambient);
+		rgbAdd(_clr, &ambient);
 
 		// is in shadow
 		GlusVector l_pos;

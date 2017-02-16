@@ -111,11 +111,12 @@ void	hsvSpace();
 						(clr)->G =g,\
 						(clr)->B =b,\
 						(clr)->A =a
-#define rgbSet(clr,r,g,b,a)	(clr)->R =r,\
+#define rgbSet(clr,r,g,b)	(clr)->R =r,\
 						(clr)->G = g,\
 						(clr)->B = b,\
 						(clr)->A = 1
 
+// a = a+b
 #define rgbaAdd(a,b)	(a)->R +=(b)->R,\
 						(a)->G +=(b)->G,\
 						(a)->B +=(b)->B,\
