@@ -476,8 +476,7 @@ glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 		{
 			// generate reflection ray
 			GlusRay	ref;
-			ref.Point = hit_point;
-			glusReflect(_ray, &best.Hits[0].HitNormal, &ref.Direction);
+			glusReflect(_ray, &best.Hits[0].HitNormal, &ref);
 
 			GlusColor c;
 			glusSceneShadeex(_scene, &ref, &c, _level + 1); // shade new color
@@ -491,7 +490,15 @@ glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 		{
 			// generate transmission ray
 			GlusRay trans;
+			// for simply , we assum ray from air to object
+			if (best.Hits[0].isEnter)
+				glusRefract(_ray, &best.Hits[0].HitNormal, &trans,obj->Transparency);
+			else
+				glusRefract(_ray, &best.Hits[0].HitNormal, &trans, 1/obj->Transparency);
 
+			GlusColor c;
+			glusSceneShadeex(_scene, &trans, &c, _level + 1); // shade new color
+			rgbAddex(_clr, &c, obj->Transparency);
 		}
 	}
 

@@ -21,8 +21,8 @@ _In_	PGlusRay	_pRay)
 
 	glBegin(GL_LINES);
 	{
-		glVertex3dv((pGLdouble)&_pRay->Point);
-		glVertex3dv((pGLdouble)&p);
+		glVertex3d(_pRay->Point.X,_pRay->Point.Y,_pRay->Point.Z);
+		glVertex3d(p.X,p.Y,p.Z);
 	}
 	glEnd();
 }
@@ -100,16 +100,16 @@ void
 glusReflect(
 _Inout_	PGlusRay	_ray,
 _In_	PGlusVector	_normal,
-_Out_	PGlusVector	_direction)
+_Out_	PGlusRay	_nray)
 {
-	assertp(_ray && _normal && _direction);
+	assertp(_ray && _normal && _nray);
 
 	GlusVector	n = *_normal;
 
 	GLdouble	dot = glusDotPro(&n, &_ray->Direction);
 
 	if (dot == 0)						// is parallel
-		*_direction = _ray->Direction;	// so the direction don't change
+		_nray->Direction = _ray->Direction;	// so the direction don't change
 	if (dot <  0)			// the normal is not we want
 		glusVOpposite(&n);	// we use the opposite normal
 
@@ -121,9 +121,55 @@ _Out_	PGlusVector	_direction)
 	// 
 	glusAdd(	&_ray->Direction, 1, 
 				&n, -2 * glusDotPro(&_ray->Direction, &n), 
-				_direction);
-	glusValid(_direction);
+				&_nray->Direction);
+	glusValid(&_nray->Direction);
 
+	// position
+	glusRayPos(_ray, 1, &_nray->Point);
+
+}
+
+
+/*
+ *	get the transmission ray after refract
+ */
+void
+glusRefract(
+_Inout_	PGlusRay	_ray,
+_In_	PGlusVector	_normal,
+_Out_	PGlusRay	_nray,
+_In_	real		_c)
+{
+	assertp(_ray && _normal && _nray);
+
+
+	GlusVector	n = *_normal;
+	glusNormalize(&n);
+	GlusVector	dir = _ray->Direction;
+	glusNormalize(&dir);
+
+	GLdouble	dot = glusDotPro(&n, &dir);
+	double theta = sqrt(1 - _c*_c *(1 - dot*dot));
+
+	if (dot == 0)						// is parallel
+		_nray->Direction= _ray->Direction;	// so the direction don't change
+	//if (dot < 0)			// the normal is not we want
+		//glusVOpposite(&n);	// we use the opposite normal
+
+	//
+	// now we can compute the direction after refraction
+	// 
+	glusAdd(&dir, _c,
+		&n, _c * dot - theta,
+		&_nray->Direction);
+	glusValid(&_nray->Direction);
+	
+	double l = glusLength(&_ray->Direction);
+	glusRayScale(_nray, sqrt(l));
+
+	// position
+	glusRayPos(_ray, 1, &_nray->Point);
+	
 }
 
 GLdouble	
@@ -193,7 +239,8 @@ _Out_	PGlusRay	_nRay)
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
 	glusNormal(&v, &vn);
-	glusReflect(_ray, &vn, &_nRay->Direction);
+	glusReflect(_ray, &vn, _nRay);
+
 
 	return tHit;
 }
@@ -301,7 +348,7 @@ _Out_	PGlusRay	_nRay)
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
 	glusNormal(&v, &vn);
-	glusReflect(_ray, &vn, &_nRay->Direction);
+	glusReflect(_ray, &vn, _nRay);
 
 	return tHit;
 }
@@ -378,7 +425,7 @@ _In_	PGlusSink		_head)
 	// then we can compute the new ray after reflect
 	// 
 	GlusRay		nRay;
-	glusReflect(_ray, &p->Data.Normal, &nRay.Direction);
+	glusReflect(_ray, &p->Data.Normal, &nRay);
 
 	// and the point
 	glusAdd(&_ray->Point, 1, &_ray->Direction, tHit, &nRay.Point);

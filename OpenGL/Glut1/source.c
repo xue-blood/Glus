@@ -28,50 +28,71 @@ void ui(void)
 	glRasterPos2i(x - 16, y + 8);
 
 	glPixelZoom(0.5, -0.5);
-	glusDissolve(pic[0], pic[2]);
+	//glusDissolve(pic[0], pic[2]);
 
 	//pixBlend(pic[0]);
 
 	glDisable(GL_COLOR_LOGIC_OP);
 
-	GlusNoise noise;
-	glusNoiseInit(&noise);
-	float y = -1;
-	for (int i = 0; i < 100; i++)
-	{
-		float x = -1;
-		for (int k = 0; k < 100; k++)
-		{
-			float s = glusNoiseMarble(&noise,x, y, y,4);
-			//float s = glusNoise(&noise, 2, x, y, 0);
-			glColor3f(s, s, s);
-			drawPoint(i,k);
-			x += 0.02;
-		}
-		putchar('\n');
-		y += 0.01;
-	}
+	// 	GlusNoise noise;
+	// 	glusNoiseInit(&noise);
+	// 	float y = -1;
+	// 	for (int i = 0; i < 100; i++)
+	// 	{
+	// 		float x = -1;
+	// 		for (int k = 0; k < 100; k++)
+	// 		{
+	// 			float s = glusNoiseMarble(&noise,x, y, y,4);
+	// 			//float s = glusNoise(&noise, 2, x, y, 0);
+	// 			glColor3f(s, s, s);
+	// 			drawPoint(i,k);
+	// 			x += 0.02;
+	// 		}
+	// 		putchar('\n');
+	// 		y += 0.01;
+	// 	}
+
+	glColor3f(.3, .3, .3);
+	glRecti(0, 0, glusGetWidth(), glusGetHeight());
+
+	glLineWidth(3);
+	glColor3f(.5, 0,0);
+	GlusRay ray = { 280, 370, 0, 1 };
+	glusV(30, -90, 0, &ray.Direction);
+	glusRDraw(&ray);
+
+	glColor3f(0,.5,.5);
+	GlusVector n = { 0, 1, 0 };
+	GlusRay t;
+	glusRefract(&ray, &n, &t, .8);
+	glusRDraw(&t);
+
 	glusUILeave();
 
 }
 
-void dispaly(void)
+void scene()
 {
-	glusSceneDraw(Scene);	
+	glusSceneDraw(Scene);
 
-	
+
 	glDisable(GL_DEPTH_TEST);
 	glColor3f(1, 0, 0);
 	glPointSize(9);
-	glBegin(GL_POINTS); 
-		glVertex3d(p_hit[0].X, p_hit[0].Y, p_hit[0].Z);
-		glVertex3d(p_hit[1].X, p_hit[1].Y, p_hit[1].Z);
+	glBegin(GL_POINTS);
+	glVertex3d(p_hit[0].X, p_hit[0].Y, p_hit[0].Z);
+	glVertex3d(p_hit[1].X, p_hit[1].Y, p_hit[1].Z);
 	glEnd();
-	
-	
-	glusSceneRayTrace(Scene,RAY);
+
+
+	glusSceneRayTrace(Scene, RAY);
+}
+void dispaly(void)
+{
+	scene();
 
 	//ui();
+	
 	glutSwapBuffers();
 
 	glClearColor(.3, .3, .3, 1);
