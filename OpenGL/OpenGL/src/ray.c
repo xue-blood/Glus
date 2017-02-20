@@ -97,7 +97,7 @@ _In_	PGlusVector	_pb)
 // compute the direction after hit
 // 
 void
-glusRReflecte(
+glusReflect(
 _Inout_	PGlusRay	_ray,
 _In_	PGlusVector	_normal,
 _Out_	PGlusVector	_direction)
@@ -193,7 +193,7 @@ _Out_	PGlusRay	_nRay)
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
 	glusNormal(&v, &vn);
-	glusRReflecte(_ray, &vn, &_nRay->Direction);
+	glusReflect(_ray, &vn, &_nRay->Direction);
 
 	return tHit;
 }
@@ -301,7 +301,7 @@ _Out_	PGlusRay	_nRay)
 
 	glusVFromPoint(&pHit->Point, &pb->Point, &v);
 	glusNormal(&v, &vn);
-	glusRReflecte(_ray, &vn, &_nRay->Direction);
+	glusReflect(_ray, &vn, &_nRay->Direction);
 
 	return tHit;
 }
@@ -378,7 +378,7 @@ _In_	PGlusSink		_head)
 	// then we can compute the new ray after reflect
 	// 
 	GlusRay		nRay;
-	glusRReflecte(_ray, &p->Data.Normal, &nRay.Direction);
+	glusReflect(_ray, &p->Data.Normal, &nRay.Direction);
 
 	// and the point
 	glusAdd(&_ray->Point, 1, &_ray->Direction, tHit, &nRay.Point);

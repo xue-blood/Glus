@@ -80,9 +80,6 @@
     <ClCompile Include="src\mandelbrot_set.c">
       <Filter>源文件\extra\inf</Filter>
     </ClCompile>
-    <ClCompile Include="src\ray.c">
-      <Filter>源文件\extra\ray_trace</Filter>
-    </ClCompile>
     <ClCompile Include="src\hit.c">
       <Filter>源文件\extra\ray_trace</Filter>
     </ClCompile>
@@ -169,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="src\noise.c">
       <Filter>源文件\extra\ray_trace</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ray.c">
+      <Filter>源文件\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

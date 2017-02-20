@@ -121,9 +121,15 @@ void	hsvSpace();
 						(a)->G +=(b)->G,\
 						(a)->B +=(b)->B,\
 						(a)->A +=(b)->A
+
 #define rgbAdd(a,b)		(a)->R +=(b)->R,\
 						(a)->G +=(b)->G,\
 						(a)->B +=(b)->B,\
+						(a)->A = 1
+
+#define rgbAddex(a,b,fb)(a)->R +=fb * (b)->R,\
+						(a)->G +=fb * (b)->G,\
+						(a)->B +=fb * (b)->B,\
 						(a)->A = 1
 
 

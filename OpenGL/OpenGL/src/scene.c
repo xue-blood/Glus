@@ -130,7 +130,7 @@ glusSceneDefault()
 	//
 	scene->EnableAxis = true;
 	scene->AxisLength = 1;
-
+	scene->RayLevel = 3;	// ray trace level 3
 	
 	//
 	// the return the default scene
@@ -375,9 +375,10 @@ bool isInShadow(PGlusRay ray,PGlusLink obj)
 /*
  *	shade with specify ray
  *	return false when color is background
+ *	compute reflection and refraction only on level < Scene.level
  */
 bool
-glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
+glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 {
 	assert(_scene && _ray && _clr);
 
@@ -415,6 +416,11 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		 *	global ambient
 		 */
 		*_clr = _scene->GlobalAmbient;
+		
+		/*
+		 *	emissive
+		 */
+		rgbAdd(_clr, &obj->Emissive);
 
 		/*
 		* ambient
@@ -428,10 +434,6 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 		glusAdd(&l_pos, 1, &hit_point, -1, &feeler.Direction);// feeler direction
 		if (isInShadow(&feeler,&_scene->Shapes))	continue;
 
-		/*
-		*	emissive
-		*/
-		rgbAdd(_clr, &obj->Emissive);
 
 		/*
 		*	diffuse
@@ -464,9 +466,48 @@ glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
 			rgbAdd(_clr, &spec);
 		}
 
+		// is max level
+		if (_level == _scene->RayLevel) break;
+
+		/*
+		 *	reflection
+		 */
+		if (obj->Shininess > 0.6)// is need reflection 
+		{
+			// generate reflection ray
+			GlusRay	ref;
+			ref.Point = hit_point;
+			glusReflect(_ray, &best.Hits[0].HitNormal, &ref.Direction);
+
+			GlusColor c;
+			glusSceneShadeex(_scene, &ref, &c, _level + 1); // shade new color
+			rgbAddex(_clr, &c, obj->Shininess);
+		}
+
+		/*
+		 *	refraction
+		 */
+		if (obj->Transparency > 0.5)
+		{
+			// generate transmission ray
+			GlusRay trans;
+
+		}
 	}
 
 	return true;
+}
+
+/*
+*	shade with specify ray
+*	return false when color is background
+*/
+bool
+glusSceneShade(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr)
+{
+	// ray from eye, 
+	// so level is 0
+	return glusSceneShadeex(_scene, _ray, _clr, 0);
 }
 // window size ,extern from canvas.c
 extern int		_Window_Height, _Window_Width;

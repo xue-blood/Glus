@@ -170,7 +170,7 @@ void	bresenham(int ax, int ay, int bx, int by);
 #define glusRayPos(ray,t,p_o) glusAdd(&(ray)->Point,1,&(ray)->Direction,t,(p_o))
 void	glusRDraw(_In_ PGlusRay _pRay);
 GLdouble	glusRHit(_In_ PGlusRay _r, _In_ PGlusVector _n, _In_ PGlusVector _p);
-void	glusRReflecte(_Inout_	PGlusRay	_ray, _In_	PGlusVector	_normal, _Inout_	PGlusVector	_direction);
+void	glusReflect(_Inout_	PGlusRay	_ray, _In_	PGlusVector	_normal, _Inout_	PGlusVector	_direction);
 
 GLdouble	glusRTrace2D(_In_	PGlusRay	_ray, _In_	PGlusLink	_head, _Inout_	PGlusRay	_nRay);
 void	glusRTraces2D(_Inout_	PGlusRay		_ray, _In_	PGlusLinks	_head);

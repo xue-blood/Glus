@@ -2,5 +2,5 @@
 //projection	-3 3	-2 2	-10 100
 
 
-camera		2 3 4		0 0 0	0 1 0
+camera		2 3 1		0 0 0	0 1 0
 projection	55 1.5	.1 100

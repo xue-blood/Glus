@@ -153,6 +153,7 @@ typedef	struct _GlusShape
 
 	GlusColor		Diffuse, Specular, Ambient, Emissive;
 	real			Shininess;
+	real			Transparency;
 
 	GlusTransform	Transform;
 
@@ -243,6 +244,8 @@ typedef	struct _GlusScene
 	bool		EnableAxis;
 	bool		IsLight;
 	GLdouble	AxisLength;
+
+	int			RayLevel;
 }GlusScene, *PGlusScene;
 
 //

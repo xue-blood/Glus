@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 27
+#define Keys_count 28
 
 str Keys[Keys_count] =
 {
@@ -19,6 +19,7 @@ str Keys[Keys_count] =
 	"projection",
 	"camera",
 	"diffuse",
+	"shininess",
 	"translate",
 	"scale",
 	"rotate",
@@ -49,6 +50,7 @@ GLsizei Keys_func_param[Keys_count] =
 	9,	// projection	: i_angle f_antio	f_near f_far
 	9,	// camera		: v_postion v_target v_up
 	4,	// diffuse		: v_color
+	1,	// shininess	: f_shininess
 	3,	// translate	: v_t
 	3,	// scale		: v_s
 	4,	// rotate		: v_r
@@ -193,6 +195,24 @@ void diffuse(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	s->Diffuse.B = param[2];
 	s->Diffuse.A = (n_param == 3) ? 1.0 : param[3];
 }
+
+/*
+*	diffuse
+*/
+void shininess(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	if (n_param != 1) return;
+	//
+	// get the current shape
+	//
+	PGlusShape s = glusSceneGetLastShape(_scene);
+
+	//
+	// then set shininess
+	//
+	s->Shininess = param[0];
+}
+
 /*
 *	ambient
 */
@@ -506,6 +526,7 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	projection,
 	camera,
 	diffuse,
+	shininess,
 	translate,
 	scale,
 	rotate,

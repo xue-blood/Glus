@@ -6,7 +6,7 @@ inc			( back.sdl camera.sdl obj.sdl )
 texture		100		CHECKBOARD
 
 islight		0
-//light		0	2 5 5  .3 .8 .5 1
+light		0	2 2.5 2  .9 .8 .5 1
 
 def snow
 {
@@ -56,10 +56,29 @@ use cas2
 	hide	
 
 
-shape sphere diffuse .3 .4 .8 translate 1 2 2 scale 0.2 0.2 0.2
-shape cube	translate 0 0 0    
+shape sphere 
+		diffuse .3 .4 .8 translate 0 0 0 scale .8 .8 .8
+		shininess .7
+	
+shape cube	
+		translate 1.5 1 0 rotate -50 0 0 1 scale 0.2 0.2 0.2
+		shininess .8
+
 //shape cylinder diffuse .1 .6 .4	translate -1 0 0  //rotate 30 0 0 1 scale 2  1 1
 
+
+
+// far
+shape square diffuse .4 .8 .1 scale 3 3 3 translate 0 0 -3 
+		//shininess .7
+// left
+shape square diffuse .8 .9 .1 scale 3 3 4 rotate 90 0 1 0 translate -3 0 0
+// bottom
+shape square diffuse .4 .1 .3 scale 3 3 3 rotate -90 1 0 0 translate 0 -3 0
+// right
+shape square diffuse .4 .1 .3 scale 3 3 3 rotate 90 0 1 0 translate 3 0 0
+// near
+shape square diffuse .4 .8 .1 scale 3 3 3 translate 0 0 3 
 
 
 //use	ms
