@@ -57,22 +57,26 @@ use cas2
 
 
 shape sphere 
-		diffuse .3 .4 .8 translate 0 0 0 scale .8 .8 .8
+		diffuse .3 .4 .8 translate 0 0 0 scale 4 4 4
+		//scale .8 .8 .8
 		//shininess .7
-		transp .8
-	
+		//
+
+shape sphere
+		translate 1.5 2 0.5 rotate -50 0 0 1 scale 0.2 0.2 0.2
+		shininess .8
+
+
 shape cube	
 		translate 1.5 1 0 rotate -50 0 0 1 scale 0.2 0.2 0.2
 		//shininess .8
-		
+		transp .8		
 
 //shape cylinder diffuse .1 .6 .4	translate -1 0 0  //rotate 30 0 0 1 scale 2  1 1
 
 
-
 // far
 shape square diffuse .4 .8 .1 scale 3 3 3 translate 0 0 -3 
-		//shininess .7
 // left
 shape square diffuse .8 .9 .1 scale 3 3 4 rotate 90 0 1 0 translate -3 0 0
 // bottom

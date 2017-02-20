@@ -140,8 +140,13 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	}
 	if (!_inter) return false;
 
+	
+
 	_inter->numHits = num;
 	_inter->HitObject = _s;
+
+	if (_inter->numHits == 1) _inter->Hits[0].isEnter = false;
+
 	glusLog("\nSphere hit.");
 	return true;
 }

@@ -399,6 +399,10 @@ glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 
 	GlusRay		feeler;	// ray for compute shadow
 	GlusVector	hit_point = best.Hits[0].HitPoint;
+	GlusVector  hit_normal = best.Hits[0].HitNormal;
+
+	// convert normal direction when eye is inside object
+	if (!best.Hits[0].isEnter) glusVOpposite(&hit_normal);
 	glusTransformVector(&obj->Transform, &hit_point); // get the hit point int world coordinate
 	glusAdd(&hit_point, 1, &_ray->Direction, 0.000001, &feeler.Point); // feeler point
 
@@ -444,7 +448,7 @@ glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 		glusNormalize(&s);
 
 		// compute lambert
-		lambert = glusDotPro(&s, &best.Hits[0].HitNormal);
+		lambert = glusDotPro(&s, &hit_normal);
 		if (lambert > 0)	// hit point is turned toward the light
 		{
 			rgbPro(&l->Diffuse, lambert, &obj->Diffuse, 1, &diffuse);
@@ -458,7 +462,7 @@ glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 		glusAdd(&s, 1, &_ray->Direction, -1, &h);
 		glusNormalize(&h);
 
-		phong = glusDotPro(&h, &best.Hits[0].HitNormal);
+		phong = glusDotPro(&h, &hit_normal);
 		if (phong > 0)
 		{
 			phong = pow(phong, obj->Shininess);
@@ -476,7 +480,9 @@ glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 		{
 			// generate reflection ray
 			GlusRay	ref;
-			glusReflect(_ray, &best.Hits[0].HitNormal, &ref);
+			glusReflect(_ray, &hit_normal, &ref);
+			// go to a litter near than obj
+			glusRayPos(&ref, 0.0000001, &ref.Point);
 
 			GlusColor c;
 			glusSceneShadeex(_scene, &ref, &c, _level + 1); // shade new color
@@ -492,9 +498,12 @@ glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 			GlusRay trans;
 			// for simply , we assum ray from air to object
 			if (best.Hits[0].isEnter)
-				glusRefract(_ray, &best.Hits[0].HitNormal, &trans,obj->Transparency);
+				glusRefract(_ray, &hit_normal, &trans, obj->Transparency);
 			else
-				glusRefract(_ray, &best.Hits[0].HitNormal, &trans, 1/obj->Transparency);
+				glusRefract(_ray, &hit_normal, &trans, 1 / obj->Transparency);
+			// go to a litter far than obj
+			glusRayPos(&trans, 0.0000001, &trans.Point);
+
 
 			GlusColor c;
 			glusSceneShadeex(_scene, &trans, &c, _level + 1); // shade new color
@@ -547,7 +556,7 @@ glusSceneRayTrace(PGlusScene _scene, int _block_size)
 	 */
 	for (int row = 0; row < nRows;row+=_block_size)
 	{
-		for (int col = 0; col < nCols; col += _block_size)
+		for (int col = 0; col <= nCols; col += _block_size)
 		{
 			// set the ray
 			glusCameraRay(col,nRows-row, &ray);
