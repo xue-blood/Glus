@@ -48,8 +48,8 @@ glusBoolLoad(FILE * _file, PGlusScene _scene)
 	if (!B)	return NULL;
 
 	glusAlloc(b, GlusBool);
-	b->A = A;
-	b->B = B;
+	b->A = A; A->IsHide = true;
+	b->B = B; B->IsHide = true;
 	b->Type = t;
 
 	glusLog("\nBoolean load success.");
@@ -124,11 +124,41 @@ bool
 glusBoolHitDiffer(PGlusBool b, PGlusRay _r, PGlusIntersect _intl, PGlusIntersect _intr,PGlusIntersect _o)
 {
 	if (!b->A->Hit(b->A, _r, _intl))	return false;
-	if (b->B->Hit(b->B, _r, _intr))	return false;
+	if (!b->B->Hit(b->B, _r, _intr))
+	{
+		if (!_o) // no need calc hit info
+			return true;
+
+		*_o = *_intl;	// only hit left
+		return true;
+	}
 
 	if (!_o) // no need calc hit info
 		return true;
 
+	int num = 0;
+	bool li = false, ri = false, ci = false;
+
+
+
+	// early in
+	if (_intl->Hits[0].hitTime < _intr->Hits[0].hitTime)
+	{
+		memcpy_s(&_o->Hits[0], sizeof(GlusHitInfo), &_intl->Hits[0], sizeof(GlusHitInfo));
+		memcpy_s(&_o->Hits[1], sizeof(GlusHitInfo), &_intr->Hits[0], sizeof(GlusHitInfo));
+		_o->Hits[1].isEnter = false;
+	}
+	else
+	{
+		memcpy_s(&_o->Hits[0], sizeof(GlusHitInfo), &_intr->Hits[1], sizeof(GlusHitInfo));
+		_o->Hits[0].isEnter = true;
+		memcpy_s(&_o->Hits[1], sizeof(GlusHitInfo), &_intl->Hits[1], sizeof(GlusHitInfo));
+
+	}
+
+	_o->numHits = 2;
+
+	return true;
 }
 
 bool

@@ -166,7 +166,7 @@ glusHitSphere(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter)
 	
 
 	_inter->numHits = num;
-
+	if (num == 0)	return false;
 	if (_inter->numHits == 1) _inter->Hits[0].isEnter = false;
 
 	glusLog("\nSphere hit.");

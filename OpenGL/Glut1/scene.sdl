@@ -57,6 +57,7 @@ use cas2
 
 
 
+	/*
 shape sphere
 		translate 0.5 1 0.5 rotate -50 0 0 1 scale 0.2 0.2 0.2
 		//shininess .8
@@ -69,12 +70,23 @@ shape sphere
 		name s2
 		hide
 
-bool s1 & s2 translate 0.6 1 0.5 
+bool s1 - s2 translate 0.6 1 0.5 
+*/
 
 shape cube	
-		translate 1.5 1 0 rotate -50 0 0 1 scale 0.2 0.2 0.2
+		translate 0.5 1.5 1  scale 0.2 0.2 0.2
 		//shininess .8
-		transp .8		
+		//transp .8		
+		name s1
+		
+shape	sphere
+		translate 0.5 1.5 1  scale 0.3 0.4 0.2
+		//shininess .8
+		//transp .8		
+		name s2
+
+bool	s1 - s2
+
 
 //shape cylinder diffuse .1 .6 .4	translate -1 0 0  //rotate 30 0 0 1 scale 2  1 1
 

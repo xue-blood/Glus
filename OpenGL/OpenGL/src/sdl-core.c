@@ -554,6 +554,8 @@ void boolean(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	p->Clear = glusBoolClear;	// use default clear
 	p->Hit = glusBoolHit;
 	p->Extern = b;		// the data for chaos game
+
+	p->Transform = b->A->Transform; // copy the tranform from A
 }
 
 
