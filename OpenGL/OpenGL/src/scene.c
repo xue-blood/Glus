@@ -289,11 +289,13 @@ _In_	PGlusScene	_scene)
 PGlusShape
 glusSceneGetShapeByName(
 _In_	PGlusScene		_scene,
-_In_	str				_name)
+_In_	str				_name,
+_In_	int				_n_name)
 {
 	assert(_scene && _name);
 	
-	if (!_name[0]) return NULL;
+	if (!_name[0]) return NULL;	// empty string
+	if (_name[_n_name-1]) return NULL; // string not zero end
 
 	PGlusShapes p = (PGlusShapes)_scene->Shapes.BLink;
 	while (!glusLinkIsHead(p,&_scene->Shapes))
@@ -324,7 +326,6 @@ glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
 
 	GlusIntersect inter;
 	_best->numHits = 0;
-	GlusRay		ray;	// ray in generic coordinate
 
 	for (glusLinkFirst(lk, &_scene->Shapes);
 		!glusLinkIsHead(lk, &_scene->Shapes);
@@ -332,12 +333,11 @@ glusSceneHit(PGlusScene _scene, PGlusRay _ray,PGlusIntersect _best)
 	{
 		PGlusShape shape = glusLinkData(lk);
 
-		if (!shape->Hit)	continue;
+		if (shape->IsHide)	continue; // object is hiden
 
-		ray = *_ray;
-		glusTransformInvVector(&shape->Transform, &ray.Point);
-		glusTransformInvVector(&shape->Transform, &ray.Direction);
-		if (!shape->Hit(shape,&ray, &inter)) continue;
+		if (!shape->Hit)	continue; // not support hit
+
+		if (!shape->Hit(shape,_ray, &inter)) continue;
 
 		if (_best->numHits == 0 ||
 			inter.Hits[0].hitTime < _best->Hits[0].hitTime)
@@ -356,7 +356,9 @@ bool isInShadow(PGlusRay ray,PGlusLink obj)
 	{
 		PGlusShape shape = glusLinkData(lk);
 
-		if (!shape->Hit)	continue;
+		if (shape->IsHide)	continue; // object is hiden
+
+		if (!shape->Hit)	continue; // not support hit
 
 		/*
 		 *	convent ray in generic coordinate
@@ -391,7 +393,7 @@ glusSceneShadeex(PGlusScene _scene, PGlusRay _ray, PGlusColor _clr,int _level)
 		return false;
 	}
 
-	PGlusShape  obj = best.HitObject;
+	PGlusShape  obj = best.Hits[0].HitObject;
 
 	GlusVector	s, h, lp;
 	GlusColor	diffuse = null, spec = null, ambient = null;

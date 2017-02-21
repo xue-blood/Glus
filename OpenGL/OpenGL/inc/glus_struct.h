@@ -367,12 +367,13 @@ typedef struct _GlusHitInfo
 
 	GlusVector	HitPoint;		// the hit point
 	GlusVector	HitNormal;		// the normal at the hit point
+
+	PGlusShape	HitObject;		// the hit object
 }GlusHitInfo, *PGlusHitInfo;
 
 typedef struct _GlusIntersect
 {
 	int			numHits;		// # of hits at positive hit time
-	PGlusShape	HitObject;		// the hit object
 	GlusHitInfo	Hits[8];		// store hit info ,may need more than 8 later
 }GlusIntersect, *PGlusIntersect;
 
@@ -384,5 +385,21 @@ typedef struct _GlusNoise
 	float			NoiseTable[256];
 	unsigned char	Indexs[256];
 }GlusNoise, *PGlusNoise;
+
+/*
+ *	boolean
+ */
+typedef enum _GlusBoolType
+{
+	Bool_Union,
+	Bool_Intersect,
+	Bool_Differ
+}GlusBoolType;
+
+typedef struct _GlusBool
+{
+	GlusBoolType	Type;
+	PGlusShape		A, B;
+}GlusBool, *PGlusBool;
 #endif // !_GLUS_STRUCT_H
 #endif // !_glus_struct_h

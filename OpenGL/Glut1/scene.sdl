@@ -56,16 +56,20 @@ use cas2
 	hide	
 
 
-shape sphere 
-		diffuse .3 .4 .8 translate 0 0 0 scale 4 4 4
-		//scale .8 .8 .8
-		//shininess .7
-		//
 
 shape sphere
-		translate 1.5 2 0.5 rotate -50 0 0 1 scale 0.2 0.2 0.2
-		shininess .8
+		translate 0.5 1 0.5 rotate -50 0 0 1 scale 0.2 0.2 0.2
+		//shininess .8
+		name s1
+		hide
 
+shape sphere
+		translate 0.6 1 0.5 rotate -50 0 0 1 scale 0.2 0.2 0.2
+		shininess .8
+		name s2
+		hide
+
+bool s1 & s2 translate 0.6 1 0.5 
 
 shape cube	
 		translate 1.5 1 0 rotate -50 0 0 1 scale 0.2 0.2 0.2

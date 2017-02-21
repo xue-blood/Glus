@@ -30,6 +30,7 @@
   <ItemGroup>
     <ClCompile Include="src\anime.c" />
     <ClCompile Include="src\array.c" />
+    <ClCompile Include="src\bool.c" />
     <ClCompile Include="src\callback.c" />
     <ClCompile Include="src\camera.c" />
     <ClCompile Include="src\canvas.c" />

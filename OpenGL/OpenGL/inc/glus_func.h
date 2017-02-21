@@ -321,7 +321,7 @@ void	glusSceneRayTrace(PGlusScene _scene, int _block_size);
 
 #define glusSceneGetLastShape(p_scene)	(PGlusShape)glusLinkData((p_scene)->Shapes.FLink)
 PGlusShape	glusSceneCreateNewShape(_In_ PGlusScene _scene);
-PGlusShape	glusSceneGetShapeByName(_In_	PGlusScene		_scene,_In_	str				_name);
+PGlusShape	glusSceneGetShapeByName(_In_	PGlusScene		_scene, _In_	str				_name,_In_	int				_n_name);
 // sdl
 void	glusSDL(_Inout_ PGlusScene	_scene, _In_	FILE*		_file);
 void	glusSDLex(_Inout_ PGlusScene	_scene, _In_	FILE*		_file);
@@ -528,6 +528,15 @@ void	glusNoiseInit(PGlusNoise _p);
 float	glusNoise(PGlusNoise _p, float _scale, float _x, float _y, float _z);
 float	glusNoiseTurb(PGlusNoise _p, float _scale, float _x, float _y, float _z, int M);
 float	glusNoiseMarble(PGlusNoise _p,float _x, float _y, float _z, int A);
+
+
+/*
+ *	boolean
+ */
+PGlusBool	glusBoolLoad(FILE * _file,PGlusScene _scene);
+void		glusBoolDraw(PGlusBool _p);
+bool		glusBoolHit(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
+void		glusBoolClear(pvoid _p);
 #endif // !_GLUS_FUNC_H
 #endif // !_glus_func_h
 

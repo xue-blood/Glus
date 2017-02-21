@@ -114,9 +114,9 @@ mouse(int button,int state,int x,int y)
 	if (inter.numHits > 0)
 	{
 		p_hit[0] = inter.Hits[0].HitPoint;
-		glusTransformVector(&inter.HitObject->Transform, &p_hit[0]);
+		glusTransformVector(&inter.Hits[0].HitObject->Transform, &p_hit[0]);
 		p_hit[1] = inter.Hits[1].HitPoint;
-		glusTransformVector(&inter.HitObject->Transform, &p_hit[1]);
+		glusTransformVector(&inter.Hits[0].HitObject->Transform, &p_hit[1]);
 
 	}
 }
@@ -164,7 +164,7 @@ void data()
 {
 
 	Scene = glusSceneNew("scene.sdl");
-	snow = (PPeano)glusSceneGetShapeByName(Scene, "snow")->Extern;
+	snow = (PPeano)glusSceneGetShapeByName(Scene, "snow",_countof("snow"))->Extern;
 	level = snow->Level;
 
 	pic[0] = pixCheckboard();

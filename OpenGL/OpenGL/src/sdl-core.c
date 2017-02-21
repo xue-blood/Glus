@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 29
+#define Keys_count 30
 
 str Keys[Keys_count] =
 {
@@ -41,7 +41,8 @@ str Keys[Keys_count] =
 	"hide",
 	"peano",
 	"array",
-	"chaos"
+	"chaos",
+	"bool"
 };
 GLsizei Keys_func_param[Keys_count] =
 {
@@ -74,6 +75,7 @@ GLsizei Keys_func_param[Keys_count] =
 	0,	// peano curve	: (...) i_level
 	0,	// array		: s_methon(n_x,n_y,n_z)<d_x,d_y,d_z> s_target_name
 	0,	// chaos game	: (...)
+	0,	// boolean		: (...)
 };
 
 void glusSDLDefaultClear(pvoid p)
@@ -498,7 +500,7 @@ void array(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	*/
 	char name[30];
 	glusScanf(file, "%s", name, _countof(name));
-	PGlusShape t = glusSceneGetShapeByName(_scene, name);
+	PGlusShape t = glusSceneGetShapeByName(_scene, name,_countof(name));
 	if (!t)	{glusLogex(Glus_Log_Error,"Error: ( %s ) name not found.\n",name); return;}
 
 	//
@@ -535,6 +537,26 @@ void chaos(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	p->Extern = cas;		// the data for chaos game
 }
 
+/*
+*	boolean object
+*/
+void boolean(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	PGlusBool	b = glusBoolLoad(file,_scene);
+	if (!b)
+	{
+		glusLog("Boolean load failed.\n");
+		return;
+	}
+
+	PGlusShape p = glusSceneCreateNewShape(_scene);
+	p->Draw = glusBoolDraw;
+	p->Clear = glusBoolClear;	// use default clear
+	p->Hit = glusBoolHit;
+	p->Extern = b;		// the data for chaos game
+}
+
+
 void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 {
 	inc,
@@ -565,7 +587,8 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	hide,
 	peano,
 	array,
-	chaos
+	chaos,
+	boolean
 };
 
 int Keys_Get_id(FILE * file)
