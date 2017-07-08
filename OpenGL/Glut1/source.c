@@ -75,7 +75,6 @@ void scene()
 {
 	glusSceneDraw(Scene);
 
-
 	glDisable(GL_DEPTH_TEST);
 	glColor3f(1, 0, 0);
 	glPointSize(9);
@@ -83,9 +82,6 @@ void scene()
 	glVertex3d(p_hit[0].X, p_hit[0].Y, p_hit[0].Z);
 	glVertex3d(p_hit[1].X, p_hit[1].Y, p_hit[1].Z);
 	glEnd();
-
-
-	glusSceneRayTrace(Scene, RAY);
 }
 void dispaly(void)
 {

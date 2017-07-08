@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 30
+#define Keys_count 31
 
 str Keys[Keys_count] =
 {
@@ -42,7 +42,8 @@ str Keys[Keys_count] =
 	"peano",
 	"array",
 	"chaos",
-	"bool"
+	"bool",
+	"raytrace"
 };
 GLsizei Keys_func_param[Keys_count] =
 {
@@ -76,6 +77,7 @@ GLsizei Keys_func_param[Keys_count] =
 	0,	// array		: s_methon(n_x,n_y,n_z)<d_x,d_y,d_z> s_target_name
 	0,	// chaos game	: (...)
 	0,	// boolean		: (...)
+	1,  // raytrace     : i_block_size
 };
 
 void glusSDLDefaultClear(pvoid p)
@@ -558,6 +560,14 @@ void boolean(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	p->Transform = b->A->Transform; // copy the tranform from A
 }
 
+void raytrace(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	if (n_param != 1) return;
+
+	// set ray trace block size
+	_scene->RaySize = (int)param[0];
+	glusLog("\t ray trace size: %d", _scene->RaySize);
+}
 
 void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 {
@@ -590,7 +600,8 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	peano,
 	array,
 	chaos,
-	boolean
+	boolean,
+	raytrace
 };
 
 int Keys_Get_id(FILE * file)
