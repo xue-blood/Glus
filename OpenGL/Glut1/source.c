@@ -1,8 +1,6 @@
 #include "Header.h"
 #include <process.h>
 
-int FPS = 0;
-int RAY = 1;
 
 PGlusScene Scene =NULL;
 
@@ -141,8 +139,6 @@ int _x, int _y)
 	case '+': glusSetShadeLevel(Glus_Shade_Solid); break;
 	case ',': printf("\rlevel: %d", --level); break;
 	case '.': printf("\rlevel: %d", ++level); break;
-	case '1': RAY = 1; FPS = 0; break;
-	case '`': RAY = 0; FPS = 30; glusFPS(FPS); break;
 	default:
 		break;
 	}
@@ -222,7 +218,6 @@ void func()
 
 	//glusHideCursor();
 	
-	glusFPS(FPS);
 
 }
 void glusInit()

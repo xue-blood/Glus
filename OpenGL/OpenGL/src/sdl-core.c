@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 31
+#define Keys_count 32
 
 str Keys[Keys_count] =
 {
@@ -43,7 +43,8 @@ str Keys[Keys_count] =
 	"array",
 	"chaos",
 	"bool",
-	"raytrace"
+	"raytrace",
+	"fps"
 };
 GLsizei Keys_func_param[Keys_count] =
 {
@@ -78,6 +79,7 @@ GLsizei Keys_func_param[Keys_count] =
 	0,	// chaos game	: (...)
 	0,	// boolean		: (...)
 	1,  // raytrace     : i_block_size
+	1,  // fps			: i_fps
 };
 
 void glusSDLDefaultClear(pvoid p)
@@ -569,6 +571,16 @@ void raytrace(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	glusLog("\t ray trace size: %d", _scene->RaySize);
 }
 
+
+void fps(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	if (n_param != 1) return;
+
+	// set fps
+	glusFPS(param[0]);
+}
+
+
 void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 {
 	inc,
@@ -601,7 +613,8 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	array,
 	chaos,
 	boolean,
-	raytrace
+	raytrace,
+	fps
 };
 
 int Keys_Get_id(FILE * file)
