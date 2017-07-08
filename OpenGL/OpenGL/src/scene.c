@@ -574,7 +574,7 @@ glusSceneRayTrace(PGlusScene _scene, int _block_size)
 			glColor3d(clr.R, clr.G, clr.B);
 			//glRecti(col, row, col + _block_size, row + _block_size);
 			//glRecti(col - _block_size, row - _block_size - y, col, row - y);
-			glRecti(col - x , row - y, col - x + _block_size, row - y + _block_size);
+			glRecti(col - x, row - y + 3, col - x + _block_size, row - y + _block_size + 3);
 			glusUILeave();
 
 
