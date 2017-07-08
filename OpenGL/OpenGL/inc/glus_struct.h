@@ -246,6 +246,7 @@ typedef	struct _GlusScene
 	GLdouble	AxisLength;
 
 	int			RayLevel;
+	int			RaySize;	// the block size of ray trace
 }GlusScene, *PGlusScene;
 
 //

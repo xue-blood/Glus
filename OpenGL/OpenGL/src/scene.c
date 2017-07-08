@@ -190,6 +190,11 @@ _In_	PGlusScene	_scene)
 
 		glusShapeDraw(s);
 	}
+
+	if (_scene->RaySize > 0)
+	{
+		glusSceneRayTrace(_scene, _scene->RaySize);
+	}
 }
 
 //

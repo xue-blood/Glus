@@ -81,6 +81,7 @@ glusBoolHitUnion(PGlusBool b, PGlusRay _r, PGlusIntersect _intl, PGlusIntersect 
 	if (!_o) // no need calc hit info
 		return true;
 
+	return true;
 }
 
 bool
