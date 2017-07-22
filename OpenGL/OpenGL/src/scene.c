@@ -261,7 +261,7 @@ _In_	PGlusScene	_scene)
 }
 
 /*
- *	add a new shape to scene
+ *	add a new shape to scene, and mark it as select
  *	the shape has the default setting
  *	return the pointer to shape so you can custom it
  */
@@ -283,6 +283,9 @@ _In_	PGlusScene	_scene)
 	
 	// and insert to scene
 	glusLinkInsertTail(&_scene->Shapes, shape);
+
+	// mark as select
+	_scene->SelectShape = &shape->Shape;
 
 	// return the pointer
 	return &shape->Shape;

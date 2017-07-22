@@ -237,7 +237,11 @@ typedef	struct _GlusScene
 	GlusColor	GlobalAmbient;
 	GlusCamera	Camera;		//  [7/9/2016 tld] add
 	GlusProjection	Projection;	// add [7/9/2016 tld]
+	
 	GlusLink	Shapes;
+	PGlusShape	SelectShape;
+
+
 	GlusLink	Lights;
 	GlusLink	Textures;
 	// add [7/9/2016 tld]

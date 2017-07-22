@@ -193,7 +193,8 @@ void diffuse(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 
 	//
 	// then set diffuse
@@ -213,7 +214,8 @@ void shininess(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 
 	//
 	// then set shininess
@@ -229,7 +231,8 @@ void transp(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 
 	//
 	// then set shininess
@@ -244,7 +247,8 @@ void ambient(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 
 	//
 	// then set diffuse
@@ -263,8 +267,8 @@ void specular(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
-
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 	//
 	// then set diffuse
 	//
@@ -278,8 +282,8 @@ void translate(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
-
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 	//
 	// set translation
 	//
@@ -292,8 +296,8 @@ void scale(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
-
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 	//
 	// set scale
 	//
@@ -306,8 +310,8 @@ void rotate(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
-
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 
 	//
 	// set scale
@@ -443,7 +447,8 @@ void textureid(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the current shape
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 	PGlusMesh  mesh = s->Extern;
 	mesh->TextureID = param[0];
 
@@ -457,7 +462,8 @@ void name(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the name
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
 	glusScanf(file, "%s", s->Name,_countof(s->Name));
 }
 
@@ -469,7 +475,9 @@ void hide(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	// get the name
 	//
-	PGlusShape s = glusSceneGetLastShape(_scene);
+	PGlusShape s = _scene->SelectShape;
+	if (!s) return;
+
 	s->IsHide = true;
 }
 
