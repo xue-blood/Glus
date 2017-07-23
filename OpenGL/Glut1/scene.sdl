@@ -1,14 +1,8 @@
-	
-	log			3
+camera	1 2 1	0 0 0	0 1 0
+projection	55 1.5	.1 100
 
-inc			( back.sdl camera.sdl )
+fps 30
+shadelevel 1
 
-fps			30
-raytrace	0
-
-texture		100		CHECKBOARD
-
-islight		0
-light		0	2 2.5 2  .9 .8 .5 1
-
-
+shape grid		diffuse	.2 .2 .2	specular 0 0 0 ambient 0 0 0
+shape axis		scale	9	9	9
