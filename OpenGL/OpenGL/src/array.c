@@ -123,9 +123,9 @@ _In_	PGlusShape	_target)
 	 */
 	char	name[10];
 	glusScanf(_file, "%s", name, _countof(name));
-	if (strequ(name, "rect")) { _array->Type = Array_Rect; goto _array_type_ok_; };	// rect
-	if (strequ(name, "circle")) { _array->Type = Array_Rect; goto _array_type_ok_; };	// circle
-	if (strequ(name, "curve")) { _array->Type = Array_Rect; goto _array_type_ok_; };	// curve
+	if (strequ(name, "rect", _countof("rect"))) { _array->Type = Array_Rect; goto _array_type_ok_; };	// rect
+	if (strequ(name, "circle", _countof("circle"))) { _array->Type = Array_Rect; goto _array_type_ok_; };	// circle
+	if (strequ(name, "curve", _countof("curve"))) { _array->Type = Array_Rect; goto _array_type_ok_; };	// curve
 	return;	// Unknown type
 
 _array_type_ok_:

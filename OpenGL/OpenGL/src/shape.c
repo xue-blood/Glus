@@ -212,9 +212,12 @@ glusKoch(double dir,double len,int n)
 void
 glusKochSnow(pvoid ptr)
 {
+	// check the param
 	int n = (int)ptr;
 	if (n > 10) glusLog("level is too high.\n");
-	
+	if (n <= 0) n = 3;
+
+
 	glDisable(GL_LIGHTING);
 
 	glusMoveTo(0, 0, 0);				glusKoch(60,  9, n);

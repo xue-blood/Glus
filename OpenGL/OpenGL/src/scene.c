@@ -303,12 +303,11 @@ _In_	int				_n_name)
 	assert(_scene && _name);
 	
 	if (!_name[0]) return NULL;	// empty string
-	if (_name[_n_name-1]) return NULL; // string not zero end
 
 	PGlusShapes p = (PGlusShapes)_scene->Shapes.BLink;
 	while (!glusLinkIsHead(p,&_scene->Shapes))
 	{
-		if (strequ(_name, p->Shape.Name))
+		if (strequ(_name, p->Shape.Name,_n_name))
 			return	&p->Shape; // find it
 
 		p = (PGlusShapes)p->Link.BLink;

@@ -79,11 +79,11 @@ _In_	PPeano	_pea)
 	*(strchr(_pea->FString, ',')) = 0;
 
 	glusScanf(_file, "%s,", _pea->XString, _countof(_pea->XString)); // x-string
-	if (strequ(_pea->XString, "nil,"))	_pea->XString[0] = 0;
+	if (strequ(_pea->XString, "nil,", _countof("nil,")))	_pea->XString[0] = 0;
 	else								*(strchr(_pea->XString, ',')) = 0;
 
 	glusScanf(_file, "%s,", _pea->YString, _countof(_pea->YString)); // y-string
-	if (strequ(_pea->YString, "nil,"))	_pea->YString[0] = 0;
+	if (strequ(_pea->YString, "nil,", _countof("nil,")))	_pea->YString[0] = 0;
 	else								*(strchr(_pea->YString, ',')) = 0;
 
 	glusScanf(_file, "%f,", &_pea->F); // length 

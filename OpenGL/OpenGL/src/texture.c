@@ -30,7 +30,7 @@ _Inout_	PGlusScene	_scene)
 	glusScanf(file, "%s", name, _countof(name));
 
 	name[49] = 0;
-	if (strequ(name, tex_checkboard)) // use check-board direct
+	if (strequ(name, tex_checkboard,_countof(name))) // use check-board direct
 	{
 		tex->Pixmap = pixCheckboard();
 	}

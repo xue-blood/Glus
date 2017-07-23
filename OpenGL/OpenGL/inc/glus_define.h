@@ -29,7 +29,7 @@
 #define sqr(equ)	(equ)*(equ)	
 #define strlower(str) for(int i=0;str[i];i++) str[i]=tolower(str[i])
 
-#define strequ(a,b)	(strcmp(a,b)==0)
+#define strequ(a,b,n)	(strncmp(a,b,n)==0)
 
 #define memequ(a,b,size) (memcmp(a,b,size)==0)
 typedef	char *		str;

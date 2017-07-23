@@ -9,7 +9,7 @@ add glusSceneDefault
 */
 #define	Key_Unknown -1
 
-#define Keys_count 32
+#define Keys_count 33
 
 str Keys[Keys_count] =
 {
@@ -44,7 +44,8 @@ str Keys[Keys_count] =
 	"chaos",
 	"bool",
 	"raytrace",
-	"fps"
+	"fps",
+	"select",
 };
 GLsizei Keys_func_param[Keys_count] =
 {
@@ -75,11 +76,12 @@ GLsizei Keys_func_param[Keys_count] =
 	0,	// name			: s_name
 	0,	// hide			: none
 	0,	// peano curve	: (...) i_level
-	0,	// array		: s_methon(n_x,n_y,n_z)<d_x,d_y,d_z> s_target_name
+	0,	// array		: s_target_name s_methon (n_x,n_y,n_z)<d_x,d_y,d_z> 
 	0,	// chaos game	: (...)
 	0,	// boolean		: (...)
 	1,  // raytrace     : i_block_size
 	1,  // fps			: i_fps
+	0,	// select		: s_name
 };
 
 void glusSDLDefaultClear(pvoid p)
@@ -464,7 +466,9 @@ void name(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	//
 	PGlusShape s = _scene->SelectShape;
 	if (!s) return;
+	
 	glusScanf(file, "%s", s->Name,_countof(s->Name));
+	glusLog("\rCreate a shape name:%s", s->Name);
 }
 
 /*
@@ -508,9 +512,9 @@ void peano(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 void array(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 {
 	/*
-	*	get the target name
+	*	get the target by name
 	*/
-	char name[30];
+	char name[64];
 	glusScanf(file, "%s", name, _countof(name));
 	PGlusShape t = glusSceneGetShapeByName(_scene, name,_countof(name));
 	if (!t)	{glusLogex(Glus_Log_Error,"Error: ( %s ) name not found.\n",name); return;}
@@ -588,6 +592,23 @@ void fps(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	glusFPS(param[0]);
 }
 
+void select(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
+{
+	/*
+	*	get the target by name
+	*/
+	char name[64];
+	glusScanf(file, "%s", name, _countof(name));
+	PGlusShape t = glusSceneGetShapeByName(_scene, name, _countof(name));
+	if (!t)	{ glusLogex(Glus_Log_Error, "Error: ( %s ) name not found.\n", name); return; }
+	
+	glusLog("Select object: %s\n", name);
+
+	// select this shape
+	_scene->SelectShape = t;
+
+}
+
 
 void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 {
@@ -622,7 +643,8 @@ void(*Keys_func[Keys_count])(PGlusScene, pGLdouble, GLsizei, FILE*) =
 	chaos,
 	boolean,
 	raytrace,
-	fps
+	fps,
+	select,
 };
 
 int Keys_Get_id(FILE * file)

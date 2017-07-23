@@ -1,3 +1,4 @@
+#pragma once
 #include "../inc/glus.h"
 
 #define Def_Name_Length 12
@@ -79,7 +80,7 @@ void use(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 		/*
 		 *	is name defined 
 		 */
-		if (strequ(d->Name, name))
+		if (strequ(d->Name, name,_countof(name)))
 		{
 			glusSDLex(_scene, d->File);
 			return;
