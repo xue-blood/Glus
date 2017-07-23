@@ -50,9 +50,16 @@
     <ClCompile Include="src\noise.c" />
     <ClCompile Include="src\peano.c" />
     <ClCompile Include="src\pixmap.c" />
+    <ClCompile Include="src\sdl-core-cmd.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\sdl-core.c" />
-    <ClCompile Include="src\sdl-core_def-use.c" />
-    <ClCompile Include="src\sdl-core_shape.c" />
+    <ClCompile Include="src\sdl-core_def-use.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\sdl-core_shape.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\shape.c" />
     <ClCompile Include="src\plane.c" />
     <ClCompile Include="src\points.c" />

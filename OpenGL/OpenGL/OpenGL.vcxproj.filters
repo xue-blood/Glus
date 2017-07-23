@@ -173,5 +173,8 @@
     <ClCompile Include="src\bool.c">
       <Filter>源文件\extra\ray_trace</Filter>
     </ClCompile>
+    <ClCompile Include="src\sdl-core-cmd.c">
+      <Filter>源文件\extra\sdl</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
