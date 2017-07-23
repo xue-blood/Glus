@@ -156,8 +156,8 @@ void data()
 {
 
 	Scene = glusSceneNew("scene.sdl");
-	snow = (PPeano)glusSceneGetShapeByName(Scene, "snow",_countof("snow"))->Extern;
-	level = snow->Level;
+	//snow = (PPeano)glusSceneGetShapeByName(Scene, "snow",_countof("snow"))->Extern;
+	//level = snow->Level;
 
 	pic[0] = pixCheckboard();
 	pixChromaKey(pic[0], 0, 0, 0);
