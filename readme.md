@@ -53,7 +53,9 @@ To display a scene correctly, you need setup camera and projection,for example
 
 ### shape
 There are some simple shape build in c code, to use it just type `shape shape_name`.
+
 Shape name contain `"axis", "sphere", "cube", "teapot", "grid", "snow", "square", "cylinder", "cone"`.
+
 eg.The amaze snow shape:
 
 ![snow shape image](./doc/snow.png)
@@ -61,12 +63,90 @@ eg.The amaze snow shape:
 For create more shape ,you can see [mesh](#mesh),[peano curve](#peano) and the [chaos game](#chaos)
 
 ### mesh
+With mesh , you can draw any shape. To use it, you must specify the *vertex list* *normal list* and *face list*.
+The format is 
+```
+n_point n_normal n_uv n_face
+point list :    (0,0,0)
+normal list :   <0,0,0>
+uv list:        (0,1)
+n_face_id id_point_list id_normal_list id_uv_list
+n_face_id id_point_list id_normal_list id_uv_list
+```
+The normal and uv is optional,but you must specify vertex.
 
+eg. draw a cube
+```
+mesh		8	6	4	6
+			(0,0,0)	(1,0,0) (1,1,0) (0,1,0)
+			(0,0,1)	(1,0,1) (1,1,1) (0,1,1)
+			<0,0,-1> <0,0,1> <0,-1,0> <0,1,0> <1,0,0> <-1,0,0>
+			(0,0)	(0,1)	(1,1)	(1,0)
+			4	0 3 2 1		0 0 0 0		0 1 2 3 // far
+			4	4 5 6 7		1 1 1 1		0 1 2 3 // near
+			4	0 1 5 4		2 2 2 2		0 1 2 3 // bottom
+			4	7 6 2 3		3 3 3 3		0 1 2 3 // top
+			4	5 1 2 6		4 4 4 4		0 1 2 3 // right
+			4	4 7 3 0		5 5 5 5		0 1 2 3 // left
+```
+
+![mesh example](./doc/mesh.png)
+
+the comment format is like `c/c++`;
 
 ### peano
+Peano curve can be create by string production.
+* The format is 
+`peano (atom, f-string,x-string,y-string, len, angle, len-ratio) itera-level start-angle use-random`
+* the `atom` specify the orginal shape
+* In string production, you can use these
+  * `F` draw a `len` lenght line in current direction, and in each itera it will be replace by `f-string`
+  * `+` turn positive `angle` base on current direction
+  * `-` is the opposite operate of `+`
+  * `[` will save current state, such as `len` `direction`
+  * `]` can restore the state to what you save last.
+
+  * `X` will be replace by `x-string` in each itera.
+  * `Y` will be replace by `y-string` in each itera as the same as `X`
+* `len` specify the length of `F` command
+* `angle` specify the angle of each turn
+* `len-ratio` is to cut the lenght in each itera,otherewise the shape will be very when itera many times.
+* `itera-level` specify the times of itera
+* `start-angle` can rotate the shape you created
+* `use-radom` will change the rangle in each itera
+
+eg. you can use this command to draw a tree
+```
+peano	(F[++F---F]--F, FF-[-F+F+F]+[+F-F-F], nil, nil, 1, 22, 2) 3 90 0
+    scale 10 10 10
+	translate	1 0 0
+	diffuse		1 1 0
+```
+![peano curve example](./doc/peano.png)
 
 ### chaos
 
+Chaos game is also a iterated function system,but it has the ability to draw any image.
+
+And the command is hard to use, becaus you need find the matrix for transform.
+
+The format is 
+```
+max-itera-point 
+matrix-number 
+matrix
+```
+The matrix format is `m_11 m_12 m_21 m_22 m_13 m_23 `
+
+eg. use this to draw a dragon:
+```
+chaos   400000
+	2
+	.824074 .281482 -.212346 .864198 -1.882290 -0.110607 .78
+	.088272 .520988 -.463889 -.377778 0.785360 8.095795 .22
+    diffuse 1 1 0
+```
+![chaos game example](./doc/chaos.png)
 ### 
 
 ## advance 
