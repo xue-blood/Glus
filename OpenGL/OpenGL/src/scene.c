@@ -131,7 +131,11 @@ glusSceneDefault()
 	scene->EnableAxis = true;
 	scene->AxisLength = 1;
 	scene->RayLevel = 3;	// ray trace level 3
-	
+	scene->RaySize = 0;		// disable ray trace
+
+	// enable light
+	scene->IsLight = true;
+
 	//
 	// the return the default scene
 	//
@@ -154,15 +158,17 @@ _In_	PGlusScene	_scene)
 	//
 	glusProjection(&_scene->Projection);
 
+	//
+	// set the camera
+	//	
+	glusCamera(&_scene->Camera);
+
+
 	/*
 	*	light
 	*/
 	glusSceneLight(_scene);
 
-	//
-	// set the camera
-	//	
-	glusCamera(&_scene->Camera);
 
 	//
 	// the background
@@ -207,6 +213,14 @@ _In_	PGlusScene	_scene)
 {
 	assert(_scene);
 
+	//
+	// is no light
+	//
+	if (glusLinkIsEmpty(&_scene->Lights))
+	{
+		glusLightDefault(); return;
+	}
+
 
 	/*
 	*	set opengl context
@@ -238,19 +252,7 @@ _In_	PGlusScene	_scene)
 	}
 
 	glEnable(GL_LIGHTING);
-	//
-	// is no light
-	//
-	if (glusLinkIsEmpty(&_scene->Lights))
-	{
-		//glusLightDefault(); return;
-		PGlusLights l;
-		glusAllocex(l, GlusLights, 1, return);
-		glusLinkInsertTail(&_scene->Lights, l);
-		glusLightDefault();
-
-		return;
-	}
+	
 
 
 
