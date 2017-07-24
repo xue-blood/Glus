@@ -207,6 +207,37 @@ _In_	PGlusScene	_scene)
 {
 	assert(_scene);
 
+
+	/*
+	*	set opengl context
+	*/
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_COLOR_MATERIAL);
+
+
+	/*
+	*	global ambient
+	refer http://www.cnblogs.com/yihai-0494/articles/2124326.html
+	*/
+	if (_scene->GlobalAmbient.A > 0)
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
+	else
+		rgbSet(&_scene->GlobalAmbient, 0.2, 0.2, 0.2);
+
+	// is disable light
+	if (!_scene->IsLight)
+	{
+		glDisable(GL_LIGHTING);
+		return;
+	}
+
+	glEnable(GL_LIGHTING);
 	//
 	// is no light
 	//
@@ -216,32 +247,12 @@ _In_	PGlusScene	_scene)
 		PGlusLights l;
 		glusAllocex(l, GlusLights, 1, return);
 		glusLinkInsertTail(&_scene->Lights, l);
-		glusLightGetDefault(&l->Light);
+		glusLightDefault();
+
+		return;
 	}
 
-	/*
-	 *	global ambient
-		refer http://www.cnblogs.com/yihai-0494/articles/2124326.html
-	 */
-	if (_scene->GlobalAmbient.A > 0)
-		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
-	else
-		rgbSet(&_scene->GlobalAmbient, 0.2, 0.2, 0.2);
 
-
-	/*
-	 *	set light
-	*/ 
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-
-	glEnable(GL_LIGHT0);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_COLOR_MATERIAL);
-	glEnable(GL_LIGHTING);
 
 	
 	PGlusLights l = (PGlusLights)_scene->Lights.BLink;
