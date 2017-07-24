@@ -69,7 +69,7 @@ GLsizei Keys_func_param[Keys_count] =
 	4,	// ambient		: v_c
 	4,	// specular		: v_c
 	1,	// is light		: b_l
-	8,	// light		: i_id v_p v_c
+	9,	// light		: i_id v_p v_c
 	0,	// texture		: i_id	s_name/s_file_name
 	1,	// texture id	: i_id
 	0,	// shape		: s_name [ n_param ... ]

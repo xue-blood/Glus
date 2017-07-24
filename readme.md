@@ -32,3 +32,10 @@ shape axis		scale	9	9	9
 ```
 So you will get this view:<br>
 ![basic image](./doc/basic.png)
+
+
+# more command
+## light
+Light is enable by default,and if you not setup a light, a point white light will be create at `(20.0f, 12.0f, 3.0f)`.
+
+You can disable light use `islight 0` ,to enable it use `islight 1`.

@@ -517,7 +517,7 @@ bool	glusHitMesh(PGlusShape _s, PGlusRay _r, PGlusIntersect _inter);
  *	light
  */
 void glusLightDefault();
-void glusLightGetDefault();
+void glusLightGetDefault(PGlusLight _l);
 
 /*
  *	noise
