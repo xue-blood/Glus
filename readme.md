@@ -147,6 +147,27 @@ chaos   400000
     diffuse 1 1 0
 ```
 ![chaos game example](./doc/chaos.png)
-### 
+ 
 
 ## advance 
+### inc
+You needn't write all code in one file,using `inc ( file.sdl )` all the code in `file.sdl` will be loaded.
+
+### def, use
+Using `def` you can wrap the complicated code and give it a `name`, So you can refer it by the `name` by `use` command.
+
+```
+def triangle
+{
+	peano	(X, [F+F+F]FF, F+F+F, nil, 4, 120, 2) 5 0 0
+
+	translate	1 1 0
+	diffuse		1 0 0
+}
+
+use triangle
+```
+
+![def and use example](./doc/def-use.png)
+
+Note: the `name` is just for `def` and `use`, not for object in scene.
