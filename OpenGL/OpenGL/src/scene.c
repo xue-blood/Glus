@@ -218,7 +218,13 @@ _In_	PGlusScene	_scene)
 	//
 	if (glusLinkIsEmpty(&_scene->Lights))
 	{
-		glusLightDefault(); return;
+		//glusLightDefault(); return;
+
+		// create a default light
+		PGlusLights l;
+		glusAllocex(l, GlusLights, 1, return);
+		glusLinkInsertTail(&_scene->Lights, l);
+		glusLightGetDefault(&l->Light);
 	}
 
 
@@ -252,7 +258,6 @@ _In_	PGlusScene	_scene)
 	}
 
 	glEnable(GL_LIGHTING);
-	
 
 
 

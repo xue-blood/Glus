@@ -56,7 +56,7 @@ There are some simple shape build in c code, to use it just type `shape shape_na
 
 Shape name contain `"axis", "sphere", "cube", "teapot", "grid", "snow", "square", "cylinder", "cone"`.
 
-eg.The amaze snow shape:
+eg.The amazing snow shape:
 
 ![snow shape image](./doc/snow.png)
 
@@ -154,7 +154,7 @@ chaos   400000
 You needn't write all code in one file,using `inc ( file.sdl )` all the code in `file.sdl` will be loaded.
 
 ### def, use
-Using `def` you can wrap the complicated code and give it a `name`, So you can refer it by the `name` by `use` command.
+Using `def` you can wrap the complicated code and give it a human-friendly `name`, So you can refer it by the `name` by `use` command.
 
 ```
 def triangle
@@ -171,3 +171,62 @@ use triangle
 ![def and use example](./doc/def-use.png)
 
 Note: the `name` is just for `def` and `use`, not for object in scene.
+
+### Ray trace
+This library has a simply support for ray trace,and just can used on some simply shape:`sphere`,`cube`,`square`,`cylinder`,`cone`.
+
+* Before use it, please slow down the fps,because ray trace will cost much time to complete.<br>
+using `fps 1`
+
+* first setup a scene:
+```
+// far
+shape square diffuse .4 .8 .1 scale 9 3 9 translate 0 0 -3 
+// left
+shape square diffuse .8 .9 .1 scale 3 3 9 rotate 90 0 1 0 translate -3 0 0
+// bottom
+shape square diffuse .4 .1 .3 scale 9 9 9 rotate -90 1 0 0 translate 0 -3 0
+// right
+shape square diffuse .4 .1 .3 scale 3 3 3 rotate 90 0 1 0 translate 3 0 0
+// near
+shape square diffuse .4 .8 .1 scale 3 3 3 translate 0 0 3 
+
+shape cube	
+		translate 0.5 0.5 .6  scale 0.7 0.1 0.7
+		shininess .8
+		name s1
+
+shape	sphere
+		translate 0.9 1.5 1  scale 0.3 0.4 0.3
+		//shininess .8
+		//transp .8		
+		name s2
+```
+
+* then you can raytrace to draw it,and you can see that shadow will auto be calculated.
+
+before![ray trace before](./doc/ray-before.png) after ![ray trace after](./doc/ray-after.png)
+
+### bool
+With the power of ray trace,you can also draw some boolean object.
+```
+shape cube	
+		translate 0.5 1.5 1  scale 0.2 0.2 0.2
+		//shininess .8
+		//transp .8		
+		name s1
+		
+shape	sphere
+		translate 0.5 1.5 1  scale 0.3 0.4 0.2
+		//shininess .8
+		//transp .8		
+		name s2
+```
+```
+bool s1 & s2
+```
+
+**original**
+![Intersect original object](./doc/int-org.png)
+**after**
+![Intersect object](./doc/int.png)

@@ -374,7 +374,7 @@ bool	glusIsFaceBack(_In_	PGlusVector	_eye,_In_	PGlusVector	_p,_In_	PGlusVector	_
 #define glusCheckex(pointer,do_when_fail) do{if(!pointer) {glusLog(__FILE__ ## "-" ## __FUNCTION__ ## "Allocate memory failed");do_when_fail;}}while(0)
 
 // allocate memory ,zero the memory and  check it
-#define glusAllocex(pointer,type,num,do_when_fail)		(pointer) = (type*)malloc((num)*sizeof(type));ZeroMemory((pointer),(num)*sizeof(type));glusCheckex(pointer,do_when_fail)
+#define glusAllocex(pointer_name,type,num,do_when_fail)		(pointer_name) = (type*)malloc((num)*sizeof(type));ZeroMemory((pointer_name),(num)*sizeof(type));glusCheckex(pointer_name,do_when_fail)
 #define glusFree(pointer)		if(pointer) free(pointer),pointer = NULL
 
 #define glusCheck(pointer)		glusCheckex(pointer,return 0)
