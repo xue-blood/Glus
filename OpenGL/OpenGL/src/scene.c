@@ -131,7 +131,11 @@ glusSceneDefault()
 	scene->EnableAxis = true;
 	scene->AxisLength = 1;
 	scene->RayLevel = 3;	// ray trace level 3
-	
+	scene->RaySize = 0;		// disable ray trace
+
+	// enable light
+	scene->IsLight = true;
+
 	//
 	// the return the default scene
 	//
@@ -154,15 +158,17 @@ _In_	PGlusScene	_scene)
 	//
 	glusProjection(&_scene->Projection);
 
+	//
+	// set the camera
+	//	
+	glusCamera(&_scene->Camera);
+
+
 	/*
 	*	light
 	*/
 	glusSceneLight(_scene);
 
-	//
-	// set the camera
-	//	
-	glusCamera(&_scene->Camera);
 
 	//
 	// the background
@@ -213,35 +219,47 @@ _In_	PGlusScene	_scene)
 	if (glusLinkIsEmpty(&_scene->Lights))
 	{
 		//glusLightDefault(); return;
+
+		// create a default light
 		PGlusLights l;
 		glusAllocex(l, GlusLights, 1, return);
 		glusLinkInsertTail(&_scene->Lights, l);
 		glusLightGetDefault(&l->Light);
 	}
 
-	/*
-	 *	global ambient
-		refer http://www.cnblogs.com/yihai-0494/articles/2124326.html
-	 */
-	if (_scene->GlobalAmbient.A > 0)
-		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
-	else
-		rgbSet(&_scene->GlobalAmbient, 0.2, 0.2, 0.2);
-
 
 	/*
-	 *	set light
-	*/ 
+	*	set opengl context
+	*/
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
+
+
+	/*
+	*	global ambient
+	refer http://www.cnblogs.com/yihai-0494/articles/2124326.html
+	*/
+	if (_scene->GlobalAmbient.A > 0)
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&_scene->GlobalAmbient);
+	else
+		rgbSet(&_scene->GlobalAmbient, 0.2, 0.2, 0.2);
+
+	// is disable light
+	if (!_scene->IsLight)
+	{
+		glDisable(GL_LIGHTING);
+		return;
+	}
+
 	glEnable(GL_LIGHTING);
+
+
 
 	
 	PGlusLights l = (PGlusLights)_scene->Lights.BLink;

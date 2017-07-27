@@ -8,8 +8,8 @@ raytrace	0
 
 texture		100		CHECKBOARD
 
-islight		0
-light		0	2 2.5 2  .9 .8 .5 1
+//islight		1
+light		0	2 2.5 2 1  .9 .8 .5 1
 
 def snow
 {

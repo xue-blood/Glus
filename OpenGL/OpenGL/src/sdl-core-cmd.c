@@ -334,8 +334,42 @@ void islight(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 */
 void light(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 {
-	PGlusLights p_light; glusAllocex(p_light, GlusLights, 1, return);
-	glusLinkInsertTail(&_scene->Lights, p_light);
+	if (n_param != 9) 
+	{
+		glusLogex(Glus_Log_Error, "light format error.\n"); return;
+	}
+
+	// is a valid light
+	int type = (int)param[0];
+	if (type < 0 || type >= 8)
+	{
+		glusLogex(Glus_Log_Error, "Error: light must in 0 - 7 \n");
+		return;
+	}
+
+	PGlusLights p_light = NULL; 
+	
+	// is light already define
+	PGlusLights l = (PGlusLights)_scene->Lights.BLink;
+	while (!glusLinkIsHead(l, &_scene->Lights))
+	{
+		if (l->Light.Type == GL_LIGHT0 + (int)param[0])
+		{
+			// find it
+			p_light = l;
+			break;
+		}
+
+		l = (PGlusLights)l->Link.BLink;
+	}
+
+	// not found,create a new light 
+	if (!p_light)
+	{
+		glusAllocex(p_light, GlusLights, 1, return);
+		glusLinkInsertTail(&_scene->Lights, p_light);
+	}
+
 
 	p_light->Light.Type = GL_LIGHT0 + (int)param[0];
 
@@ -343,11 +377,12 @@ void light(PGlusScene _scene, pGLdouble param, GLsizei n_param, FILE *file)
 	p_light->Light.Position.R = param[1];
 	p_light->Light.Position.G = param[2];
 	p_light->Light.Position.B = param[3];
+	p_light->Light.Position.A = param[4];
 
-	p_light->Light.Diffuse.R = param[4];
-	p_light->Light.Diffuse.G = param[5];
-	p_light->Light.Diffuse.B = param[6];
-	p_light->Light.Diffuse.A = param[7];
+	p_light->Light.Diffuse.R = param[5];
+	p_light->Light.Diffuse.G = param[6];
+	p_light->Light.Diffuse.B = param[7];
+	p_light->Light.Diffuse.A = param[8];
 
 }
 

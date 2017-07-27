@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "glus_define.h": "c",
+        "glus_struct.h": "c"
+    }
+}
