@@ -227,6 +227,9 @@ bool s1 & s2
 ```
 
 **original**
+
 ![Intersect original object](./doc/int-org.png)
+
 **after**
+
 ![Intersect object](./doc/int.png)
